@@ -2,43 +2,106 @@
 
 ### O que é o SQL?
 
-O Angular é um framework para construir aplicações cliente em HTML, CSS e JavaScript/TypeScript. Ele utiliza a abordagem de SPA (**_Single Page Application_**), permitindo que a aplicação seja carregada uma vez e, em seguida, as mudanças de conteúdo ocorram dinamicamente sem recarregar a página.
+**SQL (Structured Query Language)** é a linguagem padrão para gerenciar e manipular bancos de dados relacionais. Aqui estão alguns conceitos básicos:
 
-### Por que usar o Angular?
+### Conceitos Básicos
 
-- **Produtividade**: O Angular fornece ferramentas e estruturas que facilitam o desenvolvimento ágil e eficiente.
-- **Arquitetura sólida**: Seu design modular e orientado a componentes simplifica a organização do código e a reutilização de funcionalidades.
-- **Performance**: O Angular otimiza o desempenho da aplicação, garantindo uma experiência rápida e fluida para os usuários.
-- **Ecossistema e comunidade ativa**: A plataforma Angular possui uma grande comunidade de desenvolvedores e uma vasta quantidade de bibliotecas e recursos disponíveis.
+- **Banco de Dados**: Conjunto organizado de dados armazenados e acessados eletronicamente.
+- **Tabela**: Estrutura dentro de um banco de dados que armazena dados em linhas e colunas.
+- **Linha (Registro)**: Uma única entrada em uma tabela.
+- **Coluna (Campo)**: Um atributo de dados em uma tabela.- **Chave Primária**: Um identificador único para cada registro em uma tabela.
+- **Chave Estrangeira**: Um campo que cria um relacionamento entre duas tabelas.
 
-### Principais características e benefícios
 
-- **TypeScript**: O Angular é escrito em TypeScript, que adiciona recursos de tipagem estática ao JavaScript, tornando o código mais robusto e legível.
-- **Data Binding**: O poderoso mecanismo de data binding facilita a sincronização dos dados entre os componentes e o template.
-- **Injeção de Dependência**: O Angular possui um sistema de injeção de dependência que permite gerenciar as dependências entre os componentes de forma eficiente.
-- **Diretivas**: As diretivas permitem estender a sintaxe HTML, criando comportamentos personalizados para os elementos da página.
-- **Roteamento**: O roteador do Angular permite criar aplicações de várias páginas dentro de uma SPA, gerenciando as transições entre os componentes.
-- **Testabilidade**: O Angular incentiva práticas de teste, tornando as aplicações mais confiáveis e fáceis de manter.
+#### Criação de Banco de Dados e Tabelas
 
-### Arquitetura do Angular
+```sql
+-- Criação de um banco de dados
+CREATE DATABASE nome_do_banco;
 
-A arquitetura do Angular é baseada em alguns conceitos fundamentais, como **_componentes_**, **_módulos_**, **_serviços_** e **_diretivas_**. Esses elementos são combinados para criar uma estrutura sólida e modular para desenvolver aplicações web com eficiência e escalabilidade.
+-- Seleção de um banco de dados
+\c nome_do_banco;
 
-1. **Componentes**:
+-- Criação de uma tabela
+CREATE TABLE nome_da_tabela (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100),
+    idade INT
+);
+```
 
-Os componentes são blocos de construção essenciais do Angular. Eles são responsáveis por controlar partes específicas da interface do usuário e podem ser reutilizados em diferentes partes da aplicação. Cada componente possui um template associado que define a estrutura do DOM a ser renderizada.
+#### Inserção de Dados
 
-Exemplo de um componente Angular:
+```sql
+-- Inserção de dados em uma tabela
+INSERT INTO nome_da_tabela (nome, idade) VALUES ('João', 30);
+```
 
-```typescript
-import { Component } from '@angular/core';
+#### Consulta de Dados
 
-@Component({
-  selector: 'app-exemplo', // Seletor do componente, usado para inserir o componente no template.
-  templateUrl: './exemplo.component.html', // Caminho do template associado ao componente.
-  styleUrls: ['./exemplo.component.scss'] // Arquivos de estilo associados ao componente.
-})
-export class ExemploComponent {
-  // Lógica do componente aqui...
-}
+```sql
+-- Seleção de todos os dados de uma tabela
+SELECT * FROM nome_da_tabela;
+
+-- Seleção de dados com condição
+SELECT * FROM nome_da_tabela WHERE idade > 25;
+```
+
+#### Atualização de Dados
+
+```sql
+-- Atualização de dados em uma tabela
+UPDATE nome_da_tabela SET idade = 31 WHERE nome = 'João';
+```
+
+#### Exclusão de Dados
+
+```sql
+-- Exclusão de dados em uma tabela
+DELETE FROM nome_da_tabela WHERE nome = 'João';
+```
+
+#### Alteração de Estrutura de Tabelas
+
+```sql
+-- Adição de uma nova coluna
+ALTER TABLE nome_da_tabela ADD COLUMN email VARCHAR(100);
+
+-- Exclusão de uma coluna
+ALTER TABLE nome_da_tabela DROP COLUMN email;
+```
+
+### Funções de Agregação
+
+```sql
+-- Contagem de registros
+SELECT COUNT(*) FROM nome_da_tabela;
+
+-- Soma de valores
+SELECT SUM(idade) FROM nome_da_tabela;
+
+-- Média de valores
+SELECT AVG(idade) FROM nome_da_tabela;
+```
+
+### Junções (Joins)
+
+```sql
+-- Junção interna
+SELECT a.nome, b.idade
+FROM tabela1 a
+INNER JOIN tabela2 b ON a.id = b.id;
+
+-- Junção externa
+SELECT a.nome, b.idade
+FROM tabela1 a
+LEFT JOIN tabela2 b ON a.id = b.id;
+```
+
+### Subconsultas
+
+```sql
+-- Subconsulta em cláusula WHERE
+SELECT nome FROM nome_da_tabela
+WHERE idade > (SELECT AVG(idade) FROM nome_da_tabela);
 ```
