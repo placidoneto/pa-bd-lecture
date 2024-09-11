@@ -1,79 +1,44 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# L01 - Fundamentos SQL em PostgreSQL
 
-## Objetivo
+### O que é o SQL?
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+O Angular é um framework para construir aplicações cliente em HTML, CSS e JavaScript/TypeScript. Ele utiliza a abordagem de SPA (**_Single Page Application_**), permitindo que a aplicação seja carregada uma vez e, em seguida, as mudanças de conteúdo ocorram dinamicamente sem recarregar a página.
 
+### Por que usar o Angular?
 
-## Metodologia
+- **Produtividade**: O Angular fornece ferramentas e estruturas que facilitam o desenvolvimento ágil e eficiente.
+- **Arquitetura sólida**: Seu design modular e orientado a componentes simplifica a organização do código e a reutilização de funcionalidades.
+- **Performance**: O Angular otimiza o desempenho da aplicação, garantindo uma experiência rápida e fluida para os usuários.
+- **Ecossistema e comunidade ativa**: A plataforma Angular possui uma grande comunidade de desenvolvedores e uma vasta quantidade de bibliotecas e recursos disponíveis.
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+### Principais características e benefícios
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+- **TypeScript**: O Angular é escrito em TypeScript, que adiciona recursos de tipagem estática ao JavaScript, tornando o código mais robusto e legível.
+- **Data Binding**: O poderoso mecanismo de data binding facilita a sincronização dos dados entre os componentes e o template.
+- **Injeção de Dependência**: O Angular possui um sistema de injeção de dependência que permite gerenciar as dependências entre os componentes de forma eficiente.
+- **Diretivas**: As diretivas permitem estender a sintaxe HTML, criando comportamentos personalizados para os elementos da página.
+- **Roteamento**: O roteador do Angular permite criar aplicações de várias páginas dentro de uma SPA, gerenciando as transições entre os componentes.
+- **Testabilidade**: O Angular incentiva práticas de teste, tornando as aplicações mais confiáveis e fáceis de manter.
 
-## Pré-Requistos 
+### Arquitetura do Angular
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+A arquitetura do Angular é baseada em alguns conceitos fundamentais, como **_componentes_**, **_módulos_**, **_serviços_** e **_diretivas_**. Esses elementos são combinados para criar uma estrutura sólida e modular para desenvolver aplicações web com eficiência e escalabilidade.
 
-## Agenda
+1. **Componentes**:
 
-<a href="branch link"> Aula 1. Fundamentos</a>
+Os componentes são blocos de construção essenciais do Angular. Eles são responsáveis por controlar partes específicas da interface do usuário e podem ser reutilizados em diferentes partes da aplicação. Cada componente possui um template associado que define a estrutura do DOM a ser renderizada.
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+Exemplo de um componente Angular:
 
-<a href="branch link">Aula 2. ---</a>
+```typescript
+import { Component } from '@angular/core';
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
-  
-<a href="branch link">Aula 3. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 4. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 5. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 6. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 7. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 8. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 9. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
+@Component({
+  selector: 'app-exemplo', // Seletor do componente, usado para inserir o componente no template.
+  templateUrl: './exemplo.component.html', // Caminho do template associado ao componente.
+  styleUrls: ['./exemplo.component.scss'] // Arquivos de estilo associados ao componente.
+})
+export class ExemploComponent {
+  // Lógica do componente aqui...
+}
+```
