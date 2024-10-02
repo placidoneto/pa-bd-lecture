@@ -37,7 +37,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Configurar o pgAdmin
 - Executar Consultas SQL
   
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture02-configuracao-postgres">Aula 3. Consultas Avançadas I</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 3. Consultas Avançadas I</a>
 
 - Filtragem
 - Ordenação
