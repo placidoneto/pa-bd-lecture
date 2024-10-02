@@ -1,79 +1,61 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# L02 - Instalação e Configuração do PostgreSQL Admin
 
-## Objetivo
+## Pré-requisitos
+- Sistema operacional: Windows, macOS ou Linux
+- PostgreSQL instalado
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+## Passo 1: Baixar o pgAdmin
+1. Acesse o site oficial do pgAdmin: pgAdmin Downloads
+2. Selecione a versão adequada para o seu sistema operacional.
+3. Baixe e execute o instalador.
+
+[pgAdmin Downloads](https://www.pgadmin.org/download/)
+
+## Passo 2: Instalar o pgAdmin
+1. Siga as instruções do instalador para completar a instalação.
+2. No Windows, você pode precisar reiniciar o computador após a instalação.
 
 
-## Metodologia
+## Passo 3: Configurar o pgAdmin
+1. Abra o pgAdmin.
+2. Na tela inicial, clique em "Add New Server".
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+!Adicionar Novo Servidor
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+3. Preencha as informações do servidor:
+   - **Name**: Nome do servidor (ex: `MeuServidorPostgres`)
+   - **Host**: Endereço do servidor (ex: `localhost` para um servidor local)
+   - **Port**: Porta do PostgreSQL (padrão é `5432`)
+   - **Username**: Nome de usuário do PostgreSQL (ex: `postgres`)
+   - **Password**: Senha do usuário
 
-## Pré-Requistos 
+!Configurar Servidor 
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+## Passo 4: Conectar ao Servidor
+1. Após preencher as informações, clique em "Save".
+2. O pgAdmin tentará se conectar ao servidor PostgreSQL.
+3. Se a conexão for bem-sucedida, você verá o servidor listado na árvore de servidores.
 
-## Agenda
+!Conexão ao Servidor
 
-<a href="branch link"> Aula 1. Fundamentos</a>
+## Passo 5: Gerenciar Bancos de Dados
+1. Expanda o servidor na árvore de servidores.
+2. Você verá uma lista de bancos de dados disponíveis.
+3. Clique com o botão direito em um banco de dados para gerenciar tabelas, executar consultas SQL, etc.
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+!Gerenciar Bancos de Dados
 
-<a href="branch link">Aula 2. ---</a>
+## Passo 6: Executar Consultas SQL
+1. Selecione o banco de dados desejado.
+2. Clique em "Tools" > "Query Tool".
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
-  
-<a href="branch link">Aula 3. ---</a>
+!Ferramenta de Consulta
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+3. Digite sua consulta SQL na janela de consulta.
+4. Clique em "Execute/Refresh" para executar a consulta.
 
-<a href="branch link">Aula 4. ---</a>
+!Executar Consulta
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+## Conclusão
+Você instalou e configurou com sucesso o pgAdmin para gerenciar seu servidor PostgreSQL. Agora você pode criar e gerenciar bancos de dados, executar consultas e muito mais!
 
-<a href="branch link">Aula 5. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 6. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 7. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 8. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 9. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
