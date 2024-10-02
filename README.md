@@ -31,7 +31,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Estrutura da Aplicação Web com Django Rest para a aplicação de Venda de Veículos
 - Camparação de uso de ORM com Consultas SQL
 
-<a href="branch link">Aula 2. Instalação PostgreSQL Admin</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture02-configuracao-postgres">Aula 2. Instalação PostgreSQL Admin</a>
 
 - Instalar o pgAdmin
 - Configurar o pgAdmin
