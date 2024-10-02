@@ -29,27 +29,23 @@
    - **Username**: Nome de usuário do PostgreSQL (ex: `postgres`)
    - **Password**: Senha do usuário
 
-!Configurar Servidor 
-
 ## Passo 4: Conectar ao Servidor
 1. Após preencher as informações, clique em "Save".
 2. O pgAdmin tentará se conectar ao servidor PostgreSQL.
 3. Se a conexão for bem-sucedida, você verá o servidor listado na árvore de servidores.
 
-!Conexão ao Servidor
+
 
 ## Passo 5: Gerenciar Bancos de Dados
 1. Expanda o servidor na árvore de servidores.
 2. Você verá uma lista de bancos de dados disponíveis.
 3. Clique com o botão direito em um banco de dados para gerenciar tabelas, executar consultas SQL, etc.
 
-!Gerenciar Bancos de Dados
+
 
 ## Passo 6: Executar Consultas SQL
 1. Selecione o banco de dados desejado.
 2. Clique em "Tools" > "Query Tool".
-
-!Ferramenta de Consulta
 
 3. Digite sua consulta SQL na janela de consulta.
 4. Clique em "Execute/Refresh" para executar a consulta.
