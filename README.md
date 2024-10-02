@@ -20,7 +20,6 @@
 1. Abra o pgAdmin.
 2. Na tela inicial, clique em "Add New Server".
 
-!Adicionar Novo Servidor
 
 3. Preencha as informações do servidor:
    - **Name**: Nome do servidor (ex: `MeuServidorPostgres`)
@@ -35,7 +34,6 @@
 3. Se a conexão for bem-sucedida, você verá o servidor listado na árvore de servidores.
 
 
-
 ## Passo 5: Gerenciar Bancos de Dados
 1. Expanda o servidor na árvore de servidores.
 2. Você verá uma lista de bancos de dados disponíveis.
@@ -46,11 +44,9 @@
 ## Passo 6: Executar Consultas SQL
 1. Selecione o banco de dados desejado.
 2. Clique em "Tools" > "Query Tool".
-
 3. Digite sua consulta SQL na janela de consulta.
 4. Clique em "Execute/Refresh" para executar a consulta.
 
-!Executar Consulta
 
 ## Conclusão
 Você instalou e configurou com sucesso o pgAdmin para gerenciar seu servidor PostgreSQL. Agora você pode criar e gerenciar bancos de dados, executar consultas e muito mais!
