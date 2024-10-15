@@ -66,18 +66,9 @@ CREATE TABLE pedidos (
 Criando a tabela `pagamentos` e `formas_pagamento`:
 
 ```sql
-CREATE TABLE pagamentos (
-    id SERIAL PRIMARY KEY,
-    pedido_id INT NOT NULL,
-    data_pagamento DATE NOT NULL,
-    valor DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(id)
-);
-
 CREATE TABLE formas_pagamento (
     id SERIAL PRIMARY KEY,
     descricao VARCHAR(50) NOT NULL
-    FOREIGN KEY (pagamento_id) REFERENCES pagamentos(id)
 ); 
 ```
 
@@ -190,17 +181,6 @@ INSERT INTO itens_pedido (pedido_id, item_id, quantidade, preco_unitario) VALUES
 INSERT INTO itens_pedido (pedido_id, item_id, quantidade, preco_unitario) VALUES (9, 9, 9, 90.00);
 INSERT INTO itens_pedido (pedido_id, item_id, quantidade, preco_unitario) VALUES (10, 10, 10, 100.00);
 
--- Inserindo dados na tabela pagamentos
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (1, '2023-01-01', 10.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (2, '2023-01-02', 40.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (3, '2023-01-03', 90.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (4, '2023-01-04', 160.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (5, '2023-01-05', 250.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (6, '2023-01-06', 360.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (7, '2023-01-07', 490.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (8, '2023-01-08', 640.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (9, '2023-01-09', 810.00);
-INSERT INTO pagamentos (pedido_id, data_pagamento, valor) VALUES (10, '2023-01-10', 1000.00);
 ```
 
 Após inserir os dados, você pode realizar consultas para verificar se as informações foram corretamente armazenadas. Por exemplo:
@@ -222,10 +202,9 @@ Algumas consultas úteis que você pode realizar:
 2. Listar todos os itens de um pedido específico
 3. Listar todos os clientes que fizeram pedidos em um determinado intervalo de datas
 4. Listar todos os itens vendidos por um vendedor específico
-5. Listar todos os pagamentos feitos em um determinado intervalo de datas
-6. Listar todos os itens que estão fora de estoque
-7. Listar todos os clientes que não fizeram pedidos
-8. Listar todos os itens vendidos em um determinado intervalo de preços
+5. Listar todos os itens que estão fora de estoque
+6. Listar todos os clientes que não fizeram pedidos
+7. Listar todos os itens vendidos em um determinado intervalo de preços
 
 ```sql
 -- 1. Listar todos os pedidos feitos por um cliente específico
@@ -251,21 +230,17 @@ JOIN itens_pedido ON itens.id = itens_pedido.item_id
 JOIN pedidos ON itens_pedido.pedido_id = pedidos.id
 WHERE pedidos.vendedor_id = 1;
 
--- 5. Listar todos os pagamentos feitos em um determinado intervalo de datas
-SELECT * FROM pagamentos
-WHERE data_pagamento BETWEEN '2023-01-01' AND '2023-01-31';
-
--- 6. Listar todos os itens que estão fora de estoque
+-- 5. Listar todos os itens que estão fora de estoque
 SELECT * FROM itens
 WHERE estoque = 0;
 
 
--- 7. Listar todos os clientes que não fizeram pedidos
+-- 6. Listar todos os clientes que não fizeram pedidos
 SELECT * FROM clientes
 WHERE id NOT IN (SELECT cliente_id FROM pedidos);
 
 
--- 8. Listar todos os itens vendidos em um determinado intervalo de preços
+-- 7. Listar todos os itens vendidos em um determinado intervalo de preços
 SELECT * FROM itens
 WHERE preco BETWEEN 20.00 AND 50.00;
 
