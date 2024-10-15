@@ -24,6 +24,14 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 ## Agenda
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 0. Modelando Dados</a>
+
+- Criação de um Modelo de Dados
+- Criação das Tabelas
+- Inserção de Dados
+- Consultas SQL
+
+
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 1. Fundamentos</a>
 
 - Conceitos Básicos
