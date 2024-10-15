@@ -59,7 +59,6 @@ CREATE TABLE pedidos (
     FOREIGN KEY (cliente_id) REFERENCES clientes(id),
     FOREIGN KEY (vendedor_id) REFERENCES vendedores(id),
     FOREIGN KEY (endereco_entrega_id) REFERENCES enderecos(id),
-    FOREIGN KEY (forma_pagamento_id) REFERENCES formas_pagamento(id)
 );
 ```
 
@@ -68,6 +67,7 @@ Criando a tabela `pagamentos` e `formas_pagamento`:
 ```sql
 CREATE TABLE formas_pagamento (
     id SERIAL PRIMARY KEY,
+    pagamento_id INT NOT NULL,
     descricao VARCHAR(50) NOT NULL
 ); 
 ```
