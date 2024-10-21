@@ -1,13 +1,13 @@
-# L02 - Consultas Avançadas #1
+# Consultas Avançadas
 
 Considerando o exemplo de pedido visto na aula anterior, vamos agora explorar consultas mais avançadas em SQL.
 Lembrando que o modelo de dados é o seguinte:
 
-![Modelo](lecture3/modelo.png)
+![Modelo](lecture01/modelo.png)
 
 Temos a tabela Cliente que se relaciona com a tabela Pedido. A tabela Pedido se relaciona com a tabela Item, que por sua vez gera uma tabela intermediária fruto da relação N-N com nome ItemPedido. O pedido também se relaciona com a tabela FormaPagamento. Neste modelo ainda temos os conceitos de Vendedor e Endereço.
 
-Para que possamos explorar as consultas, vamos popular o banco de dados com alguns dados de exemplo. Um exemplo script para ajudar popular o banco de dados está disponível em [inserts.sql](lecture3/inserts.sql). Pode ser que esse script não seja suficiente para popular o banco de dados, então cada aluno deverá adaptar o script para que possa popular o banco de dados de acordo com sua necessidade.
+Para que possamos explorar as consultas, vamos popular o banco de dados com alguns dados de exemplo. Um exemplo script para ajudar popular o banco de dados está disponível em [inserts.sql](lecture01/inserts.sql). Pode ser que esse script não seja suficiente para popular o banco de dados, então cada aluno deverá adaptar o script para que possa popular o banco de dados de acordo com sua necessidade.
 
 Os comandos de inserção de dados servem para auxiliar na visualização dos dados. Como os IDs são gerenciados pelo próprio PgAdmin, não é necessário se preocupar com a ordem de inserção dos dados, no entanto as relações podem não conter os mesmos Ids e gerar problema. Cada aluno deverá procurar a melhor maneira de inserir os dados, de acordo com sua necessidade. Perceba que a função proposta para inserir vários *itens_pedido* de uma vez é uma maneira de facilitar a inserção de dados, mas não é a única maneira de se fazer isso. A função serve apenas para auxiliar a geração. Caso cada aluno decida inserir os dados de outra maneira, fique à vontade.
 
@@ -59,7 +59,7 @@ JOIN formas_pagamento ON pedidos.forma_pagamento_id = formas_pagamento.id
 GROUP BY formas_pagamento.descricao;
 ```
 
-![Consulta1](lecture3/resultadoconsulta1.png)
+![Consulta1](lecture01/resultadoconsulta1.png)
 
 Considerando a relação ```Pedido -> ItensPedido -> Itens```, podemos realizar um JOIN para obter diversos tipos de informação. Por exemplo, se eu quiser obter todos os itens de um pedido específico, posso fazer o seguinte:
 
