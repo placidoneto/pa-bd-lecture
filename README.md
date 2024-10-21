@@ -32,27 +32,29 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Consultas SQL
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
 
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 1. Fundamentos</a>
-
-- Conceitos Básicos
-- Exemplos de Consultas SQL
-- Estrutura da Aplicação Web com Django Rest para a aplicação de Venda de Veículos
-- Camparação de uso de ORM com Consultas SQL
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture02-configuracao-postgres">Aula 2. Instalação PostgreSQL Admin</a>
-
-- Instalar o pgAdmin
-- Configurar o pgAdmin
-- Executar Consultas SQL
   
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 3. Consultas Avançadas I</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
 
 - Filtragem
 - Ordenação
 - Valores Distintos
 - Intervalos de Busca
 - Consultas com `JOIN
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture02-configuracao-postgres">Aula 2. Instalação PostgreSQL Admin</a>
+
+- Instalar o pgAdmin
+- Configurar o pgAdmin
+- Executar Consultas SQL
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 3. Fundamentos</a>
+
+- Conceitos Básicos
+- Exemplos de Consultas SQL
+- Estrutura da Aplicação Web com Django Rest para a aplicação de Venda de Veículos
+- Camparação de uso de ORM com Consultas SQL
+
+
 
 <a href="branch link">Aula 4. ---</a>
 
@@ -61,30 +63,6 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Tópico 3
 
 <a href="branch link">Aula 5. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 6. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 7. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 8. ---</a>
-
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
-<a href="branch link">Aula 9. ---</a>
 
 - Tópico 1
 - Tópico 2
