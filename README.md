@@ -28,7 +28,7 @@ Vamos implementar uma simples aplicação usando Django Rest para manipular os d
 
 Estrutura de Diretórios
 ```
-/venda_veiculos
+/amazon
     /static
     /templates
     __init__.py
@@ -45,20 +45,30 @@ manage.py
    - Crie um novo projeto Django:
 
 ```
-django-admin startproject venda_veiculos
-cd venda_veiculos
+django-admin startproject amazon
+cd amazon
 ```
 
    - Crie um novo aplicativo dentro do projeto:
 ```
-python manage.py startapp core
+python manage.py startapp backend
 ```
+
+   - Adicione o aplicativo ao *INSTALLED_APPS* no arquivo *amazon/settings.py*:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'backend',
+]
+```
+
 2. **Configuração do PostgreSQL**
       - Instale o driver do PostgreSQL:
 ```
 pip install psycopg2-binary
 ```
-- Configure o banco de dados PostgreSQL no arquivo *venda_veiculos/settings.py*:
+- Configure o banco de dados PostgreSQL no arquivo *amazon/settings.py*:
 
 ```python
 DATABASES = {
@@ -182,7 +192,7 @@ urlpatterns = [
 INSTALLED_APPS = [
     ...
     'rest_framework',
-    'core',
+    'backend',
 ]
 ```
 
