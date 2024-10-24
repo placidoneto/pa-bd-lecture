@@ -176,9 +176,7 @@ O arquivo *views.py* é responsável por definir as views que serão usadas para
 
 O Django Rest Framework fornece um conjunto de classes de visualização que permitem a criação de APIs RESTful de forma rápida e fácil. As classes de visualização do Django Rest Framework são semelhantes às views do Django, mas são mais poderosas e flexíveis. Elas permitem a criação de APIs RESTful com CRUD (Create, Retrieve, Update, Delete) para modelos específicos, consultas personalizadas e operações complexas. 
 
-
-
-1. **URLs**
+6. **URLs**
 
 - Edite o arquivo *amazon/urls.py* para incluir as rotas:
 
@@ -212,7 +210,7 @@ admin.site.register(Cliente)
 
 7. **Configurações Finais**
 
-- Adicione *rest_framework* e *core* ao *INSTALLED_APPS* no arquivo *amazon/settings.py*:
+- Adicione *rest_framework* e *backend* ao *INSTALLED_APPS* no arquivo *amazon/settings.py*:
 
 ```python
 INSTALLED_APPS = [
