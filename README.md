@@ -212,7 +212,7 @@ admin.site.register(Cliente)
 
 7. **Configurações Finais**
 
-- Adicione *rest_framework* e *core* ao *INSTALLED_APPS* no arquivo *venda_veiculos/settings.py*:
+- Adicione *rest_framework* e *core* ao *INSTALLED_APPS* no arquivo *amazon/settings.py*:
 
 ```python
 INSTALLED_APPS = [
