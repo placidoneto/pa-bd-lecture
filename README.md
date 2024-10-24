@@ -54,6 +54,29 @@ cd amazon
 python manage.py startapp backend
 ```
 
+Estrutura de Diretórios
+```
+/amazon
+    /static
+    /templates
+    __init__.py
+    asgi.py
+    settings.py
+    urls.py
+    wsgi.py
+    /backend
+        /migrations
+        __init__.py
+        admin.py
+        apps.py
+        models.py
+        serializers.py
+        tests.py
+        urls.py
+        views.py
+manage.py
+```
+
    - Adicione o aplicativo ao *INSTALLED_APPS* no arquivo *amazon/settings.py*:
 
 ```python
@@ -62,6 +85,10 @@ INSTALLED_APPS = [
     'backend',
 ]
 ```
+
+É necessário incluir o app *rest_framework* no arquivo *amazon/settings.py*, da mesma forma que foi feito com o app *backend*:
+
+
 
 2. **Configuração do PostgreSQL**
       - Instale o driver do PostgreSQL:
@@ -83,9 +110,11 @@ DATABASES = {
 }
 ```
 
+A configuração da base de dados postgres no django é feita da seguinte forma. Para definir o banco como padrão é necessário definir o *ENGINE* como *django.db.backends.postgresql* e informar o nome do banco, usuário, senha, host e porta. No exemplo acima, o banco de dados é *nome_do_banco*, o usuário é *seu_usuario* e a senha é *sua_senha* devem ser inseridos de acordo com a sua configuração de banco.
+
 3. **Modelos (Models)**
 
-- Edite o arquivo *core/models.py* para definir as tabelas:
+- Edite o arquivo *backend/models.py* para definir os modelos que se transformarão em tabelas no banco de dados:
 
 ```python
 from django.db import models
@@ -94,96 +123,93 @@ class Cliente(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=15)
+    data_cadastro = models.DateTimeField(auto_now_add=True)    
 
     def __str__(self):
         return self.nome
-
-class Veiculo(models.Model):
-    marca = models.CharField(max_length=50)
-    modelo = models.CharField(max_length=50)
-    ano = models.IntegerField()
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.marca} {self.modelo}"
-
-class Venda(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    veiculo = models.ForeignKey(Veiculo, on_delete=models.CASCADE)
-    data_venda = models.DateTimeField(auto_now_add=True)
-    preco_venda = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"Venda de {self.veiculo} para {self.cliente}"
 ```
+
+Iniciamos com um exemplo super simples, onde temos um modelo *Cliente* com os campos *nome*, *email*, *telefone* e *data_cadastro*. O campo *data_cadastro* é do tipo *DateTimeField* e é preenchido automaticamente com a data e hora atuais quando um novo cliente é cadastrado. O método *__str__* é usado para retornar o nome do cliente quando ele é exibido em uma lista. Se for necessário retornar mais de um atributo, basta concatenar os atributos separados por vírgula, como por exemplo: *return f'{self.nome} - {self.email}'*.
+
+```python
+def __str__(self):
+        return f'{self.nome} - {self.email}'
+```
+
 
 4. **Serializers**
 
-- Crie o arquivo *core/serializers.py* e adicione os serializers:
+- Crie o arquivo *backend/serializers.py* e adicione os serializers:
 
 ```python
 from rest_framework import serializers
-from .models import Cliente, Veiculo, Venda
+from .models import Cliente
 
 class ClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
-        fields = '__all__'
-
-class VeiculoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Veiculo
-        fields = '__all__'
-
-class VendaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Venda
-        fields = '__all__'
+        fields = '__all__' 
 ```
+
+O arquivo *serializers.py* é responsável por serializar os dados dos modelos para JSON. No exemplo acima, criamos um serializer para o modelo *Cliente* que inclui todos os campos do modelo. Se for necessário incluir apenas alguns campos, basta informar os campos desejados na lista *fields*, como por exemplo: *fields = ['nome', 'email']*.
+A serialização é o processo de converter um objeto em uma sequência de bytes para ser armazenado ou transmitido para um banco de dados, arquivo ou outro meio de armazenamento. A deserialização é o processo inverso, onde a sequência de bytes é convertida de volta para um objeto.
+
+Django Rest Framework fornece um conjunto de classes de serialização que permitem a serialização de objetos complexos, como modelos, consultas e listas de objetos. Os serializers do Django Rest Framework são semelhantes aos formulários do Django, mas são mais poderosos e flexíveis. Eles permitem a validação dos dados, a conversão de tipos de dados e a serialização de objetos complexos.  
 
 5. **Views**
 
-- Edite o arquivo *core/views.py* para adicionar as views:
+- Edite o arquivo *backend/views.py* para adicionar as views:
 
 ```python
+from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Cliente, Veiculo, Venda
-from .serializers import ClienteSerializer, VeiculoSerializer, VendaSerializer
+from .models import Cliente
+from .serializers import ClienteSerializer
 
 class ClienteViewSet(viewsets.ModelViewSet):
     queryset = Cliente.objects.all()
-    serializer_class = ClienteSerializer
-
-class VeiculoViewSet(viewsets.ModelViewSet):
-    queryset = Veiculo.objects.all()
-    serializer_class = VeiculoSerializer
-
-class VendaViewSet(viewsets.ModelViewSet):
-    queryset = Venda.objects.all()
-    serializer_class = VendaSerializer
+    serializer_class = ClienteSerializer 
 
 ```
 
-6. **URLs**
+O arquivo *views.py* é responsável por definir as views que serão usadas para manipular os dados. No exemplo acima, criamos uma view *ClienteViewSet* que herda de *viewsets.ModelViewSet*. O *ModelViewSet* fornece ações CRUD (Create, Retrieve, Update, Delete) para um modelo específico. O *queryset* define a consulta que será usada para recuperar os objetos do banco de dados. O *serializer_class* define o serializer que será usado para serializar os objetos recuperados do banco de dados. 
 
-- Edite o arquivo *venda_veiculos/urls.py* para incluir as rotas:
+O Django Rest Framework fornece um conjunto de classes de visualização que permitem a criação de APIs RESTful de forma rápida e fácil. As classes de visualização do Django Rest Framework são semelhantes às views do Django, mas são mais poderosas e flexíveis. Elas permitem a criação de APIs RESTful com CRUD (Create, Retrieve, Update, Delete) para modelos específicos, consultas personalizadas e operações complexas. 
+
+
+
+1. **URLs**
+
+- Edite o arquivo *amazon/urls.py* para incluir as rotas:
 
 ```python
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from core import views
+from backend import views
 
 router = DefaultRouter()
 router.register(r'clientes', views.ClienteViewSet)
-router.register(r'veiculos', views.VeiculoViewSet)
-router.register(r'vendas', views.VendaViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('amazon_api/', include(router.urls)),
 ]
 ```
+
+O arquivo *urls.py* é responsável por definir as rotas que serão usadas para acessar as views. No exemplo acima, criamos um *DefaultRouter* que inclui a rota *clientes* para acessar a view *ClienteViewSet*. A rota *clientes* será mapeada para a view *ClienteViewSet* e fornecerá as ações CRUD (Create, Retrieve, Update, Delete) para o modelo *Cliente*.
+
+O urlpatterns é uma lista de rotas que serão usadas para acessar as views. A rota *admin/* é usada para acessar o painel de administração do Django. A rota *amazon_api/* é usada para acessar a API RESTful criada com o Django Rest Framework. A função *include(router.urls)* é usada para incluir as rotas do *DefaultRouter* no urlpatterns.
+
+PAra permitir os cadastros dos modelos no admin, é necessário registrar os modelos no arquivo *admin.py* do aplicativo:
+
+```python
+from django.contrib import admin
+from .models import Cliente
+
+admin.site.register(Cliente)
+```
+
 7. **Configurações Finais**
 
 - Adicione *rest_framework* e *core* ao *INSTALLED_APPS* no arquivo *venda_veiculos/settings.py*:
@@ -215,6 +241,12 @@ pip install django djangorestframework
 pip install markdown       
 pip install django-filter  
 pip install psycopg2-binary
+```
+
+- Criando um super usuário no django:
+
+```python
+python manage.py createsuperuser
 ```
 
 - Inicie o servidor de desenvolvimento:
