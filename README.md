@@ -41,18 +41,10 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Intervalos de Busca
 - Consultas com `JOIN
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lectureXX-configuracao-postgres">Aula 2. Instalação PostgreSQL Admin</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
 
-- Instalar o pgAdmin
-- Configurar o pgAdmin
-- Executar Consultas SQL
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lectureXX-fundamentos"> Aula 3. Fundamentos</a>
-
-- Conceitos Básicos
-- Exemplos de Consultas SQL
-- Estrutura da Aplicação Web com Django Rest para a aplicação de Venda de Veículos
-- Camparação de uso de ORM com Consultas SQL
+- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
+- Exemplo simples usando Model/ORM com Postgres
 
 
 
