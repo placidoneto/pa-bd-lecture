@@ -33,7 +33,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
 
   
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
 
 - Filtragem
 - Ordenação
@@ -41,13 +41,13 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Intervalos de Busca
 - Consultas com `JOIN
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture02-configuracao-postgres">Aula 2. Instalação PostgreSQL Admin</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lectureXX-configuracao-postgres">Aula 2. Instalação PostgreSQL Admin</a>
 
 - Instalar o pgAdmin
 - Configurar o pgAdmin
 - Executar Consultas SQL
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 3. Fundamentos</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lectureXX-fundamentos"> Aula 3. Fundamentos</a>
 
 - Conceitos Básicos
 - Exemplos de Consultas SQL
