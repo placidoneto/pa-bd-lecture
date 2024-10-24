@@ -33,7 +33,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
 
   
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
 
 - Filtragem
 - Ordenação
