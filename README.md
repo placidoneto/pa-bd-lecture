@@ -252,6 +252,46 @@ python manage.py createsuperuser
 ```python
 python manage.py runserver
 ```
-- Acesse *http://127.0.0.1:8000/api/* para ver as APIs funcionando.
+- Acesse *http://127.0.0.1:8000/amazon_api/* para ver as APIs funcionando.
 
+Após rodar o servidor, acesse o painel de administração do Django em *http://localhost:8000/admin/* e faça login com o super usuário criado anteriormente. Você poderá adicionar, editar e excluir clientes no painel de administração. Essa forma de acessar os modelos é simples e mostra que os modelos estão funcionando e sendo salvos no banco de dados conforme o esperado. No entanto, para acessar os dados de forma mais estruturada, é necessário criar uma API RESTful com o Django Rest Framework. Os endpoints da API RESTful permitem acessar os dados de forma programática e realizar operações CRUD (Create, Retrieve, Update, Delete) nos modelos. Para acessar os endpoints, basta acessar a URL da API no navegador ou usar um cliente REST. Existem vários clientes REST como por exemplo o POSTMAN.
 
+Caso você não queira usar um cliente REST, é possível acessar os endpoints da API RESTful diretamente no navegador. Por exemplo, para acessar a lista de clientes, basta acessar a URL *http://localhost:8000/amazon_api/clientes/* no navegador. Você verá uma lista de clientes em formato JSON. Para acessar um cliente específico, basta adicionar o ID do cliente à URL, por exemplo *http://localhost:8000/amazon_api/clientes/1/* para acessar o cliente com ID 1. Você verá os detalhes do cliente em formato JSON. Para criar um novo cliente, basta enviar uma requisição POST com os dados do cliente para a URL *http://localhost:8000/api/amazon_clientes/*. Alem de acessar pelo navegador é possível escrever um programa simples em python para acessar a API RESTful e manipular os dados dos modelos. 
+
+```python
+import requests
+
+BASE_URL = 'http://localhost:8000/amazon_api/'
+
+def get_clientes():
+    response = requests.get(BASE_URL + 'clientes/')
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
+# Exemplo de uso
+if __name__ == '__main__':
+
+    # Obter todos os clientes
+    clientes = get_clientes()
+    for cliente in clientes:
+        print('Cliente:', cliente)
+```
+
+O exemplo acima mostra como acessar a API RESTful do Django Rest Framework para obter todos os clientes. A função *get_clientes* envia uma requisição GET para a URL *http://localhost:8000/amazon_api/clientes/* e retorna a lista de clientes em formato JSON. O programa principal mostra como usar a função *get_clientes* para obter e exibir todos os clientes. Você pode modificar o programa para realizar outras operações CRUD (Create, Retrieve, Update, Delete) nos modelos.
+
+Perceba que é necessário importar a biblioteca `request`. Para instalar a biblioteca, basta rodar o comando `pip install requests`. 
+A biblioteca `requests` é uma biblioteca HTTP para Python, que permite enviar requisições HTTP de forma simples e fácil. Ela fornece uma API simples e intuitiva para enviar e receber dados pela web. A biblioteca `requests` é amplamente utilizada para acessar APIs RESTful, fazer scraping de páginas web, além de poder realizar testes de integração.
+
+Para facilitar o controle dos pacotes instalados no ambiente de execução do projeto, é possível criar um arquivo `requirements.txt` com os pacotes necessários para rodar o projeto. Para criar o arquivo, basta rodar o comando `pip freeze > requirements.txt`. O arquivo gerado conterá todos os pacotes instalados no ambiente de execução do projeto. Para instalar os pacotes listados no arquivo `requirements.txt`, basta rodar o comando `pip install -r requirements.txt`.
+
+Para execução deste exemplo o arquivo `requirements.txt` pode ser criado com o seguinte conteúdo:
+
+```
+django
+djangorestframework
+djangorestframework-jwt
+psycopg2-binary
+requests
+```
