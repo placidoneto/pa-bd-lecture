@@ -295,3 +295,51 @@ djangorestframework-jwt
 psycopg2-binary
 requests
 ```
+
+## Configurando o Swagger no Django Rest Framework
+
+O Swagger é uma ferramenta de código aberto que permite documentar APIs RESTful de forma fácil e rápida. Ele fornece uma interface gráfica interativa para explorar e testar APIs RESTful. O Swagger é amplamente utilizado para documentar APIs RESTful em várias linguagens de programação, incluindo Python.
+
+Para configurar o Swagger no Django Rest Framework, é necessário instalar o pacote `drf-yasg`. O `drf-yasg` é um pacote que fornece suporte para o Swagger no Django Rest Framework. Ele permite gerar automaticamente a documentação da API RESTful com base nos serializers, views e modelos do Django Rest Framework. O `drf-yasg` é fácil de usar e fornece uma interface gráfica interativa para explorar e testar APIs RESTful. Para instalar o `drf-yasg`, basta rodar o comando `pip install drf-yasg`.
+
+Para configurar o Swagger no Django Rest Framework, é necessário adicionar o `drf-yasg` ao `INSTALLED_APPS` no arquivo `settings.py` do projeto:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'drf_yasg',
+]
+```
+
+Em seguida, é necessário adicionar as URLs do `drf-yasg` ao arquivo `urls.py` do projeto:
+
+```python
+from django.urls import path
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API Documentation",
+        default_version='v1',
+        description="API documentation with Swagger",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@example.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+urlpatterns = [
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+]
+```
+
+O código acima define as URLs do Swagger e do ReDoc no Django Rest Framework. A URL `/swagger/` é usada para acessar a interface gráfica do Swagger, que permite explorar e testar a API RESTful. A URL `/redoc/` é usada para acessar a interface gráfica do ReDoc, que fornece uma documentação mais limpa e organizada da API RESTful. O `cache_timeout=0` é usado para desativar o cache das páginas do Swagger e do ReDoc, garantindo que as alterações na API sejam refletidas imediatamente.
+
+Para acessar a interface gráfica do Swagger, basta acessar a URL `http://localhost:8000/swagger/` no navegador. Você verá a documentação da API RESTful gerada automaticamente com base nos serializers, views e modelos do Django Rest Framework. A interface gráfica do Swagger permite explorar e testar os endpoints da API RESTful de forma interativa. Você pode enviar requisições GET, POST, PUT e DELETE para os endpoints da API e ver as respostas em formato JSON. A interface gráfica do Swagger é uma ferramenta poderosa para documentar e testar APIs RESTful de forma fácil e rápida.
+
+Para acessar a interface gráfica do ReDoc, basta acessar a URL `http://localhost:8000/redoc/` no navegador. Você verá a documentação da API RESTful gerada automaticamente com base nos serializers, views e modelos do Django Rest Framework. A interface gráfica do ReDoc fornece uma documentação mais limpa e organizada da API RESTful, facilitando a leitura e compreensão dos endpoints da API. O ReDoc é uma alternativa ao Swagger e fornece uma documentação mais amigável e visualmente atraente da API RESTful.
