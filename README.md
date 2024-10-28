@@ -40,6 +40,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Valores Distintos
 - Intervalos de Busca
 - Consultas com `JOIN
+- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP1 - Trabalho Prático 2</a>
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
 
