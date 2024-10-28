@@ -31,7 +31,7 @@ import psycopg2
 from psycopg2 import sql
 
 # Função para conectar ao banco de dados PostgreSQL
-def connect():
+def conexao():
     try:
         conn = psycopg2.connect(
             dbname="seu_banco_de_dados",
@@ -104,12 +104,12 @@ if __name__ == "__main__":
         if opcao == 1:
             nome = input("Digite o nome: ")
             idade = int(input("Digite a idade: "))
-            conn = connect()
+            conn = conexao()
             if conn:
                 inserir_dados(conn, nome, idade)
                 conn.close()
         elif opcao == 2:
-            conn = connect()
+            conn = conexao()
             if conn:
                 selecionar_dados(conn)
                 conn.close()
@@ -117,13 +117,13 @@ if __name__ == "__main__":
             id = int(input("Digite o id: "))
             nome = input("Digite o nome: ")
             idade = int(input("Digite a idade: "))
-            conn = connect()
+            conn = conexao()
             if conn:
                 atualizar_dados(conn, id, nome, idade)
                 conn.close()
         elif opcao == 4:
             id = int(input("Digite o id: "))
-            conn = connect()
+            conn = conexao()
             if conn:
                 deletar_dados(conn, id)
                 conn.close()
