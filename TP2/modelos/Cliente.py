@@ -1,9 +1,18 @@
 class Cliente:
-    def __init__(self, nome, email, telefone, data_cadastro):
+    def __init__(self, id, nome, email, telefone, data_cadastro):
+        self._id = id     
         self._nome = nome        
         self._email = email
         self._telefone = telefone
         self._data_cadastro = data_cadastro
+
+    @property
+    def id(self):
+        return self._id
+    
+    @id.setter
+    def id(self, id):
+        self._id = id
 
     @property
     def nome(self):

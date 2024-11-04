@@ -45,3 +45,6 @@ class ItemPedido:
     @preco_unitario.setter
     def preco_unitario(self, preco_unitario):
         self._preco_unitario = preco_unitario
+        
+    def __str__(self):
+        return f"ItemPedido: {self._id} - Pedido: {self._pedido_id} - Item: {self._item_id} - Quantidade: {self._quantidade} - Preço unitário: R${self._preco_unitario}"    

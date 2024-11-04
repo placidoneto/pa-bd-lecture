@@ -36,3 +36,6 @@ class Vendedor:
     @telefone.setter
     def telefone(self, telefone):
         self._telefone = telefone
+        
+    def __str__(self):
+        return f"Vendedor: {self._nome} - Email: {self._email} - Telefone: {self._telefone}"

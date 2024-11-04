@@ -18,3 +18,6 @@ class FormaPagamento:
     @descricao.setter
     def descricao(self, descricao):
         self._descricao = descricao
+        
+    def __str__(self):
+        return f"Forma de pagamento: {self._descricao}"

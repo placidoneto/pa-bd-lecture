@@ -63,3 +63,6 @@ class Pedido:
     @status.setter
     def status(self, status):
         self._status = status
+        
+    def __str__(self):
+        return f"Pedido: {self.id}, Cliente: {self.cliente_id}, Vendedor: {self.vendedor_id}, Data Pedido: {self.data_pedido}, Endereço de Entrega: {self.endereco_entrega_id}, Forma de Pagamento: {self.forma_pagamento_id}, Status: {self.status}"

@@ -45,3 +45,8 @@ class Item:
     @estoque.setter
     def estoque(self, estoque):
         self._estoque = estoque
+        
+    def __str__(self):
+        return f"Item: {self._nome} - {self._descricao} - R${self._preco} - Estoque: {self._estoque}"
+    
+    
