@@ -64,7 +64,7 @@ class Conexao:
         try:
             cursor = self.conexao.cursor()
             query = """
-                SELECT itens.nome, itens_pedido.quantidade, itens_pedido.preco_unitario
+                SELECT itens.*, itens_pedido.quantidade, itens_pedido.preco_unitario
                 FROM itens_pedido
                 JOIN itens ON itens_pedido.item_id = itens.id
                 WHERE itens_pedido.pedido_id = %s
@@ -72,10 +72,12 @@ class Conexao:
             cursor.execute(query, (pedido_id,))
             resultSet = cursor.fetchall()
             itens = []
+            itens_pedido= []
             for row in resultSet:
-                itens.append(Item(None, row[0], None, row[1], None))
+                itens.append(Item(row[0], row[1], row[2], row[3], row[4]))
+                itens_pedido.append(ItemPedido(None, None, None, row[5], row[6]))
             cursor.close()
-            return itens
+            return itens, itens_pedido
         except OperationalError as e:
             print(f"Ocorreu um erro ao consultar os itens do pedido: {e}")
             return []

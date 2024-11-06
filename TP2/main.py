@@ -26,13 +26,14 @@ if __name__ == "__main__":
             if conn:
                 pedidos = conn.obter_pedidos_por_cliente(id_cliente)
                 for pedido in pedidos:
-                    print(pedido)
+                    #print(pedido)
+                    print(pedido.id, " - ", pedido.status)
         elif opcao == 2:
             id_pedido = int(input("Digite o ID do Pedido desejado: "))                        
             if conn:
-                itens = conn.obter_itens_por_pedido(id_pedido)
+                itens, itens_pedido = conn.obter_itens_por_pedido(id_pedido)
                 for item in itens:
-                    print(item.nome)
+                    print(item)
         elif opcao == 3:
             print("Digite o intervalo de Datas desejado: ")                        
             data_inicio = input("Digite a data de início: ")
