@@ -30,9 +30,9 @@ def delete_cliente(cliente_id):
 # Exemplo de uso
 if __name__ == '__main__':
     # Criar um novo Cliente
-    new_cliente = {'nome': 'Cliente Novo', 'email': 'novo.cliente@gmail.coma', 'telefone': '456sss789'}
-    created_cliente = create_cliente(new_cliente)
-    print('Cliente criado:', created_cliente)
+    #new_cliente = {'nome': 'Cliente Novo', 'email': 'novo.cliente@gmail.coma', 'telefone': '456sss789'}
+    #created_cliente = create_cliente(new_cliente)
+    #print('Cliente criado:', created_cliente)
 
     # Obter todos os Clientes
     clientes = get_clientes()
@@ -41,14 +41,14 @@ if __name__ == '__main__':
     
 
     # Atualizar um Cliente
-    cliente_id = 2
-    updated_data = {'nome': 'Cliente atualizado', 'email': 'a.b@gmail.coma', 'telefone': '456789'}
-    updated_cliente = update_cliente(cliente_id, updated_data)
-    print('Cliente atualizado:', updated_cliente)
+    #cliente_id = 2
+    #updated_data = {'nome': 'Cliente atualizado', 'email': 'a.b@gmail.coma', 'telefone': '456789'}
+    #updated_cliente = update_cliente(cliente_id, updated_data)
+    #print('Cliente atualizado:', updated_cliente)
 
-    cliente_id = 1
+    #cliente_id = 1
     # Deletar um Cliente
-    if delete_cliente(cliente_id):
-        print('Cliente deletado com sucesso')
-    else:
-        print('Falha ao deletar o Cliente')
+    #if delete_cliente(cliente_id):
+    #    print('Cliente deletado com sucesso')
+    #else:
+    #    print('Falha ao deletar o Cliente')
