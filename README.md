@@ -1,63 +1,145 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Relacionamento entre Modelos ORM em Django Rest Framework
 
 ## Objetivo
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+O objetivo deste documento é apresentar como é possível criar relacionamentos entre modelos ORM em Django Rest Framework.
+
+## Introdução
+
+Django Rest Framework é uma biblioteca que facilita a criação de APIs REST em Django. Uma das funcionalidades mais importantes do Django Rest Framework é a serialização de objetos. A serialização é o processo de converter um objeto em um formato que pode ser facilmente armazenado ou transmitido. No caso do Django Rest Framework, a serialização é usada para converter objetos de modelos ORM em JSON.
+
+## Modelos ORM
+
+Modelos ORM são classes que representam tabelas em um banco de dados. No Django, os modelos ORM são definidos em arquivos `models.py`. Cada modelo ORM é uma classe que herda da classe `models.Model`. Os atributos da classe representam os campos da tabela. Por exemplo, o modelo Cliente abaixo representa uma tabela com os campos `nome`, `email`, `telefone` e `data_cadastro`:
+
+```python
+class Cliente(models.Model):
+    nome = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    telefone = models.CharField(max_length=15)
+    data_cadastro = models.DateTimeField(auto_now_add=True)    
+
+    def __str__(self):
+        return f'{self.nome} - {self.email} - {self.telefone}'
+```
+
+## Relacionamentos entre Modelos ORM
+
+Os modelos ORM podem ter relacionamentos entre si. Existem três tipos de relacionamentos em Django: ForeignKey, OneToOneField e ManyToManyField.
+
+### ForeignKey
+
+O relacionamento ForeignKey é usado para representar uma relação de muitos para um. Por exemplo, suponha que temos um modelo `Endereço` que tem um campo `cliente` que se refere a um objeto do modelo `Cliente`:
+
+```python
+class Endereco(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    rua = models.CharField(max_length=100)
+    numero = models.CharField(max_length=10)
+    bairro = models.CharField(max_length=50)
+    cidade = models.CharField(max_length=50)
+    estado = models.CharField(max_length=2) 
+    cep = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.rua}, {self.numero} - {self.bairro}, {self.cidade}/{self.estado} - {self.cep}'
+```
+
+Perceba que existe um campo `cliente` que é uma chave estrangeira para o modelo `Cliente`. Isso significa que um endereço está associado a um único cliente. Esse tiop de relacionamento é conhecido como relação de muitos para um. Isso porque um cliente pode ter vários endereços, mas um endereço pertence a um único cliente. O Django Rest cria automaticamente um campo `cliente_id` na tabela `Endereco` para armazenar a chave estrangeira. Isso é feito para garantir a integridade referencial do banco de dados. Após a criação no novo modelo é necessário rodar o comando `python manage.py makemigrations` e `python manage.py migrate` para criar a tabela no banco de dados.
+
+### OneToOneField
+
+O relacionamento OneToOneField é usado para representar uma relação de um para um. Por exemplo, suponha que temos um modelo `Perfil` que tem um campo `cliente` que se refere a um objeto do modelo `Cliiente`:
+
+```python
+class Perfil(models.Model):
+    cliente = models.OneToOneField(Cliente, on_delete=models.CASCADE)
+    foto = models.ImageField(upload_to='fotos/')
+    data_nascimento = models.DateField()
+    genero = models.CharField(max_length=1, choices=(('M', 'Masculino'), ('F', 'Feminino'), ('O', 'Outro')))
+    cpf = models.CharField(max_length=14)
+    tipo = models.CharField(max_length=1, choices=(('F', 'Física'), ('J', 'Jurídica')))
+
+    def __str__(self):
+        return f'{self.cliente.nome} - {self.genero} - {self.data_nascimento}'
+```   
+
+Perceba que existe um campo `cliente` que é uma chave estrangeira para o modelo `Cliente`. Isso significa que um perfil está associado a um único cliente. Esse tipo de relacionamento é conhecido como relação de um para um. Isso porque um cliente tem um único perfil e um perfil pertence a um único cliente. O Django Rest cria automaticamente um campo `cliente_id` na tabela `Perfil` para armazenar a chave estrangeira. Isso é feito para garantir a integridade referencial do banco de dados. Após a criação no novo modelo é necessário rodar o comando `python manage.py makemigrations` e `python manage.py migrate` para criar a tabela no banco de dados.
+
+### ManyToManyField
+
+O relacionamento ManyToManyField é usado para representar uma relação de muitos para muitos. Por exemplo, suponha que temos um modelo `Pedido` que tem um campo `itens` que se refere a um objeto do modelo `Item`. Nesse caso, um pedido pode ter vários itens e um item pode estar em vários pedidos:
+
+```python
+class Item (models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=100)
+    preco = models.DecimalField(max_digits=8, decimal_places=2)
+    estoque = models.IntegerField()
+    
+    def __str__(self):
+        return f'{self.nome} - {self.descricao} - R$ {self.preco} - Estoque: {self.estoque}'
 
 
-## Metodologia
+class Pedido(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    vendedor = models.ForeignKey(Vendedor, on_delete=models.CASCADE)
+    endereco_entrega = models.ForeignKey(Endereco, on_delete=models.CASCADE)
+    itens = models.ManyToManyField(Item)
+    forma_pagamento = models.ForeignKey(FormaPagamento, on_delete=models.CASCADE)
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    data_entrega = models.DateTimeField()
+    
+    def __str__(self): 
+        return f'{self.cliente} - {self.vendedor} - {self.data_pedido}'
+```
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+Perceba que existe um campo `itens` que é uma chave estrangeira para o modelo `Item`. Isso significa que um pedido pode ter vários itens e um item pode estar em vários pedidos. Esse tipo de relacionamento é conhecido como relação de muitos para muitos. O Django Rest cria automaticamente uma tabela intermediária para armazenar os relacionamentos entre os pedidos e os itens. Isso é feito para garantir a integridade referencial do banco de dados. Após a criação no novo modelo é necessário rodar o comando `python manage.py makemigrations` e `python manage.py migrate` para criar a tabela no banco de dados.
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+É possível utilizar o argumento `through` para especificar o nome da tabela intermediária. Por exemplo, se quisermos que a tabela intermediária seja chamada `PedidoItem`, podemos fazer o seguinte:
 
-## Pré-Requistos 
+```python
+class Pedido(models.Model):
+    ...
+    itens = models.ManyToManyField(Item, through='PedidoItem')
+    ...
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+class PedidoItem(models.Model):
 
-## Agenda
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantidade = models.IntegerField()
+    preco_unitario = models.DecimalField(max_digits=8, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=8, decimal_places=2)
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Aula 0. Modelando Dados</a>
+    def __str__(self):
+        return f'{self.pedido} - {self.item} - {self.quantidade} - R$ {self.subtotal}'
+``` 
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
+## Serialização de Objetos
 
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
+Como já vimos nas aulas anteriores, a serialização de objetos é o processo de converter um objeto em um formato que pode ser facilmente armazenado ou transmitido. No caso do Django Rest Framework, a serialização é usada para converter objetos de modelos ORM em JSON. Para serializar um objeto, é necessário criar uma classe de serialização que herda da classe `serializers.ModelSerializer`. Por exemplo, a classe de serialização para o modelo `Cliente` é a seguinte:
 
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP1 - Trabalho Prático 2</a>
+```python
+from rest_framework import serializers
+from .models import Cliente
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
+class ClienteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+```
 
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+para todos os novos modelos criados é necessário criar uma classe de serialização para cada modelo. Para serializar um objeto, basta passá-lo como argumento para a classe de serialização.
 
+## Conclusão
 
+Apresentamos como é possível criar relacionamentos entre modelos ORM em Django Rest Framework. Vimos que é possível criar relacionamentos de muitos para um, um para um e muitos para muitos. Esses relacionamentos são úteis para modelar a estrutura de um banco de dados e facilitar a serialização de objetos em JSON.
 
-<a href="branch link">Aula 4. ---</a>
+## Referências
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+- [Django Rest Framework](https://www.django-rest-framework.org/)
 
-<a href="branch link">Aula 5. ---</a>
+- [Django Models](https://docs.djangoproject.com/en/3.2/topics/db/models/)
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
-
+- [Django Model Relationships](https://docs.djangoproject.com/en/3.2/topics/db/models/#relationships)
