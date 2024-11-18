@@ -49,11 +49,12 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 
 
-<a href="branch link">Aula 4. ---</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Aula 3. Relacionamento entre Modelos ORM em Django Rest</a>
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+- Relacionamento entre Modelos
+- Relacionamento 1 para 1
+- Relacionamento 1 para N
+- Relacionamento N para N
 
 <a href="branch link">Aula 5. ---</a>
 
