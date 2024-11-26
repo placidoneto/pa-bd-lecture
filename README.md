@@ -56,6 +56,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Relacionamento 1 para N
 - Relacionamento N para N
 
+- - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+
 <a href="branch link">Aula 5. ---</a>
 
 - Tópico 1
