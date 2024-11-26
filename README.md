@@ -18,7 +18,9 @@ Imagine um prestador de serviço que deseja manter um registro de seus clientes 
 2. Implementar uma API REST que permita a criação, leitura, atualização e exclusão de registros no banco de dados.
    1. A API deve ser implementada utilizando o Django Rest Framework;
    2. Todas as operações devem ser realizadas via API usando o Swagger;
-
+ 
+3. Link GitClassroom: https://classroom.github.com/a/f63fFlqO 
+ 
 ## Entrega
 
 O trabalho deve ser entregue via GitHub Classroom, em um repositório privado. O repositório deve conter o código fonte do projeto, e um arquivo `README.md` na raiz do projeto com a descrição do modelo de dados.
