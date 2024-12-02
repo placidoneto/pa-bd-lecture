@@ -41,11 +41,17 @@ router.register(r'clientes', views.ClienteViewSet)
 router.register(r'enderecos', views.EnderecoViewSet)
 router.register(r'servicos', views.ServicoViewSet)
 router.register(r'tipos_servico', views.TipoServicoViewSet)
+router.register(r'fotografos', views.FotografoViewSet)
+router.register(r'usuarios', views.UsuarioViewSet)
+router.register(r'parentescos', views.ParentescoViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('authentication.urls')),
+    #path('api/auth/', include('authentication.urls')),
     path('api/', include(router.urls)),
+    path('api/fotografo/hello', views.FotografoViewSet.hello, name='hello'),
+
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

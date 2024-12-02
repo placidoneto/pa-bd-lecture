@@ -31,23 +31,23 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'backend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    'django.contrib.sites', 
     'django.contrib.messages',
     'django.contrib.staticfiles',        
     'rest_framework',
-    'rest_framework.authtoken',
-    'backend',
-    'authentication',
+    #'rest_framework.authtoken',    
+    #'authentication',
     'drf_yasg',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount', 
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
+  #  'allauth',
+  #  'allauth.account',
+  #  'allauth.socialaccount', 
+  #  'dj_rest_auth',
+  #  'dj_rest_auth.registration',
 
 ]
 
@@ -115,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SITE_ID = 1
+#SITE_ID = 1
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -138,8 +138,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
-    ]
-}
+#REST_FRAMEWORK = {
+#    "DEFAULT_AUTHENTICATION_CLASSES": [
+#        "rest_framework.authentication.TokenAuthentication",
+#    ]
+#}
