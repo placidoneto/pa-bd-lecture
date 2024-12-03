@@ -58,9 +58,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 - - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
 
-<a href="branch link">Aula 5. ---</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Aula 4. Funções em Classes ViewSet do Django Rest Framework</a>
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+- Funções de Listagem
 
