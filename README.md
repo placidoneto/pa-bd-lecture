@@ -1,66 +1,130 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Funções em Classes ViewSet do Django Rest Framework
+## Construindo *endpoints* de API com Django Rest Framework
 
-## Objetivo
+Após a construção dos modelos utilizando o Django ORM, é necessário criar as *endpoints* de API para que os dados possam ser acessados e manipulados. Para isso, utilizaremos o Django Rest Framework, que é uma biblioteca que facilita a construção de APIs RESTful.
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+Essa biblioteca fornece uma série de classes que podem ser utilizadas para criar *endpoints* de API de forma rápida e eficiente. Uma dessas classes é a `ViewSet`, que é utilizada para agrupar as operações CRUD (Create, Read, Update, Delete) de um modelo em um único lugar.
 
+No entanto nem sempre utilizamos apenas as operações de CRUD, muitas vezes precisamos de operações customizadas, como por exemplo, a criação de um método que retorna os objetos de um modelo que atendem a um determinado critério.
 
-## Metodologia
+Neste aula, vamos aprender como criar *endpoints* de API utilizando `ViewSet` e como adicionar métodos customizados a esses *endpoints*.
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+### Criando um ViewSet
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+Para criar um `ViewSet`, basta criar uma classe que herda de `ViewSet` e definir os métodos que serão utilizados para realizar as operações CRUD. Por exemplo, para criar um `ViewSet` para o modelo `Servico` ou `Cliente` (considerando o exemplo visto na última aula), podemos fazer o seguinte:
 
-## Pré-Requistos 
+```python
+from rest_framework import viewsets
+from .models import Servico
+from .serializers import ServicoSerializer
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+class ServicoViewSet(viewsets.ModelViewSet):
+    queryset = Servico.objects.all()
+    serializer_class = ServicoSerializer
+```
 
-## Agenda
+Neste exemplo, criamos um `ViewSet` chamado `ServicoViewSet` que utiliza o modelo `Servico` e o serializador `ServicoSerializer`. Com isso, o `ViewSet` já possui as operações CRUD implementadas e podemos utilizá-lo para criar os *endpoints* de API.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Aula 0. Modelando Dados</a>
+### Adicionando métodos customizados
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
+Além das operações CRUD, podemos adicionar métodos customizados a um `ViewSet` para realizar operações específicas. Por exemplo, podemos adicionar um método que retorna os serviços de um cliente específico:
 
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
+```python
+from rest_framework import viewsets
+from .models import Servico
+from .serializers import ServicoSerializer
+from .models import Cliente
+from .serializers import ClienteSerializer
 
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework import status
+from django.db.models import Count, Max, Min, Sum
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
+class ServicoViewSet(viewsets.ModelViewSet):
+    queryset = Servico.objects.all()
+    serializer_class = ServicoSerializer
 
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+    @action(detail=False, methods=['get'])
+    def servicos_cliente(self, request):
+        cliente_id = request.query_params.get('cliente_id')
+        servicos = Servico.objects.filter(cliente_id=cliente_id)
+        serializer = ServicoSerializer(servicos, many=True)
+        return Response(serializer.data)
+```
 
+No exemplo acima, adicionamos um método chamado `servicos_cliente` que utiliza o parâmetro `cliente_id` para filtrar os serviços de um cliente específico. Para isso, utilizamos o método `filter` do Django ORM para realizar a consulta no banco de dados e o serializador `ServicoSerializer` para serializar os dados.
 
+A instrução `@action` é utilizada para definir o método como um *endpoint* específico da API. O parâmetro `detail=False` indica que o método não é relacionado a um objeto específico, ou seja, não é uma operação CRUD. O parâmetro `methods=['get']` indica que o método apenas pode ser chamado com o método HTTP GET.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Aula 3. Relacionamento entre Modelos ORM em Django Rest</a>
+### Registrando o ViewSet
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+Para que o `ViewSet` seja utilizado como um *endpoint* de API, é necessário registrá-lo em um `Router`. O `Router` é responsável por mapear os *endpoints* de API para as URLs da aplicação. Por exemplo, para registrar o `ViewSet` `ServicoViewSet`, podemos fazer o seguinte:
 
-- - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+```python
+from rest_framework.routers import DefaultRouter
+from .views import ServicoViewSet
+from django.urls import path, include
+from rest_framework import routers
+from django.urls import path, include
 
-<a href="branch link">Aula 5. ---</a>
+router = DefaultRouter()
+router.register(r'servicos', ServicoViewSet)
 
-- Tópico 1
-- Tópico 2
-- Tópico 3
+urlpatterns = [
+    path('', include(router.urls)),
+]
+```
+Nesse exemplo, estamos criando um `Router` chamado `router` e registrando o `ViewSet` `ServicoViewSet` com o nome de URL `servicos`. Em seguida , estamos incluindo as URLs do `Router` no `urlpatterns` da aplicação. Isso fará com que as URLs do `ViewSet` sejam acessíveis na aplicação. Por exemplo, a URL `http://localhost:8000/servicos/` será mapeada para o `ViewSet` `ServicoViewSet`. 
 
+O método `servicos_cliente` pode ser acessado através da URL `http://localhost:8000/servicos/servicos_cliente/?cliente_id=1`. Neste exemplo, estamos passando o parâmetro `cliente_id=1` para o método `servicos_cliente`, que irá retornar os serviços do cliente com o ID 1.
+
+Uma pergunta importante, Como considerar o parâmetro `cliente_id` como um parâmetro de consulta? A resposta é que o Django ORM permite que você passe parâmetros de consulta como argumentos do método `filter`. Por exemplo, em vez de fazer `Servico.objects.filter(cliente_id=1)`, você pode fazer `Servico.objects.filter(cliente_id=cliente_id)`, onde `cliente_id` é o parâmetro passado para o método `servicos_cliente`.
+
+Com isso, você pode criar *endpoints* de API com métodos customizados para realizar operações específicas nos seus modelos. Isso permite que você crie APIs RESTful poderosas e flexíveis com o Django Rest Framework.
+
+Imagine que precisamos ainda de um endpoint para verificar os servicos pendentes de um cliente, para isso podemos criar outro método no nosso `ViewSet`
+
+```python
+class ServicoViewSet(viewsets.ModelViewSet):
+  queryset = Servico.objects.all()
+  serializer_class = ServicoSerializer
+
+  @action(detail=False, methods=['get'])
+  def servicos_cliente(self, request):
+    cliente_id = request.query_params.get('cliente_id')
+    servicos = Servico.objects.filter(cliente_id=cliente_id)
+    serializer = ServicoSerializer(servicos, many=True
+    return Response(serializer.data)
+
+  @action(detail=False, methods=['get'])
+  def servicos_pendentes(self, request):
+    cliente_id = request.query_params.get('cliente_id')
+    servicos = Servico.objects.filter(cliente_id=cliente_id, status='Pendente')
+    serializer = ServicoSerializer(servicos, many=True
+    return Response(serializer.data)
+
+```
+
+Neste exemplo, adicionamos um método chamado `servicos_pendentes` que utiliza o parâmetro `cliente_id` para filtrar os serviços pendentes de um cliente específico. Para isso, utilizamos o método `filter` do Django ORM para realizar a consulta no banco de dados e o serializador `ServicoSerializer` para serializar os dados.
+
+O método `servicos_pendentes` pode ser acessado através da URL `http://localhost:8000/servicos/servicos_pendentes/?cliente_id=1`. Neste exemplo, estamos passando o parâmetro `cliente_id=1` para o método `servicos_pendentes`, que irá retornar os serviços pendentes do cliente com o ID 1.
+
+Imagine ainda se precisarmos de um endpoint para saber os servicos considerando qualquer status. Para isso podemos criar outro método no nosso `ViewSet` que possa passar o parametro `status` para o método `filter` do Django ORM.
+
+Para isso podemos criar um método no nosso `ViewSet` que possa passar o parametro `status` para o método `filter` do Django ORM.
+
+Veja o exemplo abaixo:
+
+```python
+
+@action(detail=False, methods=['get'])
+    def servicos_por_cliente_status(self, request):
+        cliente_id = request.query_params.get('cliente_id')
+        status = request.query_params.get('status')
+        servicos = Servico.objects.filter(cliente_id=cliente_id, status=status)
+        serializer = ServicoSerializer(servicos, many=True)
+        return Response(serializer.data)
+```
+
+Neste exemplo, adicionamos um método chamado `servicos_por_cliente_status` que utiliza os parâmetros `cliente_id` e `status` para filtrar os serviços de um cliente específico com um status específico. Para isso, utilizamos o método `filter` do Django ORM para realizar a consulta no banco de dados e o serializador `ServicoSerializer` para serializar os dados.  O método `servicos_por_cliente_status` pode ser acessado através da URL `http://localhost:8000/servicos/servicos_por_cliente_status/?cliente_id=1&status=Pendente`. Neste exemplo, estamos passando os parâmetros `cliente_id=1` e `status=Pendente` para o método `servicos_por_cliente_status`, que irá retornar os serviços pendentes do cliente com o ID 1. 
