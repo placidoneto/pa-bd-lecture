@@ -33,3 +33,5 @@ Para melhorar a estrutura da API, você deve utilizar ViewSets e Routers do Djan
 ## Entrega
 
 O trabalho deve ser entregue via GitHub Classroom, em um repositório privado. O repositório deve conter o código fonte do projeto, e um arquivo README.md na raiz do projeto com a descrição do modelo de dados.
+
+[Link Assigment - TP Substitutivo](https://classroom.github.com/a/90TyT3Zu)
