@@ -56,9 +56,9 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Relacionamento 1 para N
 - Relacionamento N para N
 
-- - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+-  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Aula 4. Funções em Classes ViewSet do Django Rest Framework</a>
 
 - Funções de Listagem
-
+- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
