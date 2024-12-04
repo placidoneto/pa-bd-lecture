@@ -8,9 +8,7 @@ Este trabalho prático é baseado no exemplo de uma API de gerenciamento de livr
 
 ## Descrição
 
-Imagine que você foi contratado para desenvolver uma API REST para a Biblioteca Central do CNAT/IFRN. A API deve permitir o gerenciamento de livros, autores e editoras. Para isso, você deve criar os seguintes *endpoints*
-
-Em geal o domínio de uma biblioteca possui modelos base para gerenciamento de livros como: `Livro`, `Autor` e `Editora`. No entanto há também modelos de `Emprestimo` e `Reserva` que são relacionados com o modelo `Livro` e também com o modelo `Usuario` da biblioteca.
+Imagine que você foi contratado para desenvolver uma API REST para a Biblioteca Central do CNAT/IFRN. A API deve permitir o gerenciamento de livros, autores e editoras. Em geral, o domínio de uma biblioteca possui modelos base para gerenciamento de livros como: `Livro`, `Autor` e `Editora`. No entanto há também modelos de `Emprestimo` e `Reserva` que são relacionados com o modelo `Livro` e também com o modelo `Usuario` da biblioteca.
 
 Nesse sentido, você deve criar os seguintes modelos e *endpoints* de CRUD para que a API da Biblioteca possa ser utilizada e consumida por um aplicativo de gerenciamento de biblioteca:
 
@@ -23,7 +21,7 @@ Nesse sentido, você deve criar os seguintes modelos e *endpoints* de CRUD para 
 
 Para melhorar a estrutura da API, você deve utilizar ViewSets e Routers do Django REST Framework para criar os *endpoints* de forma mais específicas, eficiente e organizada.
 
-## Requisitos de Implementação
+### Requisitos de Implementação
 - Utilizar o Django REST Framework para criar a API.
 - Utilizar ViewSets e Routers para criar os *endpoints*.
 - Criar *endpoints* de CRUD para os modelos `Livro`, `Autor`, `Editora`, `Emprestimo`, `Reserva` e `Usuario`.
