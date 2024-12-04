@@ -8,7 +8,7 @@ Este trabalho prático é baseado no exemplo de uma API de gerenciamento de livr
 
 ## Descrição
 
-Imagine que você foi contratado para desenvolver uma API REST para o i. A API deve permitir o gerenciamento de livros, autores e editoras. Para isso, você deve criar os seguintes *endpoints*
+Imagine que você foi contratado para desenvolver uma API REST para a Biblioteca Central do CNAT/IFRN. A API deve permitir o gerenciamento de livros, autores e editoras. Para isso, você deve criar os seguintes *endpoints*
 
 Em geal o domínio de uma biblioteca possui modelos base para gerenciamento de livros como: `Livro`, `Autor` e `Editora`. No entanto há também modelos de `Emprestimo` e `Reserva` que são relacionados com o modelo `Livro` e também com o modelo `Usuario` da biblioteca.
 
