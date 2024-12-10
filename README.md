@@ -7,7 +7,7 @@
 - O trabalho deve ser enviado via github-classroom.
 - O trabalho deve ser feito em Python.
 - Os membros do grupo devem enviar (commit e push), cada um, pelo menos a metade das questões abaixo.
-- O link para o Assignment é: Assignment Avaliação - 1o Bimestre.
+- O link para o Assignment é: [https://classroom.github.com/a/LgclJO6E](Assignment Avaliação - 1o Bimestre).
 - O prazo de entrega é até o dia 10/12/2024 até às 12:00.
 - O nome das equipes deem ser: avalicacao-nomeSobrenome-nomeSobrenome.
 
