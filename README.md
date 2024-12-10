@@ -1,64 +1,34 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Avalliação Final 1o Bimestre
 
-## Objetivo
+## Instruções
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+- Não seguir alguma das regras na descrição desta atividade implicará em não correção da atividade.
+- O trabalho pode ser feito em grupos de até 2 pessoas.
+- O trabalho deve ser enviado via github-classroom.
+- O trabalho deve ser feito em Python.
+- Os membros do grupo devem enviar (commit e push), cada um, pelo menos a metade das questões abaixo.
+- O link para o Assignment é: Assignment Avaliação - 1o Bimestre.
+- O prazo de entrega é até o dia 10/12/2024 até às 12:00.
+- O nome das equipes deem ser: avalicacao-nomeSobrenome-nomeSobrenome.
 
+## Descritivo
 
-## Metodologia
+Imagine que você foi contratado para implementar o novo sistema de uma clínica médica de atendimento multiprofissional. Os donos da clínica querem um sistema que seja capaz de armazenar informações sobre os pacientes, os profissionais que atendem na clínica e os atendimentos realizados. Cada paciente possui um prontuario eletrônico que contém informações pessoais, como nome, data de nascimento, endereço, telefone, e-mail, profissão, histórico de doenças, alergias, medicamentos em uso, e informações sobre o convênio médico. Cada profissional possui um cadastro com nome, data de nascimento, endereço, telefone, e-mail, formação, especialidade, e informações sobre o convênio médico. Cada atendimento possui um número de identificação, a data e hora do atendimento, o profissional que realizou o atendimento, o paciente atendido, o diagnóstico, e as prescrições médicas. Os atendimentos podem ser através de convênio médico ou particular. Os tipos de atendimento são: consulta ou exames. Todos os atendimentos são agendados previamente e não há atendimento de urgência na clinica.
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+A clinica tem todo cuidado com os dados e agendamentos de pacientes e profissionais, e por isso, deseja que o sistema seja capaz de armazenar as informações de forma segura e eficiente. 
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+A clínica deseja que o sistema seja capaz de realizar operações diversas que permitam o cadastro, a busca, a edição e a remoção de informações sobre os agendamentos, os pacientes, os profissionais e os atendimentos. Além disso, a clínica deseja que o sistema seja capaz de gerar relatórios diversos, como: a quantidade de atendimentos realizados por um profissional, a quantidade de atendimentos realizados por um paciente, a quantidade de atendimentos realizados em um determinado período, a quantidade de atendimentos realizados por convênio médico, a quantidade de atendimentos realizados por tipo de atendimento, a quantidade de atendimentos realizados por diagnóstico, a quantidade de atendimentos realizados por prescrição médica, entre outros.
 
-## Pré-Requistos 
+## Requisitos de Implementação
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+- O sistema deve ser implementado em Python.
+- A API (Backend) deve ser implementada utilizando Django Rest.
+- O Front end deve ser implementado utilizando o terminal de comando a primeira versão do sistema.
+- Além dos endpoints de CRUD para os modelos da aplicação, o sistema deve possuir endpoints para os relatórios solicitados (mínimo de 6 novos endpoints).
+- O frontend deve ser capaz de consumir os endpoints da API e exibir as informações de forma clara e organizada.
+- O frontend deve ser mostrar apenas as funções dos endpoints NÃO CRUD dos modelos da aplicação.
+- As funções de CRUD podem ser utulizadas através do swagger.
 
-## Agenda
+## Entrega
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Aula 0. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Aula 3. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Aula 4. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
+- O trabalho deve ser entregue via GitHub Classroom, em um repositório da dupla. O repositório deve conter o código fonte do projeto (backend e frontend), o arquivo README.md na raiz do projeto com a descrição do modelo de dados, e a descrição de de seus atributos e suas relações.
