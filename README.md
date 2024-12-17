@@ -1,64 +1,57 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Django Rest - Basic Authentication
 
-## Objetivo
+## Basic Authentication
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+O Django Rest Framework fornece uma autenticação básica que é uma forma simples de autenticação que é feita através de um nome de usuário e senha. A autenticação básica é feita através de um cabeçalho de autorização que é enviado com a requisição. O cabeçalho de autorização é formado pela palavra `Basic` seguida de um espaço e de um nome de usuário e senha codificados em base64. O nome de usuário e senha são separados por dois pontos. O cabeçalho de autorização é enviado com a requisição no formato `Authorization: Basic <nome de usuário:senha>`. O Django Rest Framework fornece uma classe chamada `BasicAuthentication` que é uma classe de autenticação básica. Esta classe é usada para autenticar um usuário através de um nome de usuário e senha.
 
+Para usar a autenticação básica é necessário adicionar a classe `BasicAuthentication` à lista de autenticação padrão. A lista de autenticação padrão é uma lista de classes de autenticação que são usadas para autenticar um usuário. A lista de autenticação padrão é definida no arquivo de configuração `settings.py`. O conteúdo do arquivo `settings.py` é mostrado abaixo. A lista de autenticação padrão é definida pela variável `DEFAULT_AUTHENTICATION_CLASSES`. A variável `DEFAULT_AUTHENTICATION_CLASSES` é uma lista de classes de autenticação que são usadas para autenticar um usuário. A classe `BasicAuthentication` é adicionada à lista de autenticação padrão.
 
-## Metodologia
+Então como usar esse tipo de autenticação para acessar as funções da `view`? 
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+```
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+A outra maneira de usar a autenticação básica é adicionar a classe `BasicAuthentication` à lista de autenticação de uma `view`. A lista de autenticação de uma `view` é uma lista de classes de autenticação que são usadas para autenticar um usuário. A lista de autenticação de uma `view` é definida no atributo `authentication_classes` da `view`. O conteúdo da `view` é mostrado abaixo. A classe `ListarAlunos` é uma subclasse de `ListAPIView` e possui um atributo `authentication_classes` que é uma lista de classes de autenticação. A classe `BasicAuthentication` é adicionada à lista de autenticação da `view`.
 
-## Pré-Requistos 
+```python
+...
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+class AlunoViewSet(viewsets.ModelViewSet):
+    queryset = Aluno.objects.all()
+    serializer_class = AlunoSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
-## Agenda
+...
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Aula 0. Modelando Dados</a>
+class CursoViewSet(viewsets.ModelViewSet):
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+```
 
 
+## Conclusão
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Aula 3. Relacionamento entre Modelos ORM em Django Rest</a>
+Nesta aula, vimos como usar a autenticação básica no Django Rest Framework. A autenticação básica é uma forma simples de autenticação que é feita através de um nome de usuário e senha. A autenticação básica é feita através de um cabeçalho de autorização que é enviado com a requisição. O cabeçalho de autorização é formado pela palavra `Basic` seguida de um espaço e de um nome de usuário e senha codificados em base64. O nome de usuário e senha são separados por dois pontos. O Django Rest Framework fornece uma classe chamada `BasicAuthentication` que é uma classe de autenticação básica. Esta classe é usada para autenticar um usuário através de um nome de usuário e senha. A autenticação básica pode ser usada adicionando a classe `BasicAuthentication` à lista de autenticação padrão ou adicionando a classe `BasicAuthentication` à lista de autenticação de uma `view`.
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+## Referências
 
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+[Documentação Oficial do Django Rest Framework](https://www.django-rest-framework.org/)
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Aula 4. Funções em Classes ViewSet do Django Rest Framework</a>
+[Documentação Oficial do Django](https://www.djangoproject.com/)
 
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
+[Python Brasil](https://python.org.br/)
