@@ -1,0 +1,28 @@
+
+GET http://localhost:8000/test_token
+Content-Type: application/json
+Authorization: Token d13f275a6a8d2adc023398c557ac224acdce709f
+
+POST http://localhost:8000/api/signup
+Content-Type: application/json
+
+{
+    "username": "placido1",
+    "password": "placido1",
+    "email": "placido1@gmail.com",
+    "cpf": "12345678945"
+}
+
+###
+
+
+POST http://localhost:8000/api/login
+Content-Type: application/json
+
+{
+    "username": "placido1",
+    "password": "placido1"
+}
+
+##
+

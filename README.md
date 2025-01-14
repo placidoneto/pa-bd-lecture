@@ -1,64 +1,145 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Autenticação em Django Rest Framework
 
 ## Objetivo
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+O objetivo deste documento é apresentar um exemplo simples de como funciona a autenticação em Django Rest Framework. 
+
+## Formas de autenticação
+
+O Django Rest Framework oferece várias formas de autenticação. As principais são:
+
+- JWTAuthentication
+- TokenAuthentication
+- BasicAuthentication
+
+## JWTAuthentication
+
+Esse tipo de autenticação é baseado em tokens. O token é gerado quando o usuário faz login e é enviado no cabeçalho da requisição. O token é gerado a partir de um payload que contém informações sobre o usuário. O token é assinado com uma chave secreta que só o servidor conhece. O token é enviado no cabeçalho da requisição e o servidor verifica se o token é válido. Se o token for válido, o usuário é autenticado. O token é válido por um determinado período de tempo, após esse período de tempo o token expira e o usuário precisa fazer login novamente. O Django Rest Framework oferece uma forma de gerar tokens JWT. Para gerar um token JWT, você precisa instalar a biblioteca SimpleJWT. Para instalar a biblioteca SimpleJWT, você pode fazer isso da seguinte forma:
+
+```bash
+pip install djangorestframework_simplejwt
+```
+
+Depois de instalar a biblioteca SimpleJWT, você precisa configurar o Django Rest Framework para usar o JWTAuthentication. Para configurar o Django Rest Framework para usar o JWTAuthentication, você precisa adicionar o JWTAuthentication ao DEFAULT_AUTHENTICATION_CLASSES do Django Rest Framework. Para fazer isso, você pode fazer isso da seguinte forma:
+
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+```
+
+Depois de configurar o Django Rest Framework para usar o JWTAuthentication, você precisa criar uma view para gerar o token JWT. Para criar uma view para gerar o token JWT, você pode fazer isso da seguinte forma:
 
 
-## Metodologia
+O modelo de usuário do Django possui os seguintes campos:
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+- username
+- password
+- email
+- first_name
+- last_name
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+Caso seja necessário adicionar mais campos ao modelo de usuário, você pode fazer isso da seguinte forma:
 
-## Pré-Requistos 
+```python
+from django.contrib.auth.models import AbstractUser
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
-
-## Agenda
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Aula 0. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
+class MeuUsuario(AbstractUser):
+    cpf = models.CharField(max_length=11)
+    data_nascimento = models.DateField()
+    idade = models.IntegerField()
+    endereco = models.CharField(max_length=255)
   
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
+```
 
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
+O serializer para o modelo de usuário ficaria da seguinte forma:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
+```python
+from rest_framework import serializers
 
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+class MeuUsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password', 'email']
+       
+```
+
+O serializer acima é um exemplo de como você pode criar um serializer para o modelo de usuário. O campo password é um campo que não deve ser exibido para o usuário, por isso ele é marcado como write_only.
+
+A classe view para o modelo de usuário ficaria da seguinte forma:
+
+```python
+
+## Permissions
+from rest_framework.decorators import authentication_classes, permission_classes # type: ignore
+from rest_framework.permissions import IsAuthenticated  # type: ignore
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication # type: ignore
+from django.shortcuts import get_object_or_404 # type: ignore
+
+class MeuUsuarioViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = MeuUsuarioSerializer
 
 
+    @api_view(['POST'])
+    def login(request):
+        user = get_object_or_404(User, username=request.data['username'])
+        if not user.check_password(request.data['password']):
+            return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        token, created = Token.objects.get_or_create(user=user)
+        serializer = MeuUsuarioSerializer(instance=user)
+        return Response({'token': token.key, 'user':serializer.data})
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Aula 3. Relacionamento entre Modelos ORM em Django Rest</a>
+    @api_view(['POST'])
+    def signup(request):
+        serializer = MeuUsuarioSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.get(username=request.data['username'])
+            user.set_password(request.data['password'])
+            user.save()
+            token = Token.objects.create(user=user)
+            return Response({'token': token.key, 'user':serializer.data})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+    @api_view(['GET'])
+    @authentication_classes([TokenAuthentication, SessionAuthentication])
+    @permission_classes([IsAuthenticated])
+    def test_token(request):
+        return Response("passou para {}".format(request.user.email))
+```
 
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+## Criando uma arquivo de teste de api
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Aula 4. Funções em Classes ViewSet do Django Rest Framework</a>
+```python
 
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
+POST http://localhost:8000/api/signup
+Content-Type: application/json
+
+{
+    "username": "placido1",
+    "password": "placido1",
+    "email": "placido1@gmail.com",
+    "cpf": "12345678945"
+}
+
+###
+
+
+POST http://localhost:8000/api/login
+Content-Type: application/json
+
+{
+    "username": "placido1",
+    "password": "placido1"
+}
+
+
+GET http://localhost:8000/test_token
+Content-Type: application/json
+Authorization: Token d13f275a6a8d2adc023398c557ac224acdce709f
+
+```
