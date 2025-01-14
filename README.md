@@ -24,7 +24,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 ## Agenda
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Aula 0. Modelando Dados</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
 - Criação de um Modelo de Dados
 - Criação das Tabelas
@@ -33,7 +33,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
 
   
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Aula 1. Consultas Avançadas I</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
 
 - Filtragem
 - Ordenação
@@ -42,7 +42,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Consultas com `JOIN
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Aula 2. Django Rest Frameork</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
 
 - Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
 - Exemplo simples usando Model/ORM com Postgres
@@ -58,7 +58,13 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 -  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Aula 4. Funções em Classes ViewSet do Django Rest Framework</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 4. Funções em Classes ViewSet do Django Rest Framework</a>
 
 - Funções de Listagem
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 5. Autenticação JWT Django Rest Framework</a>
+
+  - Autenticação JWT
+  - Sistema de Login e Logout
+
