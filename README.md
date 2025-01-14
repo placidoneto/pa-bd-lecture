@@ -49,7 +49,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Aula 3. Relacionamento entre Modelos ORM em Django Rest</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
 
 - Relacionamento entre Modelos
 - Relacionamento 1 para 1
@@ -58,12 +58,12 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 -  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 4. Funções em Classes ViewSet do Django Rest Framework</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
 
 - Funções de Listagem
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 5. Autenticação JWT Django Rest Framework</a>
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
 
   - Autenticação JWT
   - Sistema de Login e Logout
