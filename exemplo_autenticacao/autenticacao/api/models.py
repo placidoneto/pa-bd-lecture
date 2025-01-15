@@ -1,5 +1,19 @@
 from django.db import models # type: ignore
-from django.contrib.auth.models import User, AbstractUser # type: ignore
+from django.contrib.auth.models import AbstractUser # type: ignore
+from django.conf import settings # type: ignore
+from rest_framework.authtoken.models import Token # type: ignore
+
+
+class User(AbstractUser):
+    PERFIL = (
+        ('admin', 'Administrador'),
+        ('professor', 'Professor'),
+        ('aluno', 'Aluno'),
+        ('coordenador', 'Coordenador'),
+        ('diretor', 'Diretor'),
+    )
+
+    perfil = models.CharField(max_length=15, choices=PERFIL)
 
 class MeuUsuario(models.Model):
     cpf = models.CharField(max_length=11)
