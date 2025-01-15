@@ -24,6 +24,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 ## Agenda
 
+### 1o Bimestre
+
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
 - Criação de um Modelo de Dados
@@ -62,6 +64,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 - Funções de Listagem
 - <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
+
+### 2o Bimestre
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
 
