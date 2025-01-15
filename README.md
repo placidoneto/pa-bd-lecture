@@ -68,3 +68,9 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Autenticação JWT
   - Sistema de Login e Logout
 
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
+
+  - Definindo Perfil de Usuário
+  - Registro de Usuário
+  - Login e Logout
