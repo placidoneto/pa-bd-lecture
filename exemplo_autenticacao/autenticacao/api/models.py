@@ -16,8 +16,18 @@ class User(AbstractUser):
 
 class Aluno(models.Model):    
     matricula = models.CharField(max_length=10, unique=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="conta_aluno")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='aluno')    
 
+
+class Professor(models.Model):    
+    matricula = models.CharField(max_length=10, unique=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='professor')  
+
+    
+class Coordenador(models.Model):    
+    funcao = models.CharField(max_length=30, unique=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='coordenador')      
+    
 class MeuUsuario(models.Model):
     cpf = models.CharField(max_length=11)
     def __str__(self):

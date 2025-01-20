@@ -1,21 +1,17 @@
-# Autenticação em Django Rest Framework Usando Perfil de Usuário
+# Autenticação em Django Rest Framework Usando Perfil de Usuário Especializado
 
-Na maioria das aplicações há a necessidade de autenticação de usuários. O Django Rest Framework (DRF) possui um sistema de autenticação que é bastante flexível e pode ser customizado para atender as necessidades de diferentes aplicações. Neste tutorial, vamos ver como autenticar usuários usando o perfil de usuário.
+Até o momento vimos 2 maneiras de autenticar usuários em Django Rest Framework. A primeira foi usando o modelo de usuário padrão do Django e a segunda foi usando um modelo de usuário personalizado através de um perfil. Neste aula vamos ver uma **terceira maneira** de autenticar usuários em Django Rest Framework. Vamos usar um modelo de usuário personalizado através de um perfil de usuário especializado. 
 
-Os modelos da aplicação se relacionam com tipode usuario diferentes. Por exemplo, um sistema acadêmico pode ter os seguintes tipos de usuários: aluno, professor e coordenador. Cada tipo de usuário tem suas próprias características e permissões. O modelo de usuário do Django é bastante flexível e permite a criação de diferentes tipos de usuários. No entanto, o modelo de usuário padrão do Django não é suficiente para atender a todas as necessidades de uma aplicação. Por isso, é comum criar um modelo de perfil de usuário para armazenar informações adicionais sobre o usuário.  
+## Modelo de Usuário Personalizado
 
-Para criação de modelos que permitam a autenticação de diferentes tipos de usuários, é necessário criar um modelo de perfil de usuário que estenda o modelo de usuário padrão do Django. O modelo de perfil de usuário deve conter os campos necessários para armazenar as informações adicionais sobre o usuário. Além disso, é necessário criar um serializer para o modelo de perfil de usuário e um viewset para permitir a criação, atualização e exclusão de perfis de usuário.
+Vamos criar um modelo de usuário personalizado através de um perfil de usuário especializado. O perfil de usuário especializado é um modelo de usuário que contém um campo de relacionamento com o modelo de usuário criado. O campo de relacionamento é uma chave estrangeira que relaciona o perfil de usuário com o usuário padrão do Django.
 
-O modelo `AbstractUser`  do Django é uma classe abstrata que pode ser estendida para criar um modelo de perfil de usuário. O modelo `AbstractUser` contém os campos básicos de um usuário, como nome de usuário, email, senha, etc. Para criar um modelo de perfil de usuário, basta criar uma classe que estenda o modelo AbstractUser e adicionar os campos adicionais necessários. Por exemplo, o modelo de perfil de usuário pode conter campos como nome, sobrenome, data de nascimento, etc.
+Neste exemplo vamos especializar o modelo de usuário criando um perfil de usuário para alunos e professores. O perfil de usuário para alunos e professores contém um campo de matrícula. O campo de matrícula é um campo de texto que armazena a matrícula.
+
+O modelo de usuário personalizado é composto por 2 modelos: o modelo de usuário (`User`) que herda de `AbstractUser` e o modelo de perfil de usuário, que é um modelo DEF comum. O modelo de perfil de usuário é o modelo especializado que contém um campo de relacionamento com o modelo de usuário.
 
 ```python
-
-from django.contrib.auth.models import AbstractUser
-
-class User(AbstractUser): # modelo de perfil de usuário (esse usuário User não é a classe de autenticação do Django)
-    nome = models.CharField(max_length=100)
-    sobrenome = models.CharField(max_length=100)
-    data_nascimento = models.DateField()
+class User(AbstractUser):
     PERFIL = (
         ('admin', 'Administrador'),
         ('professor', 'Professor'),
@@ -23,20 +19,23 @@ class User(AbstractUser): # modelo de perfil de usuário (esse usuário User nã
         ('coordenador', 'Coordenador'),
         ('diretor', 'Diretor'),
     )
-
     perfil = models.CharField(max_length=15, choices=PERFIL)
-    # outros campos
 
+class Aluno(models.Model):    
+    matricula = models.CharField(max_length=10, unique=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='aluno')    
+
+
+class Professor(models.Model):    
+    matricula = models.CharField(max_length=10, unique=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='professor')  
 ```
 
-O serializer do modelo de perfil de usuário deve ser criado para permitir a serialização e desserialização dos objetos do modelo. O serializer deve conter os campos do modelo de perfil de usuário que serão serializados e desserializados. Além disso, o serializer deve conter métodos para validar os dados recebidos e criar ou atualizar objetos do modelo de perfil de usuário.
+O serializer de usuário personalizado é composto por 2 serializers: o serializer de usuário (`UserSerializer`) e o serializer de perfil de usuário (`AlunoSerializer` e `ProfessorSerializer`). O serializer de perfil de usuário é o serializer especializado que contém um campo de relacionamento com o serializer de usuário.
 
 ```python
-
-from rest_framework import serializers
-from .models import User
-
-class Meta:
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
         model = User
         fields = ['username', 'email', 'perfil', 'password']
         extra_kwargs = {'password': {'write_only': True}}
@@ -45,182 +44,155 @@ class Meta:
         user = User.objects.create_user(**validated_data)
         return user
 
+
+class AlunoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Aluno
+        fields = ['matricula', 'user']           
+        extra_kwargs = {'password': {'write_only': True}}
+
+    user = UserSerializer()
+    
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user_serializer = UserSerializer(data=user_data)      
+        user_serializer.is_valid(raise_exception=True)
+
+        user = user_serializer.save()
+
+        aluno = Aluno.objects.create(user=user, **validated_data)
+        return aluno
+
+
+class ProfessorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Professor
+        fields = ['matricula', 'user']           
+        extra_kwargs = {'password': {'write_only': True}}
+
+    user = UserSerializer()
+    
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user_serializer = UserSerializer(data=user_data)      
+        user_serializer.is_valid(raise_exception=True)
+
+        user = user_serializer.save()
+
+        professor = Professor.objects.create(user=user, **validated_data)
+        return professor
 ```
 
-A variável `extra_kwargs` é usada para definir opções adicionais para os campos do serializer. Neste caso, estamos definindo que o campo `password` é de escrita apenas, ou seja, ele não será incluído na resposta da API.
+É possível verificar no código acima que tanto o Aluno como o Professor tem um método create. O método create é responsável por criar um usuário e um perfil de usuário. 
+O usuario é recuperado da requisição e é passado para o serializer de usuário. O serializer de usuário é responsável por criar um usuário. após a criação do usuário, o perfil de usuário é criado. Para isso é necessário passar o usuário criado para o perfil de usuário como um campo de relacionamento.
 
-A função `create` é usada para criar um novo objeto do modelo de perfil de usuário com os dados validados recebidos da requisição. Neste caso, estamos criando um novo usuário usando o método `create_user` do modelo de perfil de usuário.
-
-O método `create_user` é um método personalizado que deve ser criado no modelo de perfil de usuário para criar um novo usuário. O método `create_user` deve receber os dados necessários para criar um novo usuário e retornar o novo usuário criado.
-
-Uma vez definido o serializer, é necessário criar um viewset para permitir a criação, atualização e exclusão de perfis de usuário. Além disso, o viewset deve conter métodos para autenticar usuários e gerar tokens de autenticação.
+A classe view precisa conter os métodos de registro e autenticacao para os 2 novos perfis de usuário. 
 
 ```python
-class RegistroUsuarioView(APIView):
+
+class AlunoRegistrationView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = AlunoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-```
 
-O método `post` da classe `RegistroUsuarioView` é usado para criar um novo perfil de usuário com os dados recebidos da requisição. O método verifica se os dados recebidos são válidos usando o método `is_valid` do serializer. Se os dados forem válidos, o método `save` do serializer é chamado para criar um novo perfil de usuário. Em seguida, a resposta da API é retornada com os dados do novo perfil de usuário e o status HTTP 201 CREATED.
-
-O método `is_valid` é usado para verificar se os dados recebidos da requisição são válidos de acordo com as regras de validação definidas no serializer. Se os dados forem válidos, o método `is_valid` retorna `True`, caso contrário, retorna `False`.
-
-O método `save` é usado para criar um novo objeto do modelo de perfil de usuário com os dados validados recebidos da requisição. O método `save` retorna o objeto criado.
-
-O método `Response` é usado para retornar a resposta da API com os dados do perfil de usuário e o status HTTP. O método `Response` recebe dois argumentos: os dados a serem retornados e o status HTTP da resposta.
-
-O status HTTP 201 CREATED é usado para indicar que um novo recurso foi criado com sucesso. O status HTTP 400 BAD REQUEST é usado para indicar que a requisição não pôde ser processada devido a erros nos dados recebidos.
-
-```python
-
-
-
-class LoginUsuarioView(ObtainAuthToken):
+class AlunoLoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        usuario = authenticate(request, username=username, password=password)
-        if usuario is not None:
-            login(request, usuario)
-            token, created = Token.objects.get_or_create(user=usuario)
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)
             if created:
-                token.delete()  
-                token = Token.objects.create(user=usuario)
-            return Response({'token': token.key, 'username': usuario.username, 'perfil': usuario.perfil})
+                token.delete()  # Deleta o token antigo
+                token = Token.objects.create(user=user)
+
+            response_data = {
+                'token': token.key,
+                'username': user.username,
+                'perfil': user.perfil,
+            }
+
+            if user.perfil == 'aluno':
+                aluno = user.aluno  # Assumindo que a relação tem nome "aluno"
+                if aluno is not None:
+                    # Adiciona os dados do aluno ao response_data
+                    aluno_data = AlunoSerializer(aluno).data
+                    response_data['data'] = aluno_data
+
+            return Response(response_data)
         else:
-            return Response({'mensagem': 'Login ou Senha Inválido'}, status=status.HTTP_401_UNAUTHORIZED)
-
+            return Response({'message': 'Usuário ou Senha Inválido'}, status=status.HTTP_401_UNAUTHORIZED)
 ```
 
-O método `post` da classe `LoginUsuarioView` é usado para autenticar um usuário com os dados recebidos da requisição. O método verifica se o usuário e a senha recebidos são válidos usando a função `authenticate` do Django. Se o usuário e a senha forem válidos, um token de autenticação é gerado usando a função `get_or_create` do modelo de token de autenticação. Se o token já existir, ele é excluído e um novo token é criado. Em seguida, a resposta da API é retornada com o token de autenticação, o nome de usuário e o perfil do usuário autenticado.
+Perceba que o método de registro e autenticação para o aluno é semelhante ao método de registro e autenticação para o usuário padrão do Django. A diferença é que o método de registro e autenticação para o aluno é especializado para o perfil de aluno. O método de registro e autenticação para o aluno é responsável por criar um usuário e um perfil de aluno.
 
-O método `authenticate` é usado para autenticar um usuário com o nome de usuário e a senha recebidos da requisição. Se o usuário e a senha forem válidos, a função `authenticate` retorna o usuário autenticado, caso contrário, retorna `None`.
-
-O método `login` é usado para autenticar um usuário na sessão atual. O método `login` recebe dois argumentos: o objeto de requisição e o usuário a ser autenticado.
-
-O método `get_or_create` é usado para obter ou criar um objeto do modelo de token de autenticação para o usuário autenticado. Se o token já existir, ele é retornado, caso contrário, um novo token é criado.
-
-O método `delete` é usado para excluir um objeto do modelo de token de autenticação. O método `delete` recebe o objeto a ser excluído como argumento.
-
-O método `create` é usado para criar um novo objeto do modelo de token de autenticação para o usuário autenticado. O método `create` recebe o usuário a ser autenticado como argumento e retorna o novo objeto criado.
-
-O status HTTP 401 UNAUTHORIZED é usado para indicar que a requisição não foi autorizada devido a credenciais inválidas.
+Uma vez a estrutura de autenticacao e registro está definida, é necessário configurar o endpoint de acesso a essas funcionalidades. 
 
 ```python
 
+    path('api/auth/registro/aluno/', AlunoRegistrationView.as_view(), name='registro-aluno'),
+    path('api/auth/login/aluno/', AlunoLoginView.as_view(), name='login-aluno'),
 
-class LogoutUsuarioView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        print(request.headers) 
-        token_key = request.auth.key
-        token = Token.objects.get(key=token_key)
-        token.delete()
-
-        return Response({'detail': 'Usuário deslogado com sucesso.'})
-
+    path('api/auth/registro/professor/', ProfessorRegistrationView.as_view(), name='registro-professor'),
+    path('api/auth/login/professor/', ProfessorLoginView.as_view(), name='login-professor'),
 ```
 
-O método `post` da classe `LogoutUsuarioView` é usado para deslogar um usuário autenticado. O método verifica se o usuário está autenticado usando a classe `IsAuthenticated` do Django Rest Framework. Em seguida, o token de autenticação do usuário é obtido a partir do cabeçalho da requisição e excluído. Por fim, a resposta da API é retornada com a mensagem de sucesso.
+## Testando a Autenticação
 
-O cabeçalho da requisição contém informações sobre a requisição, como o tipo de conteúdo, o tamanho do conteúdo, etc. O cabeçalho da requisição é um dicionário que contém pares chave-valor, onde a chave é o nome do cabeçalho e o valor é o valor do cabeçalho.
+Para testar a autenticação de alunos e professores, vamos usar o Postman ou o Insomnia. O Postman e o Insomnia são ferramentas de teste de API que permitem testar a autenticação de usuários em Django Rest Framework. Abaixo apresentamos como o Postman pode ser usado para testar a autenticação de alunos e professores.
 
-O método `get` é usado para obter o valor de um cabeçalho da requisição. O método `get` recebe o nome do cabeçalho como argumento e retorna o valor do cabeçalho.
+Primeiro o usuario precisa ser criado: `http://localhost:8000/api/auth/registro/professor/` ou `http://localhost:8000/api/auth/registro/aluno/`
 
-O método `delete` é usado para excluir um objeto do modelo de token de autenticação. O método `delete` recebe o objeto a ser excluído como argumento.
 
-O status HTTP 401 UNAUTHORIZED é usado para indicar que a requisição não foi autorizada devido a credenciais inválidas.
-
-```python
-
-from django.urls import path
-
-from .views import RegistroUsuarioView, LoginUsuarioView, LogoutUsuarioView
-
-urlpatterns = [
-    path('api/auth/registro/', RegistroUsuarioView.as_view(), name='registro'),
-    path('api/auth/login/', LoginUsuarioView.as_view(), name='login'),
-    path('api/auth/logout/', LogoutUsuarioView.as_view(), name='logout'),
-]
-
-```
-
-As rotas da API são definidas no arquivo `urls.py` da aplicação. As rotas são mapeadas para as views correspondentes usando a função `path`. A função `path` recebe três argumentos: o padrão da rota, a view correspondente e o nome da rota.
-
-O padrão da rota é uma string que define o padrão da URL da rota. O padrão da rota pode conter variáveis de caminho, que são definidas entre chaves `{}`. As variáveis de caminho são capturadas da URL da requisição e passadas para a view correspondente como argumentos.
-
-A view correspondente é uma classe ou função que processa a requisição e retorna a resposta da API. A view pode ser uma classe baseada em função, uma classe baseada em método ou uma função baseada em classe.
-
-## Migrações
-
-Para criar as tabelas no banco de dados, é necessário executar as migrações. As migrações são arquivos Python que contêm as instruções SQL para criar as tabelas no banco de dados. As migrações são geradas automaticamente pelo Django quando são feitas alterações nos modelos da aplicação.
-
-Para criar as migrações, execute o seguinte comando:
-
-```bash
-python manage.py makemigrations
-```
-
-Para aplicar as migrações, execute o seguinte comando:
-
-```bash
-python manage.py migrate
-```
-
-Os comandos `makemigrations` e `migrate` devem ser usado sempre que houver alterações nos modelos da aplicação. Os comandos geram as migrações necessárias para criar as tabelas no banco de dados e aplicam as migrações para criar as tabelas.
-
-É importante verificar se a tabela `api_user` foi criada no banco de dados. Caso contrário, é necessário verificar se as migrações foram aplicadas corretamente. Essa tabela é criada para armazenar os perfis de usuário da sua aplicação. Essa tabela é diferente da tabela `auth_user` que é criada pelo Django para armazenar os usuários autenticados. A tabela `api_user` é criada para armazenar os perfis de usuário personalizados da sua aplicação.
-
-## Testando a API
-
-Para testar a API, é necessário usar um cliente HTTP, como o Postman ou o Insomnia. O cliente HTTP é usado para enviar requisições HTTP para a API e visualizar as respostas da API. O cliente HTTP permite testar as diferentes rotas da API e verificar se a API está funcionando corretamente.
-
-Para testar a rota de registro de usuário, envie uma requisição POST para a rota `/api/auth/registro/` com os dados do usuário a ser registrado. Os dados do usuário devem ser enviados no corpo da requisição no formato JSON. A resposta da API deve conter os dados do usuário registrado e o status HTTP 201 CREATED.
-
-```python
-
+```json
 {
-    "username": "usuario",
-    "email": "usuario@email.com",
-    "perfil": "admin",
-    "password": "senha"
-
+    "matricula": "789456",
+    "user":
+        {
+            "username": "placidoneto",
+            "email": "placidoneto.doe@test.com",
+            "perfil": "professor",
+            "password": "placidoneto"
+        }
 }
-
 ```
 
-Para executar é possível usar a ferramenta `Postman` para testar as rotas da API. 
+Para realizar o login, o usuário precisa acessar o endpoint de login: `http://localhost:8000/api/auth/login/professor/` ou `http://localhost:8000/api/auth/login/aluno/`. O cabeção da requisição deve conter o username e a senha do usuário.
 
-
-Para testar a rota de login de usuário, envie uma requisição POST para a rota `/api/auth/login/` com o nome de usuário e a senha do usuário a ser autenticado. Os dados do usuário devem ser enviados no corpo da requisição no formato JSON. A resposta da API deve conter o token de autenticação, o nome de usuário e o perfil do usuário autenticado e o status HTTP 200 OK.
-
-```python
-
-{
-    "username": "usuario",
-    "password": "senha"
+```json
+{        
+    "username": "placidoneto",
+    "password": "placidoneto"
 }
+```
 
-``` 
+Após a autenticação, o token e os dados do usuário são retornados como resposta da requisição. O token é um código de acesso que permite ao usuário acessar recursos protegidos. Os dados do usuário são os dados do usuário autenticado, como o username, o perfil e a matrícula.
 
-Para testar a rota de logout de usuário, envie uma requisição POST para a rota `/api/auth/logout/` com o token de autenticação do usuário autenticado. O token de autenticação deve ser enviado no cabeçalho da requisição no formato `Authorization: Token <token>`. A resposta da API deve conter a mensagem de sucesso e o status HTTP 200 OK.
+```json
+{
+    "token": "f53679577fc8059b78c4f3fe628875b648b4552d",
+    "username": "placidoneto",
+    "perfil": "professor",
+    "data": {
+        "matricula": "789456",
+        "user": {
+            "username": "placidoneto",
+            "email": "placidoneto.doe@test.com",
+            "perfil": "professor"
+        }
+    }
+}
+```
 
-```python
-
-Authorization: Token <token>
-
-``` 
-
-## Conclusão
-
-Nesta aula vimos como autenticar usuários usando o perfil de usuário no Django Rest Framework. Criamos um modelo de perfil de usuário que estende o modelo de usuário padrão do Django e contém os campos adicionais necessários. Criamos um serializer para o modelo de perfil de usuário e um viewset para permitir a criação, atualização e exclusão de perfis de usuário. Além disso, criamos rotas para as views de registro, login e logout de usuários. Por fim, testamos a API usando um cliente HTTP e verificamos se a API está funcionando corretamente.
+A verificação de validade e de exclusão do token é semelhante ao método de autenticação para o usuário padrão do Django. O token é verificado e excluído se já existir. O token é criado se não existir. O token é retornado como resposta da requisição.
 
 
 

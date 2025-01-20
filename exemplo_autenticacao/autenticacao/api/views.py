@@ -1,7 +1,7 @@
 from django.shortcuts import render # type: ignore
 
 from .models import MeuUsuario, User
-from .serializers import MeuUsuarioSerializer, UserSerializer, AlunoSerializer
+from .serializers import MeuUsuarioSerializer, UserSerializer, AlunoSerializer, ProfessorSerializer, CoordenadorSerializer
 from rest_framework import viewsets # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework import status  # type: ignore
@@ -72,41 +72,86 @@ class AlunoRegistrationView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class AlunoLoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)
+            if created:
+                token.delete()  # Deleta o token antigo
+                token = Token.objects.create(user=user)
+
+            response_data = {
+                'token': token.key,
+                'username': user.username,
+                'perfil': user.perfil,
+            }
+
+            if user.perfil == 'aluno':
+                aluno = user.aluno  # Assumindo que a relação tem nome "aluno"
+                if aluno is not None:
+                    # Adiciona os dados do aluno ao response_data
+                    aluno_data = AlunoSerializer(aluno).data
+                    response_data['data'] = aluno_data
+
+            return Response(response_data)
+        else:
+            return Response({'message': 'Usuário ou Senha Inválido'}, status=status.HTTP_401_UNAUTHORIZED)
+
+####
+
+class ProfessorRegistrationView(APIView):
+    def post(self, request):
+        serializer = ProfessorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ProfessorLoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
 
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            token, created = Token.objects.get_or_create(user=user)
+            if created:
+                token.delete()  # Deleta o token antigo
+                token = Token.objects.create(user=user)
 
+            response_data = {
+                'token': token.key,
+                'username': user.username,
+                'perfil': user.perfil,
+            }
 
-# class MeuUsuarioViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = MeuUsuarioSerializer
+            if user.perfil == 'professor':
+                professor = user.professor  # Assumindo que a relação tem nome "professor"
+                if professor is not None:
+                    # Adiciona os dados do professor ao response_data
+                    professor_data = ProfessorSerializer(professor).data
+                    response_data['data'] = professor_data
 
+            return Response(response_data)
+        else:
+            return Response({'message': 'Usuário ou Senha Inválido'}, status=status.HTTP_401_UNAUTHORIZED)
 
-#     @api_view(['POST'])
-#     def login(request):
-#         user = get_object_or_404(User, username=request.data['username'])
-#         if not user.check_password(request.data['password']):
-#             return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
-        
-#         token, created = Token.objects.get_or_create(user=user)
-#         serializer = MeuUsuarioSerializer(instance=user)
-#         return Response({'token': token.key, 'user':serializer.data})
+####
 
-#     @api_view(['POST'])
-#     def signup(request):
-#         serializer = MeuUsuarioSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             user = User.objects.get(username=request.data['username'])
-#             user.set_password(request.data['password'])
-#             user.save()
-#             token = Token.objects.create(user=user)
-#             return Response({'token': token.key, 'user':serializer.data})
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+####
 
-#     @api_view(['GET'])
-#     @authentication_classes([TokenAuthentication, SessionAuthentication])
-#     @permission_classes([IsAuthenticated])
-#     def test_token(request):
-#         return Response("passou para {}".format(request.user.email))
+class CoordenadorRegistrationView(APIView):
+    def post(self, request):
+        serializer = CoordenadorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
