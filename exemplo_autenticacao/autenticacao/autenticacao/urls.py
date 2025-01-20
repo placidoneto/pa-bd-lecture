@@ -6,8 +6,7 @@ from api import views # type: ignore
 from drf_yasg.views import get_schema_view # type: ignore
 from drf_yasg import openapi # type: ignore
 from rest_framework import permissions # type: ignore
-from api.views import RegistroUsuarioView, LoginUsuarioView, LogoutUsuarioView
-
+from api.views import RegistroUsuarioView, LoginUsuarioView, LogoutUsuarioView, AlunoRegistrationView
 
 
 
@@ -55,5 +54,9 @@ urlpatterns = [
     path('api/auth/registro/', RegistroUsuarioView.as_view(), name='registro'),
     path('api/auth/login/', LoginUsuarioView.as_view(), name='login'),
     path('api/auth/logout/', LogoutUsuarioView.as_view(), name='logout'),
+
+
+    path('api/auth/registro/aluno/', AlunoRegistrationView.as_view(), name='registro-aluno'),
+
 
 ]
