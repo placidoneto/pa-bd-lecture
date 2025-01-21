@@ -81,7 +81,7 @@ class AlunoLoginView(ObtainAuthToken):
         if user is not None:
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            if created:
+            if not created:
                 token.delete()  # Deleta o token antigo
                 token = Token.objects.create(user=user)
 
@@ -96,7 +96,7 @@ class AlunoLoginView(ObtainAuthToken):
                 if aluno is not None:
                     # Adiciona os dados do aluno ao response_data
                     aluno_data = AlunoSerializer(aluno).data
-                    response_data['data'] = aluno_data
+                    response_data['aluno'] = aluno_data
 
             return Response(response_data)
         else:
@@ -122,7 +122,7 @@ class ProfessorLoginView(ObtainAuthToken):
         if user is not None:
             login(request, user)
             token, created = Token.objects.get_or_create(user=user)
-            if created:
+            if not created:
                 token.delete()  # Deleta o token antigo
                 token = Token.objects.create(user=user)
 
