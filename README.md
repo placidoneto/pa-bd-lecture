@@ -84,3 +84,4 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Definindo Perfil de Usuário Específicos
   - Registro de Usuário
   - Login e Logout
+  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
