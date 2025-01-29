@@ -1,7 +1,7 @@
 from django.shortcuts import render # type: ignore
 
 from .models import MeuUsuario, User
-from .serializers import MeuUsuarioSerializer, UserSerializer, AlunoSerializer, ProfessorSerializer, CoordenadorSerializer
+from .serializers import *
 from rest_framework import viewsets # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework import status  # type: ignore
@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated # type: ignore
 from rest_framework.views import APIView # type: ignore
 from rest_framework.authtoken.views import ObtainAuthToken # type: ignore
 from rest_framework.authtoken.models import Token # type: ignore
+from .filters import * # type: ignore
 
 
 from django.contrib.auth.models import User # type: ignore
@@ -155,3 +156,17 @@ class CoordenadorRegistrationView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class DisciplinaViewSet(viewsets.ModelViewSet):
+    queryset = Disciplina.objects.all()
+    serializer_class = DisciplinaSerializer 
+    filterset_class = DisciplinaFilter  # Usando o filtro personalizado
+    search_fields = ['nome', 'carga_horaria']  # Campos para busca (SearchFilter)
+    ordering_fields = ['nome', 'carga_horaria']  # Campos para ordenação (OrderingFilter)
+
+class AlunoViewSet(viewsets.ModelViewSet):
+    queryset = Aluno.objects.all()
+    serializer_class = AlunoSerializer
+    filterset_class = AlunoFilter  # Usando o filtro personalizado
+    search_fields = ['nome']  # Campos para busca (SearchFilter)
+    ordering_fields = ['nome']  # Campos para ordenação (OrderingFilter)

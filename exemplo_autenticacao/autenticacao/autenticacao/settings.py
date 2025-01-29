@@ -30,6 +30,14 @@ REST_FRAMEWORK = {
  
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',  # Filtro de busca
+        'rest_framework.filters.OrderingFilter',  # Filtro de ordenação
+    ],
+}
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
@@ -76,6 +84,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     'rest_framework',
+    'django_filters',
     'api',
     'drf_yasg',
 

@@ -11,6 +11,8 @@ from api.views import * # type: ignore
 
 
 router = DefaultRouter()
+router.register(r'alunos', views.AlunoViewSet)
+router.register(r'disciplinas', views.DisciplinaViewSet)
 #router.register(r'meuusiario', views.MeuUsuarioViewSet)
 
 from rest_framework_simplejwt.views import (

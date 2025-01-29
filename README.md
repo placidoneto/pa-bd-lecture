@@ -1,210 +1,121 @@
-# Autenticação em Django Rest Framework Usando Perfil de Usuário Especializado
+# Filtragem de Dados em Django Rest Framework
 
-Até o momento vimos 2 maneiras de autenticar usuários em Django Rest Framework. A primeira foi usando o modelo de usuário padrão do Django e a segunda foi usando um modelo de usuário personalizado através de um perfil. Neste aula vamos ver uma **terceira maneira** de autenticar usuários em Django Rest Framework. Vamos usar um modelo de usuário personalizado através de um perfil de usuário especializado. 
+A filtragem de dados é importante para recuperar informações específicas de um conjunto de dados. A filtragem de dados é usada para recuperar informações de um banco de dados que atendam a um critério específico. 
 
-## Modelo de Usuário Personalizado
+Em Django Rest Framework, a filtragem de dados é feita usando um conjunto de classes de filtragem.
 
-Vamos criar um modelo de usuário personalizado através de um perfil de usuário especializado. O perfil de usuário especializado é um modelo de usuário que contém um campo de relacionamento com o modelo de usuário criado. O campo de relacionamento é uma chave estrangeira que relaciona o perfil de usuário com o usuário padrão do Django.
+```bash
+pip install django-filter
 
-Neste exemplo vamos especializar o modelo de usuário criando um perfil de usuário para alunos e professores. O perfil de usuário para alunos e professores contém um campo de matrícula. O campo de matrícula é um campo de texto que armazena a matrícula.
-
-O modelo de usuário personalizado é composto por 2 modelos: o modelo de usuário (`User`) que herda de `AbstractUser` e o modelo de perfil de usuário, que é um modelo DEF comum. O modelo de perfil de usuário é o modelo especializado que contém um campo de relacionamento com o modelo de usuário.
-
-```python
-class User(AbstractUser):
-    PERFIL = (
-        ('admin', 'Administrador'),
-        ('professor', 'Professor'),
-        ('aluno', 'Aluno'),
-        ('coordenador', 'Coordenador'),
-        ('diretor', 'Diretor'),
-    )
-    perfil = models.CharField(max_length=15, choices=PERFIL)
-
-class Aluno(models.Model):    
-    matricula = models.CharField(max_length=10, unique=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='aluno')    
-
-
-class Professor(models.Model):    
-    matricula = models.CharField(max_length=10, unique=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name='professor')  
 ```
 
-O serializer de usuário personalizado é composto por 2 serializers: o serializer de usuário (`UserSerializer`) e o serializer de perfil de usuário (`AlunoSerializer` e `ProfessorSerializer`). O serializer de perfil de usuário é o serializer especializado que contém um campo de relacionamento com o serializer de usuário.
+## Configurações do Projeto
+
+No arquivo `settings.py`, adicione no `INSTALLED_APPS`:
 
 ```python
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'perfil', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
-
-
-class AlunoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Aluno
-        fields = ['matricula', 'user']           
-        extra_kwargs = {'password': {'write_only': True}}
-
-    user = UserSerializer()
-    
-
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user_serializer = UserSerializer(data=user_data)      
-        user_serializer.is_valid(raise_exception=True)
-
-        user = user_serializer.save()
-
-        aluno = Aluno.objects.create(user=user, **validated_data)
-        return aluno
-
-
-class ProfessorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Professor
-        fields = ['matricula', 'user']           
-        extra_kwargs = {'password': {'write_only': True}}
-
-    user = UserSerializer()
-    
-
-    def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user_serializer = UserSerializer(data=user_data)      
-        user_serializer.is_valid(raise_exception=True)
-
-        user = user_serializer.save()
-
-        professor = Professor.objects.create(user=user, **validated_data)
-        return professor
+INSTALLED_APPS = [
+    # ...
+    'rest_framework',
+    'django_filters',
+]
 ```
 
-É possível verificar no código acima que tanto o Aluno como o Professor tem um método create. O método create é responsável por criar um usuário e um perfil de usuário. 
-O usuario é recuperado da requisição e é passado para o serializer de usuário. O serializer de usuário é responsável por criar um usuário. após a criação do usuário, o perfil de usuário é criado. Para isso é necessário passar o usuário criado para o perfil de usuário como um campo de relacionamento.
-
-A classe view precisa conter os métodos de registro e autenticacao para os 2 novos perfis de usuário. 
+Configure o `REST_FRAMEWORK` para usar o `django-filter` como backend padrão:
+Logo após a definição do `REST_FRAMEWORK`, adicione o seguinte código:
 
 ```python
-
-class AlunoRegistrationView(APIView):
-    def post(self, request):
-        serializer = AlunoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AlunoLoginView(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            token, created = Token.objects.get_or_create(user=user)
-            if created:
-                token.delete()  # Deleta o token antigo
-                token = Token.objects.create(user=user)
-
-            response_data = {
-                'token': token.key,
-                'username': user.username,
-                'perfil': user.perfil,
-            }
-
-            if user.perfil == 'aluno':
-                aluno = user.aluno  # Assumindo que a relação tem nome "aluno"
-                if aluno is not None:
-                    # Adiciona os dados do aluno ao response_data
-                    aluno_data = AlunoSerializer(aluno).data
-                    response_data['data'] = aluno_data
-
-            return Response(response_data)
-        else:
-            return Response({'message': 'Usuário ou Senha Inválido'}, status=status.HTTP_401_UNAUTHORIZED)
-```
-
-Perceba que o método de registro e autenticação para o aluno é semelhante ao método de registro e autenticação para o usuário padrão do Django. A diferença é que o método de registro e autenticação para o aluno é especializado para o perfil de aluno. O método de registro e autenticação para o aluno é responsável por criar um usuário e um perfil de aluno.
-
-Uma vez a estrutura de autenticacao e registro está definida, é necessário configurar o endpoint de acesso a essas funcionalidades. 
-
-```python
-
-    path('api/auth/registro/aluno/', AlunoRegistrationView.as_view(), name='registro-aluno'),
-    path('api/auth/login/aluno/', AlunoLoginView.as_view(), name='login-aluno'),
-
-    path('api/auth/registro/professor/', ProfessorRegistrationView.as_view(), name='registro-professor'),
-    path('api/auth/login/professor/', ProfessorLoginView.as_view(), name='login-professor'),
-```
-
-## Testando a Autenticação
-
-Para testar a autenticação de alunos e professores, vamos usar o Postman ou o Insomnia. O Postman e o Insomnia são ferramentas de teste de API que permitem testar a autenticação de usuários em Django Rest Framework. Abaixo apresentamos como o Postman pode ser usado para testar a autenticação de alunos e professores.
-
-Primeiro o usuario precisa ser criado: `http://localhost:8000/api/auth/registro/professor/` ou `http://localhost:8000/api/auth/registro/aluno/`
-
-
-```json
-{
-    "matricula": "789456",
-    "user":
-        {
-            "username": "placidoneto",
-            "email": "placidoneto.doe@test.com",
-            "perfil": "professor",
-            "password": "placidoneto"
-        }
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',  # Filtro de busca
+        'rest_framework.filters.OrderingFilter',  # Filtro de ordenação
+    ],
 }
 ```
 
-Para realizar o login, o usuário precisa acessar o endpoint de login: `http://localhost:8000/api/auth/login/professor/` ou `http://localhost:8000/api/auth/login/aluno/`. O cabeção da requisição deve conter o username e a senha do usuário.
+Tanto os modelos quanto os serializers não necessitam de ajuste específico para permitir permitir a filtragem de dados.
+O que precisa ser feito é criar classe de filtragem para o modelo que deseja-se filtrar. Os filtros personalizados são criados em um arquivo separado chamado `filters.py`.
 
-```json
-{        
-    "username": "placidoneto",
-    "password": "placidoneto"
-}
+```python
+import django_filters
+from .models import *
+
+class DisciplinaFilter(django_filters.FilterSet):
+    nome = django_filters.CharFilter(lookup_expr='icontains')  # Busca parcial (case-insensitive)
+    carga_horaria_min = django_filters.NumberFilter(field_name='carga_horaria', lookup_expr='gte')
+
+    class Meta:
+        model = Disciplina
+        fields = ['nome', 'carga_horaria']  # Campos para filtragem exata
+
+class AlunoFilter(django_filters.FilterSet):
+    nome = django_filters.CharFilter(lookup_expr='icontains')  # Busca parcial (case-insensitive)
+
 ```
 
-Após a autenticação, o token e os dados do usuário são retornados como resposta da requisição. O token é um código de acesso que permite ao usuário acessar recursos protegidos. Os dados do usuário são os dados do usuário autenticado, como o username, o perfil e a matrícula.
+No código acima criamos 2 classes para filtros persolalizados para os modelos `Disciplina` e `Aluno`. A classe `DisciplinaFilter` contém 2 filtros personalizados: um filtro de busca parcial e um filtro de busca exata. O filtro de busca parcial é usado para recuperar disciplinas cujo nome contém uma string específica. O filtro de busca exata é usado para recuperar disciplinas cuja carga horária é maior ou igual a um valor específico.
 
-```json
-{
-    "token": "f53679577fc8059b78c4f3fe628875b648b4552d",
-    "username": "placidoneto",
-    "perfil": "professor",
-    "data": {
-        "matricula": "789456",
-        "user": {
-            "username": "placidoneto",
-            "email": "placidoneto.doe@test.com",
-            "perfil": "professor"
-        }
-    }
-}
+A classe `AlunoFilter` contém um filtro personalizado para busca parcial. O filtro de busca parcial é usado para recuperar alunos cujo nome contém uma string específica.
+
+Em `views.py`, é necessário criar uma `view` que utilize os filtros. É possível usar tanto `APIView` ou `ViewSet`.
+
+
+```python
+class DisciplinaViewSet(viewsets.ModelViewSet):
+    queryset = Disciplina.objects.all()
+    serializer_class = DisciplinaSerializer 
+    filterset_class = DisciplinaFilter  # Usando o filtro personalizado
+    search_fields = ['nome', 'carga_horaria']  # Campos para busca (SearchFilter)
+    ordering_fields = ['nome', 'carga_horaria']  # Campos para ordenação (OrderingFilter)
+
+class AlunoViewSet(viewsets.ModelViewSet):
+    queryset = Aluno.objects.all()
+    serializer_class = AlunoSerializer
+    filterset_class = AlunoFilter  # Usando o filtro personalizado
+    search_fields = ['nome']  # Campos para busca (SearchFilter)
+    ordering_fields = ['nome']  # Campos para ordenação (OrderingFilter)
 ```
 
-A verificação de validade e de exclusão do token é semelhante ao método de autenticação para o usuário padrão do Django. O token é verificado e excluído se já existir. O token é criado se não existir. O token é retornado como resposta da requisição.
+Para configurar o endpoint de acesso a essas funcionalidades, é necessário adicionar as rotas no arquivo `urls.py`.
 
+```python
+from api.views import * # type: ignore
 
+router = DefaultRouter()
+router.register(r'alunos', views.AlunoViewSet)
+router.register(r'disciplinas', views.DisciplinaViewSet)
+
+```
+
+Acesse a URL `http://localhost:8000/api/disciplinas/` e use parâmetros de query para filtrar.
+
+No exemplo abaixo, é possível ver a filtragem de disciplinas cujo nome contém a string `matematica` e cuja carga horária é maior ou igual a 60 horas.
+
+```bash
+http://localhost:8000/api/disciplinas/?nome__icontains=matematica&carga_horaria_min=60
+```
+
+Ao utilizar o acesso direto a `http://localhost:8000/api/disciplinas/`há uma opção específica para filtragem.
+
+![Modal Filtros](filtros.png "Modal Filtros")
+
+Os componentes de filtragem são gerados automaticamente com base nos campos definidos em `DisciplinaFilter`.
+
+- `django-filter`: Permite criar filtros complexos com expressões como `icontains, gte, lte, etc`.
+
+- `SearchFilter`: Busca em múltiplos campos definidos em `search_fields`.
+
+`OrderingFilter`: Ordena os resultados com base nos campos definidos em `ordering_fields`.
+
+## Conclusão
+
+Neste aula, aprendemos a filtrar dados em Django Rest Framework usando `django-filter`. Criamos filtros personalizados para os modelos `Disciplina` e `Aluno` e configuramos a filtragem de dados em `DisciplinaViewSet` e `AlunoViewSet`. Também aprendemos a usar `SearchFilter` e `OrderingFilter` para buscar e ordenar dados.
 
 ## Referências
 
-- [Django Rest Framework](https://www.django-rest-framework.org/)
-- [Django](https://www.djangoproject.com/)
-- [Postman](https://www.postman.com/)
-- [Insomnia](https://insomnia.rest/)
-- [Django Models](https://docs.djangoproject.com/en/3.2/topics/db/models/)
-- [Django Serializers](https://www.django-rest-framework.org/api-guide/serializers/)
-- [Django Views](https://docs.djangoproject.com/en/3.2/topics/http/views/)
-- [Django Authentication](https://docs.djangoproject.com/en/3.2/topics/auth/)
-- [Django Tokens](https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication)
-  
+- [Django Rest Framework - Filtering](https://www.django-rest-framework.org/api-guide/filtering/)
+
+- [Django Rest Framework - SearchFilter](https://www.django-rest-framework.org/api-guide/filtering/#searchfilter)
+
+- [Django Rest Framework - OrderingFilter](https://www.django-rest-framework.org/api-guide/filtering/#orderingfilter)

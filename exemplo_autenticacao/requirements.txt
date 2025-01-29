@@ -3,3 +3,4 @@ djangorestframework
 djangorestframework-jwt
 psycopg2-binary
 requests
+django-filter

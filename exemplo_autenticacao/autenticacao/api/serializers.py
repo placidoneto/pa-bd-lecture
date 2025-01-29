@@ -1,5 +1,5 @@
 from rest_framework import serializers #type: ignore
-from .models import User, Aluno, Professor, Coordenador #type: ignore
+from .models import User, Aluno, Professor, Coordenador, Disciplina #type: ignore
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,6 +71,32 @@ class CoordenadorSerializer(serializers.ModelSerializer):
         return coordenador
 
 
+class DisciplinaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Disciplina
+        fields = ['nome', 'carga_horaria', 'professor', 'alunos']           
+
+    professor = ProfessorSerializer()
+    alunos = AlunoSerializer(many=True)
+    
+    def create(self, validated_data):
+        professor_data = validated_data.pop('professor')
+        professor_serializer = ProfessorSerializer(data=professor_data)      
+        professor_serializer.is_valid(raise_exception=True)
+
+        professor = professor_serializer.save()
+
+        alunos_data = validated_data.pop('alunos')
+        alunos = []
+        for aluno_data in alunos_data:
+            aluno_serializer = AlunoSerializer(data=aluno_data)
+            aluno_serializer.is_valid(raise_exception=True)
+            aluno = aluno_serializer.save()
+            alunos.append(aluno)
+
+        disciplina = Disciplina.objects.create(professor=professor, **validated_data)
+        disciplina.alunos.set(alunos)
+        return disciplina
 
 
 #Antigo
