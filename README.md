@@ -7,6 +7,7 @@ O objetivo deste seminário é apresentar os principais frameworks de desenvolvi
 ## Requisitos
 
 - Cada grupo deverá descreve (através de uma apresentação) um framework de desenvolvimento de API Restful e seu respectivo acesso a Banco de Dados.
+- O Banco de Dados deverá ser o `PostgreSQL` ou `MySQL`.
 - Cada grupo deverá apresentar um exemplo prático de uso do framework escolhido.
 - Cada grupo deverá apresentar um comparativo entre o framework apresentado e o `Django Rest Framework`.
 - Cada grupo deverá apresentar um Trabalho Prático - TP, que consiste em desenvolver uma API Restful com acesso a Banco de Dados utilizando o framework apresentado para que os demais alunos possam implementar.
