@@ -87,3 +87,9 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Registro de Usuário
   - Login e Logout
   - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
+
+  - Filtragem de Dados
+  - Filtragem de Dados com Parâmetros
+  - Filtragem de Dados com Parâmetros de URL
