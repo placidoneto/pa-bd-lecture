@@ -67,6 +67,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 ### 2o Bimestre
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
+
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
 
   - Autenticação JWT
