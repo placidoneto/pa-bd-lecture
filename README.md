@@ -93,3 +93,11 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Filtragem de Dados
   - Filtragem de Dados com Parâmetros
   - Filtragem de Dados com Parâmetros de URL
+  
+  ### Seminários API Rest
+
+  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
+  - [Seminário 2 - API Rest com ExpressJS]()
+  - [Seminário 3 - API Rest com FastAPI]()
+  - [Seminário 4 - API Rest com Spring Boot]()
+  - [Seminário 5 - API Rest com Flask]()
