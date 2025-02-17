@@ -1,103 +1,349 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
+# API REST FastAPI Python
+
+## Alunos responsáveis
+
+- Felipe Alves
+- João Roberto
+- Débora
+- Walber
+- Ester
+
+## 📌 Conteúdos
+
+- [O que é o FastAPI?](#-o-que-é-o-fastapi)
+- [Comparativo: FastAPI vs Django Rest Framework](#-comparativo-fastapi-vs-django-rest-framework)
+- [Dependências do FastAPI](#-dependências-do-fastapi)
+- [Criando a primeira API](#-criando-a-sua-primeira-api)
+- [Conectando nossa API ao PostgreSQL](#-baixando-dependências)
+- [Atividade prática](#-atividade-prática)
+
+---
+
+## 🔍 O que é o **FastAPI**?
+
+FastAPI é um framework web moderno e **rápido** para construir APIs com Python, utilizando o mínimo de bibliotecas externas. Seus principais benefícios incluem:
+
+✅ **Alto desempenho** (comparável ao Node.js e Go)  
+✅ **Código conciso e intuitivo**  
+✅ **Validação automática de dados com Pydantic**  
+✅ **Documentação interativa embutida (Swagger e Redoc)**  
+✅ **Suporte nativo para requisições assíncronas**
+
+### 🌎 Quem usa o FastAPI?
+
+<div style="display: flex; gap: 20px;">
+    <img src="images/image-1.png" alt="Empresa 1" width="150"/>
+    <img src="images/image-8.png" alt="Empresa 2" width="150"/>
+    <img src="images/image-9.png" alt="Empresa 3" width="150"/>
 </div>
 
-## Objetivo
+---
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+## ⚖ Comparativo: FastAPI vs Django Rest Framework
+<!--
+<div style="display: flex; align-items: center; gap: 20px;">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg" width="80px" />
+    <strong>VS</strong>
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/djangorest/djangorest-line.svg" width="90px" />
+</div>
+-->
+
+| Característica                    | FastAPI | Django REST Framework |
+| :-------------------------------- | :------ | :-------------------- |
+| 🔥 **Performance**                | ✅      | ❌                    |
+| 🌍 **Comunidade**                 | ❌      | ✅                    |
+| 📄 **Documentação automática**    | ✅      | ❌                    |
+| ⚡ **Suporte a processos assíncronos** | ✅  | ❌                    |
+| 🛠 **ORM nativo**                 | ❌      | ✅                    |
+| 🔐 **Sistema robusto de autenticação** | ❌  | ✅                    |
+
+### 💡 Qual o melhor? Depende!
+
+💨 **Precisa de uma API veloz e escalável?** → Escolha **FastAPI**! Ideal para microserviços assíncronos com validação automática.
+
+🛠 **Já usa Django e precisa de algo robusto?** → Escolha **Django REST Framework**! Perfeito para sistemas integrados ao Django ORM.
+
+---
+
+## Criando e Ativando Ambiente Virtual
+```sh
+python -m venv venv
+venv\Scripts\activate
+```
+
+## ⚙ Dependências do FastAPI
+
+Para instalar o FastAPI, use:
+
+```sh
+pip install "fastapi[standard]"
+```
+
+---
+
+## 🚀 Criando a sua primeira API
+
+Crie um arquivo `main.py` com o seguinte código:
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def hello_world():
+    return {"message": "Hello, World!"}
+```
+
+Execute com:
+```sh
+fastapi dev main.py
+```
+
+A saída será similar a essa:
+```sh
+   FastAPI   Starting development server 🚀
+ 
+             Searching for package file structure from directories with 
+             __init__.py files
+             Importing from /home/joaoroberto/Desktop/first-api-fastapi
+ 
+    module   🐍 main.py
+ 
+      code   Importing the FastAPI app object from the module with the 
+             following code:
+ 
+             from main import app
+ 
+       app   Using import string: main:app
+ 
+    server   Server started at http://127.0.0.1:8000
+    server   Documentation at http://127.0.0.1:8000/docs
+ 
+       tip   Running in development mode, for production use: fastapi run
+ 
+             Logs:
+ 
+      INFO   Will watch for changes in these directories: 
+             ['/home/joaoroberto/Desktop/first-api-fastapi']
+      INFO   Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+      INFO   Started reloader process [26061] using WatchFiles
+      INFO   Started server process [26064]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+```
+
+Acesse `http://127.0.0.1:8000` e veja sua API rodando! 🎉 <br>
+A partir desse caminho, você verá o retorno do caminho raíz definido no seu arquivo `main.py` e no decorator `@app.get("/")`
 
 
-## Metodologia
+## 💾 Baixando dependências
+É necessário instalar o sqlalchemy através do pip install:
+```sh
+pip install sqlalchemy psycopg2-binary alembic
+```
+No FastAPI, vamos criar um exmeplo de lista de tarefas como modelos no nosso arquivo `models.py`, antes, precisamos configurar nosso arquivo de conexão com o banco de dados. Esse arquivo ficará separado em `database.py`:
+```python
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+DATABASE_URL = "postgresql://postgres:senha@localhost:5432/fast"
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-## Pré-Requistos 
-
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
-
-## Agenda
-
-### 1o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+```
+## Criando os modelos e migrando com Alembic
+```python
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from database import Base
+from sqlalchemy.orm import relationship
 
 
+class ListaTarefas(Base):
+    __tablename__ = "listas"
+    id = Column(Integer, primary_key=True)
+    descricao = Column(String(255))
+    tarefas = relationship("Tarefa", back_populates="lista", cascade="all, delete-orphan")
+class Tarefa(Base):
+    __tablename__ = "tarefas"
+    id = Column(Integer, primary_key=True)
+    titulo = Column(String(255))
+    prioridade = Column(String(225), default="média")
+    finalizado = Column(Boolean, default=False)
+    lista_id = Column(Integer, ForeignKey("listas.id", ondelete="CASCADE"), nullable=False)
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
+    lista = relationship("ListaTarefas", back_populates="tarefas")
+```
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+Para migrar com o Alembic, precisamos fazer algumas configurações para realizar as migrações da forma correta. Primeiro vamos fazer iniciar o alembic com o comando:
+```sh
+alembic init alembic
+```
+Isso cria a pasta alembic/. Agora, edite alembic/env.py e altere:
+```python
+from database import Base
+from models import *
 
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+...
+target_metadata = Base.metadata
+...
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
+O target_metada fica para ser substitúido no comentário "add your model's MetaData object here", você o troca pelo que está desconmentado.
 
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
+E ainda precisamos substituir o caminho para o nooso banco no arquivo `alembic.ini`:
+```python
+sqlalchemy.url =  postgresql://postgres:senha@localhost:5432/fast
+```
 
-### 2o Bimestre
+Agora estamos prontos para nossas migrações:
+```sh
+alembic revision --autogenerate -m "Criando tabelas"
+alembic upgrade head
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
+## Criando nosso primeiro endpoint
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
+Em `main.py`, adicione as novas importações:
 
-  - Autenticação JWT
-  - Sistema de Login e Logout
+```python
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
+from database import get_db
+import models, schemas
+````
+
+Agora vamos criar um get para listas de tarefas:
+```python
+@app.get("/listas/", response_model=list[schemas.ListaTarefasResponse], tags=["Listas"])
+def listar_listas_de_tarefas(db: Session = Depends(get_db)):
+    return db.query(models.ListaTarefas).all()
+```
+
+E agora vamos criar o arquivo `schemas.py` e adicionar os schemas responsáveis pela serialização dos dados e resposta dos endpoints
+```python
+from pydantic import BaseModel
+from typing import List, Optional
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
+class TarefaBase(BaseModel):
+    titulo: str
+    prioridade: str
+    finalizado: bool = False
 
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
+class TarefaResponse(TarefaBase):
+    id: int
+    lista_id: Optional[int]
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
+    class Config:
+        from_attributes = True
 
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
+class ListaTarefasBase(BaseModel):
+    descricao: str
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
+class ListaTarefasResponse(ListaTarefasBase):
+    id: int
+    tarefas: List[TarefaResponse] = []
 
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
+    class Config:
+        from_attributes = True
+```
 
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI]()
-  - [Seminário 4 - API Rest com Spring Boot]()
-  - [Seminário 5 - API Rest com Flask]()
+Ao executar o endpoint pelo swagger, ele apresenta uma lista vazia, pois não existe nenhuma lista de tarefas criada.
+Vamos criar um endpoit POST para criação de uma nova lista de tarefas.
+```python
+@app.post("/listas/", response_model=schemas.ListaTarefasResponse, tags=["Listas"])
+def criar_lista(lista: schemas.ListaTarefasBase, db: Session = Depends(get_db)):
+    db_lista = models.ListaTarefas(descricao=lista.descricao)
+    db.add(db_lista)
+    db.commit()
+    db.refresh(db_lista)
+    return db_lista
+```
+
+Dessa forma, é possível criar uma nova lisra de tarefas conectado com o banco de dados e serializado pelos Schemas.
+
+Faremos da mesma forma para as Tarefas.
+
+```python
+@app.get("/tarefas/", response_model=list[schemas.TarefaResponse], tags=["Tarefas"])
+def listar_tarefas(db: Session = Depends(get_db)):
+    return db.query(models.Tarefa).all()
+
+
+@app.post("/listas/{lista_id}/tarefas/", response_model=schemas.TarefaResponse, tags=["Tarefas"])
+def criar_tarefa(lista_id: int, tarefa: schemas.TarefaBase, db: Session = Depends(get_db)):
+    lista = db.query(models.ListaTarefas).filter(models.ListaTarefas.id == lista_id).first()
+    if not lista:
+        raise HTTPException(status_code=404, detail="Lista não encontrada")
+
+    db_tarefa = models.Tarefa(**tarefa.model_dump(), lista_id=lista_id)
+    db.add(db_tarefa)
+    db.commit()
+    db.refresh(db_tarefa)
+    return db_tarefa
+```
+
+Temos nossos endpoints de Lista de Tarefas Criadas com suas respectivas Tarefas. 
+
+## 📝 Atividade Prática
+Nesta atividade, você irá explorar um projeto FastAPI que implementa um sistema de **Gerenciador de Contatos**, utilizando SQLAlchemy para modelagem do banco de dados e Alembic para migrações.
+
+### 🎯 Objetivo:
+Compreender como as rotas e os modelos interagem com o banco de dados. Criar, listar, atualizar e excluir contatos e grupos de contatos.
+
+### Modelos do Banco de Dados
+### Modelo: **Contato**
+| Modelo      | Campo      | Tipo de Dado | Restrições              |
+|-------------|------------|--------------|-------------------------|
+| Contato     | id         | Integer      | Chave Primária (PK)     |
+|             | nome       | String (255) | Obrigatório             |
+|             | telefone   | String (20)  | Obrigatório             |
+|             | email      | String (255) | Opcional                |
+|             | endereco   | String (255) | Opcional                |
+
+### Modelo: **Grupo**
+| Modelo      | Campo      | Tipo de Dado | Restrições              |
+|-------------|------------|--------------|-------------------------|
+| Grupo       | id         | Integer      | Chave Primária (PK)     |
+|             | nome       | String (255) | Obrigatório             |
+|             | descricao  | String (500) | Opcional                |
+|             | contatos   | Relacionamento | Um grupo pode ter vários contatos (1:N) |
+
+## Endpoints da API
+
+### Contatos
+| Método HTTP | Rota                    | Descrição                                    | Parâmetros de Entrada         | Resposta Esperada                        |
+|-------------|-------------------------|----------------------------------------------|--------------------------------|------------------------------------------|
+| POST        | /contatos/              | Criar um novo contato                        | nome, telefone, email, endereco | id, nome, telefone, email, endereco     |
+| GET         | /contatos/              | Listar todos os contatos                     | Nenhum                         | Lista de contatos                       |
+| GET         | /contatos/{contato_id}  | Obter um contato pelo ID                     | contato_id (Integer)           | id, nome, telefone, email, endereco     |
+| PUT         | /contatos/{contato_id}  | Atualizar um contato                         | nome, telefone, email, endereco | id, nome, telefone, email, endereco     |
+| DELETE      | /contatos/{contato_id}  | Deletar um contato pelo ID                   | contato_id (Integer)           | Mensagem de sucesso                     |
+
+### Grupos
+| Método HTTP | Rota                       | Descrição                                    | Parâmetros de Entrada | Resposta Esperada                        |
+|-------------|----------------------------|----------------------------------------------|------------------------|------------------------------------------|
+| POST        | /grupos/                   | Criar um novo grupo de contatos              | nome, descricao        | id, nome, descricao                      |
+| GET         | /grupos/                   | Listar todos os grupos                       | Nenhum                 | Lista de grupos                          |
+| GET         | /grupos/{grupo_id}         | Obter um grupo pelo ID                       | grupo_id (Integer)     | id, nome, descricao                      |
+| PUT         | /grupos/{grupo_id}         | Atualizar um grupo                           | nome, descricao        | id, nome, descricao                      |
+| DELETE      | /grupos/{grupo_id}         | Deletar um grupo pelo ID                     | grupo_id (Integer)     | Mensagem de sucesso                      |
+| POST        | /grupos/{grupo_id}/contatos/ | Adicionar um contato a um grupo             | contato_id (Integer)   | Mensagem de sucesso                      |
+| DELETE      | /grupos/{grupo_id}/contatos/{contato_id} | Remover um contato de um grupo         | contato_id (Integer)   | Mensagem de sucesso                      |
+
+## Referências:
+- [FastAPI Docs](https://fastapi.tiangolo.com/)
+- [SQLAlchemy Docs](https://www.sqlalchemy.org/)
+- [Alembic Docs](https://alembic.sqlalchemy.org/en/latest/)
+- [Django REST Framework](https://www.django-rest-framework.org/)
+- [Pydantic Docs](https://docs.pydantic.dev/latest/)
