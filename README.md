@@ -1,103 +1,276 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# API REST com SpringBoot Java
 
-## Objetivo
+## Alunos responsáveis
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+- Lucas
+- Robson
+- Victor
+- Lucas Passos
+- Romulo
+
+## Vídeo da aula sobre Spring Boot
+
+[Vídeo da aula sobre SpringBoot Java](https://drive.google.com/drive/folders/1eWShXi__HrOnjUZpPcjYiFNtamb2yPLI?usp=sharing)
+
+## 🍃 Introdução ao Spring Boot com VSCode
+
+O que vamos fazer?
+
+Uma API REST com 4 CRUDs completos e multiplicidade. Para isso usaremos os módulos:
+
+- Spring Web
+- Spring Data JPA
+
+## Começando o projeto
+
+O Spring Boot tem uma forma não usual de criar um projeto: Vá até [https://start.spring.io/](spring.start.io) e selecione as sequintes opções:
+
+- Project: Maven
+- Spring Boot: Não altere
+- Project Metadata: **Não altere**
+- Dependencies: clique em "Add dependencies" e selecione as seguintes:
+
+- Spring Web - O módulo principal do Spring
+- Spring Data JPA - O ORM que usaremos
+- PostgreSQL Driver - A conexão com o banco PostgresSQL
+- Lombok - Anotações (decorators) que tornam o desenvolvimento mais dinâmico
+
+Na parte inferior da página, clique em "GENERATE" e seu projeto vai estar criado dentro do .zip que seu navegador irá baixar.
+
+Descompacte a pasta e a abra no seu editor de preferência.
+
+## Vs Code
+
+No Visual Studio Code é necessário instalar os seguintes pacotes
+
+- Extension Pack for Java (da Microsoft) → Inclui suporte para Spring Boot
+- Spring Boot Extension Pack → Facilita o desenvolvimento com Spring Boot
+
+## Primeiro run
+
+Vamos utilizar a forma mais simples de rodar nosso app: a linha de comando. Quando baixamos os arquivos iniciais do projeto, eles vieram com uma versão compacta do Maven, um gerenciador de pacotes do Java. Isso significa que você não precisa ter o maven instalado na sua máquina para executar o projeto.
+
+no arquivo `application.properties` adicione as propriedades de conexão com o banco de dados:
+
+```properties
+    spring.application.name=demo
+    spring.datasource.url=jdbc:postgresql://localhost:5432/seubanco
+    spring.datasource.username=seuusername
+    spring.datasource.password=suasenha
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+    spring.jpa.hibernate.ddl-auto=update
+```
+
+Procure pelo arquivo `DemoApplicationTests.java` e adicione a linha de código
+
+```java
+    @SpringBootTest(classes = DemoApplication.class)
+    public class DemoApplicationTests {
+        // Seus testes aqui
+    }
+```
+isso fará com que o teste procure especificamente o seu DemoApplication.class
+
+Na raiz do projeto, execute o comando:
+
+    ./mvnw spring-boot:run
+
+Abra a url [localhost:8080](localhost:8080) no seu navegador.
+
+Se você se deparar com a "Whitelabel error page", estamos indo bem.
+
+## Implementando o Swagger
+
+No seu arquivo `pom.xml`, adicione a dependência do Springdoc OpenApi.
+
+```xml
+    <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+```
+Rode o comando abaixo para instalar as dependências
+
+```bash
+    ./mvnw clean install
+```
+
+Agora configure o swagger no `application.properties`
+
+```properties
+    # Ativar o Swagger
+    springdoc.api-docs.enabled=true
+    springdoc.swagger-ui.path=/swagger-ui.html
+    springdoc.api-docs.path=/v3/api-docs
+```
+
+Rode a aplicação, para utilizar o swagger entre na URL [localhost:8080/swagger-ui.html](localhost:8080/swagger-ui.html)
+
+## Criando o nosso CRUD
+
+OBS.: Quando o projeto é criado, por padrão, também é criada uma pasta _/example_ antes da demo. Se faz necessário, então, mover a pasta demo para `src/main/java/com/`. Nesse sentido,  também deve ser feita a exclusão da pasta _/example_ para poder prosseguir com o tutorial.
 
 
-## Metodologia
+Dentro da pasta `src/main/java/com/demo` vamos criar a pasta `/model` e adicionar o arquivo `Usuario.java` dentro. Vamos começar a declarar esse model:
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+```java
+    package com.demo.model;
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+    import jakarta.persistence.*;
+    import lombok.*;
+    import com.fasterxml.jackson.annotation.JsonProperty
+    
+    @Entity
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Table(name = "usuarios")
+    public class Usuario {
+        
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+        private Long id;
+        
+        private String nome;
+        private String email;
+    }
+```
 
-## Pré-Requistos 
+Agora na mesma pasta `src/main/java/com/demo` vamos criar a pasta de Repositório `repository` e adicionar o arquivo `UsuarioRepository.java`.
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+```java
+    package com.demo.repository;
+    
+    import com.demo.model.Usuario;
+    import org.springframework.data.jpa.repository.JpaRepository;
+    import org.springframework.stereotype.Repository;
+    
+    @Repository
+    public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    }
 
-## Agenda
+```
+O arquivo **`UsuarioRepository.java`** é responsável por fornecer acesso ao banco de dados para manipulação da entidade **`Usuario`**.
 
-### 1o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
+Ainda na mesma pasta `src/main/java/com/demo` vamos adicionar pasta `/service` e criar o arquivo `UsuarioService.java`
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
+```java
+    package com.demo.service;
+    
+    import com.demo.model.Usuario;
+    import com.demo.repository.UsuarioRepository;
+    import org.springframework.stereotype.Service;
+    import java.util.List;
+    
+    @Service
+    public class UsuarioService {
+    
+        private final UsuarioRepository usuarioRepository;
+    
+        public UsuarioService(UsuarioRepository usuarioRepository) {
+            this.usuarioRepository = usuarioRepository;
+        }
+    
+        public List<Usuario> listarUsuarios() {
+            return usuarioRepository.findAll();
+        }
+    
+        public Usuario buscarPorId(Long id) {
+            return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        }
+    
+        public Usuario salvarUsuario(Usuario usuario) {
+            return usuarioRepository.save(usuario);
+        }
+    
+        public Usuario atualizarUsuario(Long id, Usuario usuarioAtualizado) {
+            Usuario usuario = buscarPorId(id);
+            usuario.setNome(usuarioAtualizado.getNome());
+            usuario.setEmail(usuarioAtualizado.getEmail());
+            return usuarioRepository.save(usuario);
+        }
+    
+        public void deletarUsuario(Long id) {
+            usuarioRepository.deleteById(id);
+        }
+    }
+```
 
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
+Por fim vamos adicionar a pasta `/controller` na mesma pasta `src/main/java/com/demo` e adicionar o arquivo `UsuarioController.java`
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
+```java
+    package com.demo.controller;
+    
+    import com.demo.model.Usuario;
+    import com.demo.service.UsuarioService;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.*;
+    
+    import java.util.List;
+    
+    @RestController
+    @RequestMapping("/api/usuarios")
+    public class UsuarioController {
+    
+        private final UsuarioService usuarioService;
+    
+        public UsuarioController(UsuarioService usuarioService) {
+            this.usuarioService = usuarioService;
+        }
+    
+        @GetMapping
+        public List<Usuario> listarUsuarios() {
+            return usuarioService.listarUsuarios();
+        }
+    
+        @GetMapping("/{id}")
+        public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id) {
+            return ResponseEntity.ok(usuarioService.buscarPorId(id));
+        }
+    
+        @PostMapping
+        public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
+            return ResponseEntity.ok(usuarioService.salvarUsuario(usuario));
+        }
+    
+        @PutMapping("/{id}")
+        public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+            return ResponseEntity.ok(usuarioService.atualizarUsuario(id, usuario));
+        }
+    
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
+            usuarioService.deletarUsuario(id);
+            return ResponseEntity.noContent().build();
+        }
+    }
 
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
 
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
 
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot]()
-  - [Seminário 5 - API Rest com Flask]()
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/ysMqsypr)
+[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=17905344)
+
+# 🛠️ Trabalho Prático - Spring Boot
+
+## 🎯 Objetivo
+
+O objetivo deste trabalho é desenvolver um modelo de dados e uma CRUD básico em uma API REST para acesso aos dados.
+
+## 📜 Descrição
+
+Imagine que um tatuador quer registrar seus trabalhos em um aplicativo. Você foi designado para desenvolver a API REST desse sistema.
+
+O tatuador quer saber, em cada tatuagem, qual foi o número do cliente, quando a tatuagem foi feita e qual o valor cobrado. Também deve haver um campo que armazene o estilo da tatuagem feita.
+
+## 🗿 Requisitos de Entrega
+- Baseado no contexto descrito, implementar uma API REST que permita a criação, leitura, atualização e exclusão de registros no banco de dados.
+- A API deve ter todos os dados (classe e atributos) definidos no contexto;
+- Todas as operações devem ser realizadas via API usando o Swagger;
+
+O trabalho deve ser entregue de acordo com as instruções na [página do Google Classroom da disciplina de PABD](https://classroom.google.com/c/Njg1OTg3ODU3NDUz).
