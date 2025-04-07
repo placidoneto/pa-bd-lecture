@@ -25,7 +25,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 ## Agenda
 
 ### 1o Bimestre
-
+<!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
 - Criação de um Modelo de Dados
@@ -101,3 +101,4 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
   - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
   - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
+  -->
