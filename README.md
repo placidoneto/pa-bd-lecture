@@ -114,6 +114,7 @@ O modelo conceitual pode ser representado por meio de um diagrama, que mostra as
 A representação do modelo conceitual pode ser feita por meio de um diagrama ER (Entidade-Relacionamento). Esse diagrama mostra as entidades e os relacionamentos entre elas. O diagrama ER é uma ferramenta importante para visualizar a estrutura dos dados e entender como eles se relacionam.
 
 ```mermaid
+
 ---
 title: Modelo Conceitual do Sistema de Gerência de Vendas
 description: Diagrama ER do sistema de gerência de vendas da Amazon
@@ -133,10 +134,12 @@ Uma vez que o modelo conceitual foi criado, podemos passar para a modelagem lóg
 
 
 ```mermaid
+
 ---
 title: Modelo Lógico do Sistema de Gerência de Vendas
 description: Diagrama ER do sistema de gerência de vendas da Amazon
 ---
+
 erDiagram    
     direction LR
     CLIENTE ||--o{ PEDIDO : faz
