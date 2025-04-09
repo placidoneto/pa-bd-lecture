@@ -120,7 +120,7 @@ title: Modelo Conceitual do Sistema de Gerência de Vendas Amazon
 ---
 erDiagram    
     CLIENTE ||--o{ PEDIDO : faz
-    PEDIDO ||--o{ ENDERECO : e_entregue
+    PEDIDO ||--o| ENDERECO : e_entregue
     CLIENTE ||--o{ ENDERECO : tem
     PEDIDO ||--o{ ITEM : contem
     ITEM ||--o{ VENDEDOR : fornecido_por
