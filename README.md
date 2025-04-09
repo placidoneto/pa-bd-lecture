@@ -213,7 +213,7 @@ A modelagem fisica depende do SGBD (Sistema de Gerenciamento de Banco de Dados) 
 
 No nosso curso iremos utilizar o PostgreSQL como SGBD. O PostgreSQL é um sistema de gerenciamento de banco de dados relacional de código aberto, que é amplamente utilizado em aplicações empresariais e acadêmicas. Ele oferece uma ampla gama de recursos e funcionalidades, incluindo suporte a transações, integridade referencial, segurança e escalabilidade.
 
-## SQL - Postgres
+## SQL - PostgreSQL
 
 O SQL (Structured Query Language) é a linguagem padrão para interagir com bancos de dados relacionais. O PostgreSQL é um sistema de gerenciamento de banco de dados relacional que utiliza o SQL como sua linguagem principal. O SQL é usado para criar, modificar e consultar bancos de dados, tabelas e outros objetos.
 
@@ -225,6 +225,9 @@ O SQL é dividido em várias categorias, incluindo:
 - **DML (Data Manipulation Language)**: usado para manipular os dados no banco de dados, incluindo inserção, atualização e exclusão de dados. Exemplos de comandos DML incluem `INSERT`, `UPDATE` e `DELETE`.
 
 - **DQL (Data Query Language)**: usado para consultar os dados no banco de dados. O comando mais comum na DQL é o `SELECT`, que é usado para recuperar dados de uma ou mais tabelas.
+
+O PostgreSQL é um sistema de gerenciamento de banco de dados relacional avançado que oferece suporte a muitos recursos adicionais, como transações, integridade referencial, segurança e escalabilidade. Ele também oferece suporte a extensões, que permitem adicionar funcionalidades adicionais ao banco de dados.
+O PostgreSQL é amplamente utilizado em aplicações empresariais e acadêmicas, e é uma escolha popular para desenvolvedores e administradores de banco de dados.
 
 Consederando o modelo conceitual e lógico que criamos, podemos criar as tabelas no banco de dados PostgreSQL. Abaixo estão os comandos SQL para criar as tabelas do sistema de gerência de vendas da Amazon:
 
