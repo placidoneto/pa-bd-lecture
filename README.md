@@ -127,8 +127,7 @@ erDiagram
 ```mermaid
 
 ---
-title: Modelo Conceitual do Sistema de Gerência de Vendas
-description: Diagrama ER do sistema de gerência de vendas da Amazon
+title: Modelo Conceitual do Sistema de Gerência de Vendas Amazon
 ---
 erDiagram    
     
@@ -147,10 +146,8 @@ Uma vez que o modelo conceitual foi criado, podemos passar para a modelagem lóg
 ```mermaid
 
 ---
-title: Modelo Lógico do Sistema de Gerência de Vendas
-description: Diagrama ER do sistema de gerência de vendas da Amazon
+title: Modelo Lógico do Sistema de Gerência de Vendas Amazon
 ---
-
 erDiagram    
     direction LR
     CLIENTE ||--o{ PEDIDO : faz
@@ -214,7 +211,6 @@ erDiagram
         string item_id Fk
         int quantidade
     }
-
 ```
 
 A partir do modelo lógico, podemos criar o banco de dados e as tabelas necessárias para armazenar os dados. Isso envolve a definição das tabelas, colunas, tipos de dados e restrições que serão usadas no banco de dados. O modelo lógico deve ser usado como base para a criação do banco de dados e para o desenvolvimento do sistema.
