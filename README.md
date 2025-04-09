@@ -137,7 +137,7 @@ title: Modelo Lógico do Sistema de Gerência de Vendas Amazon
 ---
 erDiagram        
     CLIENTE ||--o{ PEDIDO : faz
-    PEDIDO ||--o{ ENDERECO : e_entregue
+    PEDIDO ||--o| ENDERECO : e_entregue
     CLIENTE ||--o{ ENDERECO : tem
     PEDIDO ||--o{ ITEM_PEDIDO : contem
     ITEM ||--o{ ITEM_PEDIDO : esta
