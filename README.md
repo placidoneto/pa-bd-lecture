@@ -135,7 +135,7 @@ erDiagram
     CLIENTE ||--o{ PEDIDO : faz
     PEDIDO ||--o{ ENDERECO : e_entregue
     CLIENTE ||--o{ ENDERECO : tem
-    PEDIDO ||--o{ ITEM : contém
+    PEDIDO ||--o{ ITEM : contem
     ITEM ||--o{ VENDEDOR : fornecido_por
     PEDIDO ||--o{ FORMA_PAGAMENTO : associado_a
 ``` 
@@ -153,7 +153,7 @@ erDiagram
     CLIENTE ||--o{ PEDIDO : faz
     PEDIDO ||--o{ ENDERECO : e_entregue
     CLIENTE ||--o{ ENDERECO : tem
-    PEDIDO ||--o{ ITEM_PEDIDO : contém
+    PEDIDO ||--o{ ITEM_PEDIDO : contem
     ITEM ||--o{ ITEM_PEDIDO : esta
     ITEM ||--o{ VENDEDOR : fornecido_por
     PEDIDO ||--o{ FORMA_PAGAMENTO : associado_a
