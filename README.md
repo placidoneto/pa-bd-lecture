@@ -25,6 +25,14 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 ## Agenda
 
 ### 1o Bimestre
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
+
+- Criação de um Modelo de Dados
+- Criação das Tabelas
+
+
+
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
