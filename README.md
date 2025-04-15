@@ -124,7 +124,7 @@ erDiagram
     CLIENTE ||--o{ ENDERECO : tem
     PEDIDO ||--o{ ITEM : contem
     ITEM ||--o{ VENDEDOR : fornecido_por
-    PEDIDO ||--o{ FORMA_PAGAMENTO : associado_a
+    PEDIDO||--o{ FORMA_PAGAMENTO : associado_a
 ``` 
 
 Uma vez que o modelo conceitual foi criado, podemos passar para a modelagem lógica. Essa etapa envolve a criação de um modelo mais detalhado, que inclui as tabelas, colunas e relacionamentos que serão usados no banco de dados. O modelo lógico deve ser baseado no modelo conceitual, mas deve incluir detalhes adicionais, como tipos de dados e restrições.
@@ -230,13 +230,12 @@ O PostgreSQL é um sistema de gerenciamento de banco de dados relacional avança
 O PostgreSQL é amplamente utilizado em aplicações empresariais e acadêmicas, e é uma escolha popular para desenvolvedores e administradores de banco de dados.
 
 Consederando o modelo conceitual e lógico que criamos, podemos criar as tabelas no banco de dados PostgreSQL. Abaixo estão os comandos SQL para criar as tabelas do sistema de gerência de vendas da Amazon:
-
+ 
 ```sql
 CREATE TABLE cliente (
     cliente_id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) NOT NULL UNIQUE,
-    endereco VARCHAR(255),
+    cpf VARCHAR(11) NOT NULL UNIQUE,    
     telefone VARCHAR(15),
     email VARCHAR(100)
 );
