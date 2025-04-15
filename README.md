@@ -121,6 +121,7 @@ CREATE TABLE vendedor (
 );
 CREATE TABLE item (
     item_id SERIAL PRIMARY KEY,
+    vendedor_id INT REFERENCES vendedor(vendedor_id),
     nome VARCHAR(100) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
     descricao TEXT,
