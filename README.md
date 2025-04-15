@@ -1,141 +1,35 @@
-# Entendendo e Modelando Dados
+# Manpulando Dados em um SGBD Relacional
 
-Todos sistemas de informação são construídos sobre dados. Esses dados podem ser armazenados em diferentes formatos, como arquivos de texto, planilhas, bancos de dados relacionais ou não relacionais, entre outros. A forma como os dados são organizados e estruturados é fundamental para o sucesso de qualquer sistema.
+## Introdução
 
-Todos os domínios de aplicação (ex. saúde, finanças, logística, etc.) têm suas próprias características e requisitos específicos. Portanto, é importante entender o domínio de aplicação antes de começar a modelar os dados. Isso envolve a identificação dos principais conceitos, entidades e relacionamentos que existem no domínio.
+Aula passada vimos a introdução ao banco de dados, o que é um SGBD e os tipos de SGBDs. Nesta aula, vamos nos aprofundar na manipulação de dados. COnsideraremos o sistema de gerência de vendas da Amazon como exemplo. Vamos explorar o modelo de dados, a modelagem conceitual, lógica e física, e como criar tabelas no PostgreSQL.
 
-Entender os dados é o primeiro passo para modelá-los. Isso envolve a coleta de dados, a análise de sua estrutura e a identificação de padrões e tendências. O objetivo é entender como os dados se relacionam entre si e como podem ser usados para atender às necessidades do sistema.
+O modelo conceitual e lógico vista na última aula considerou um sistema de gerência de vendas da Amazon. O modelo conceitual é uma representação abstrata do sistema, que descreve as entidades, atributos e relacionamentos que existem no domínio de aplicação. O modelo conceitual deve ser independente de qualquer implementação específica e deve ser baseado nas necessidades do sistema.
 
-Vamos imaginar o sistema de gerência de vendas da Amazon. Existem varias informações que podem ser coletadas, como:
-- Informações sobre os produtos (nome, preço, descrição, etc.)
-- Informações sobre os clientes (nome, endereço, telefone, etc.)
-- Informações sobre os pedidos (data, produtos comprados, valor total, etc.)
-- Informações sobre os pagamentos (forma de pagamento, status, etc.)
-- Informações sobre os envios (transportadora, data de envio, status, etc.)
-- Informações sobre os retornos (motivo, status, etc.)
-- Informações sobre os fornecedores (nome, endereço, telefone, etc.)
-- Informações sobre os estoques (quantidade disponível, localização, etc.)
-- Informações sobre as promoções (desconto, validade, etc.)
-- Informações sobre os relatórios (vendas, estoque, etc.)
-
-Essas são apenas possibilidades de informações que podem ser coletadas. O importante é entender quais informações são relevantes para o sistema e como elas se relacionam entre si. Isso envolve a identificação de entidades (ex. produtos, clientes, pedidos, etc.) e seus atributos (ex. nome, preço, descrição, etc.), bem como os relacionamentos entre essas entidades (ex. um cliente pode fazer vários pedidos, um pedido pode conter vários produtos, etc.). Essa análise é fundamental para a modelagem dos dados.
-
-## Modelagem de Dados
-
-A modelagem de dados é o processo de criar uma representação abstrata dos dados que serão armazenados em um sistema. Essa representação pode ser feita de várias formas, como diagramas, tabelas ou esquemas. O objetivo da modelagem de dados é criar uma estrutura que permita armazenar, recuperar e manipular os dados de forma eficiente e eficaz.
-A modelagem de dados envolve a identificação das entidades, atributos e relacionamentos que existem no domínio de aplicação. Isso pode ser feito por meio de técnicas como entrevistas com usuários, análise de documentos e observação do sistema em funcionamento. Uma vez que as entidades, atributos e relacionamentos foram identificados, é possível criar um modelo de dados que represente essas informações de forma clara e concisa. 
-
-Esse modelo pode ser usado como base para a criação do banco de dados e para o desenvolvimento do sistema.
-
-## Modelagem Conceitual
-
-Vamos considerar o exemplo do sistema de gerência de vendas da Amazon. Para modelar os dados desse sistema, podemos começar criando um modelo conceitual. Esse modelo é uma representação abstrata dos dados que serão armazenados no sistema e deve incluir as entidades, atributos e relacionamentos identificados na análise do domínio.
-
-O modelo conceitual pode ser representado por meio de um diagrama, que mostra as entidades e seus relacionamentos. 
-
-
-### Possíveis Entidades e Atributos
-
-#### Produto / Item
-- **ID do Produto** (chave primária)
-- Nome
-- Preço
-- Descrição
-- Categoria
-- Quantidade em Estoque
-
-#### Cliente
-- **ID do Cliente** (chave primária)
-- Nome
-- Endereço
-- Telefone
-- E-mail
-
-#### Pedido
-- **ID do Pedido** (chave primária)
-- Data do Pedido
-- Valor Total
-- Status
-
-#### Pagamento
-- **ID do Pagamento** (chave primária)
-- Forma de Pagamento
-- Status do Pagamento
-- Data do Pagamento
-
-#### Envio
-- **ID do Envio** (chave primária)
-- Transportadora
-- Data de Envio
-- Status do Envio
-
-#### Retorno
-- **ID do Retorno** (chave primária)
-- Motivo
-- Status do Retorno
-- Data do Retorno
-
-### Fornecedor
-- **ID do Fornecedor** (chave primária)
-- Nome
-- Endereço
-- Telefone
-
-#### Estoque
-- **ID do Estoque** (chave primária)
-- Localização
-- Quantidade Disponível
-
-#### Promoção
-- **ID da Promoção** (chave primária)
-- Desconto
-- Validade
-
-#### Relatório
-- **ID do Relatório** (chave primária)
-- Tipo de Relatório (vendas, estoque, etc.)
-- Data de Geração
-
-#### Possíveis Relacionamentos
-
-- Um **Cliente** pode fazer vários **Pedidos**.
-- Um **Pedido** pode conter vários **Produtos**.
-- Um **Produto** pode ser fornecido por vários **Fornecedores**.
-- Um **Pedido** está associado a um **Pagamento**.
-- Um **Pedido** pode ter um **Envio**.
-- Um **Pedido** pode gerar um **Retorno**.
-- Um **Produto** pode estar associado a uma **Promoção**.
-- Um **Estoque** armazena vários **Produtos**.
-- Um **Relatório** pode ser gerado para diferentes entidades (ex.: vendas, estoque).
-
-
-## Diagrama Conceitual
-
-A representação do modelo conceitual pode ser feita por meio de um diagrama ER (Entidade-Relacionamento). Esse diagrama mostra as entidades e os relacionamentos entre elas. O diagrama ER é uma ferramenta importante para visualizar a estrutura dos dados e entender como eles se relacionam.
+#### Diagrama Conceitual
 
 ```mermaid
 
 ---
 title: Modelo Conceitual do Sistema de Gerência de Vendas Amazon
 ---
-erDiagram    
+erDiagram  
     CLIENTE ||--o{ PEDIDO : faz
     PEDIDO ||--o| ENDERECO : e_entregue
     CLIENTE ||--o{ ENDERECO : tem
     PEDIDO ||--o{ ITEM : contem
     ITEM ||--o{ VENDEDOR : fornecido_por
     PEDIDO||--o{ FORMA_PAGAMENTO : associado_a
-``` 
+```
 
-Uma vez que o modelo conceitual foi criado, podemos passar para a modelagem lógica. Essa etapa envolve a criação de um modelo mais detalhado, que inclui as tabelas, colunas e relacionamentos que serão usados no banco de dados. O modelo lógico deve ser baseado no modelo conceitual, mas deve incluir detalhes adicionais, como tipos de dados e restrições.
-
+#### Modelagem Lógica
 
 ```mermaid
 
 ---
 title: Modelo Lógico do Sistema de Gerência de Vendas Amazon
 ---
-erDiagram        
+erDiagram  
     CLIENTE ||--o{ PEDIDO : faz
     PEDIDO ||--o| ENDERECO : e_entregue
     CLIENTE ||--o{ ENDERECO : tem
@@ -148,8 +42,6 @@ erDiagram
         string cliente_id Pk
         string nome
         string cpf
-        
-        string endereco
         string telefone
         string email
     }
@@ -190,7 +82,7 @@ erDiagram
         string endereco
         string telefone
     }
-    
+  
     ITEM_PEDIDO {
         string id Pk
         string pedido_id Fk
@@ -199,43 +91,13 @@ erDiagram
     }
 ```
 
-A partir do modelo lógico, podemos criar o banco de dados e as tabelas necessárias para armazenar os dados. Isso envolve a definição das tabelas, colunas, tipos de dados e restrições que serão usadas no banco de dados. O modelo lógico deve ser usado como base para a criação do banco de dados e para o desenvolvimento do sistema.
+#### Modelagem Física
 
-## Modelagem Física
-
-A modelagem física é a etapa final do processo de modelagem de dados. Nessa etapa, o modelo lógico é convertido em um modelo físico, que inclui detalhes específicos sobre como os dados serão armazenados no banco de dados. Isso envolve a definição das tabelas, colunas, tipos de dados e restrições que serão usadas no banco de dados.
-
-A modelagem física deve levar em consideração fatores como desempenho, escalabilidade e segurança. É importante escolher os tipos de dados corretos para cada coluna, definir as chaves primárias e estrangeiras corretamente e aplicar as restrições necessárias para garantir a integridade dos dados.
-
-Além disso, a modelagem física deve considerar o ambiente em que o banco de dados será executado. Isso inclui fatores como o sistema operacional, o hardware e o software de banco de dados que serão usados. É importante escolher as opções corretas para garantir que o banco de dados funcione corretamente e atenda às necessidades do sistema.
-
-A modelagem fisica depende do SGBD (Sistema de Gerenciamento de Banco de Dados) que será utilizado. Cada SGBD tem suas próprias características e limitações, e é importante escolher o SGBD correto para atender às necessidades do sistema. Além disso, a modelagem física deve considerar fatores como desempenho, escalabilidade e segurança.
-
-No nosso curso iremos utilizar o PostgreSQL como SGBD. O PostgreSQL é um sistema de gerenciamento de banco de dados relacional de código aberto, que é amplamente utilizado em aplicações empresariais e acadêmicas. Ele oferece uma ampla gama de recursos e funcionalidades, incluindo suporte a transações, integridade referencial, segurança e escalabilidade.
-
-## SQL - PostgreSQL
-
-O SQL (Structured Query Language) é a linguagem padrão para interagir com bancos de dados relacionais. O PostgreSQL é um sistema de gerenciamento de banco de dados relacional que utiliza o SQL como sua linguagem principal. O SQL é usado para criar, modificar e consultar bancos de dados, tabelas e outros objetos.
-
-O SQL é uma linguagem declarativa, o que significa que você descreve o que deseja fazer, e o sistema de banco de dados cuida de como fazer isso. Isso torna o SQL uma linguagem poderosa e flexível para trabalhar com dados.
-
-O SQL é dividido em várias categorias, incluindo:
-- **DDL (Data Definition Language)**: usado para definir a estrutura do banco de dados, incluindo tabelas, colunas e restrições. Exemplos de comandos DDL incluem `CREATE`, `ALTER` e `DROP`.
-
-- **DML (Data Manipulation Language)**: usado para manipular os dados no banco de dados, incluindo inserção, atualização e exclusão de dados. Exemplos de comandos DML incluem `INSERT`, `UPDATE` e `DELETE`.
-
-- **DQL (Data Query Language)**: usado para consultar os dados no banco de dados. O comando mais comum na DQL é o `SELECT`, que é usado para recuperar dados de uma ou mais tabelas.
-
-O PostgreSQL é um sistema de gerenciamento de banco de dados relacional avançado que oferece suporte a muitos recursos adicionais, como transações, integridade referencial, segurança e escalabilidade. Ele também oferece suporte a extensões, que permitem adicionar funcionalidades adicionais ao banco de dados.
-O PostgreSQL é amplamente utilizado em aplicações empresariais e acadêmicas, e é uma escolha popular para desenvolvedores e administradores de banco de dados.
-
-Consederando o modelo conceitual e lógico que criamos, podemos criar as tabelas no banco de dados PostgreSQL. Abaixo estão os comandos SQL para criar as tabelas do sistema de gerência de vendas da Amazon:
- 
 ```sql
 CREATE TABLE cliente (
     cliente_id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) NOT NULL UNIQUE,    
+    cpf VARCHAR(11) NOT NULL UNIQUE,  
     telefone VARCHAR(15),
     email VARCHAR(100)
 );
@@ -248,9 +110,7 @@ CREATE TABLE endereco (
 );
 CREATE TABLE forma_pagamento (
     forma_pagamento_id SERIAL PRIMARY KEY,
-    tipo VARCHAR(50) NOT NULL,
-    status VARCHAR(50) NOT NULL,
-    data_pagamento DATE NOT NULL
+    tipo VARCHAR(50) NOT NULL,  
 );
 CREATE TABLE vendedor (
     vendedor_id SERIAL PRIMARY KEY,
@@ -283,18 +143,342 @@ CREATE TABLE item_pedido (
 );
 ```
 
+## Inserindo Dados
+
+Para inserir dados em uma tabela no PostgreSQL, utilizamos o comando `INSERT INTO`. A sintaxe básica é a seguinte:
+
+```sql
+INSERT INTO nome_tabela (coluna1, coluna2, ...)
+VALUES (valor1, valor2, ...);
+```
+
+### Exemplo de Dados de Clientes
+
+Vamos inserir alguns dados nas tabelas que criamos. Vamos começar com a tabela `cliente`:
+
+```sql
+INSERT INTO cliente (nome, cpf, telefone, email) VALUES
+('Ana Silva', '12345678901', '11987654321', 'ana.silva@example.com'),
+('Carlos Oliveira', '23456789012', '21987654321', 'carlos.oliveira@example.com'),
+('Mariana Costa', '34567890123', '31987654321', 'mariana.costa@example.com'),
+('João Souza', '45678901234', '41987654321', 'joao.souza@example.com'),
+('Fernanda Lima', '56789012345', '51987654321', 'fernanda.lima@example.com'),
+('Pedro Santos', '67890123456', '71987654321', 'pedro.santos@example.com'),
+('Juliana Almeida', '78901234567', '81987654321', 'juliana.almeida@example.com'),
+('Rafael Pereira', '89012345678', '91987654321', 'rafael.pereira@example.com'),
+('Beatriz Rocha', '90123456789', '61987654321', 'beatriz.rocha@example.com'),
+('Lucas Martins', '01234567890', '71987654322', 'lucas.martins@example.com'),
+('Gabriela Mendes', '11234567891', '81987654322', 'gabriela.mendes@example.com'),
+('Rodrigo Araujo', '21234567892', '91987654322', 'rodrigo.araujo@example.com'),
+('Camila Ribeiro', '31234567893', '61987654322', 'camila.ribeiro@example.com'),
+('Thiago Fernandes', '41234567894', '71987654323', 'thiago.fernandes@example.com'),
+('Larissa Carvalho', '51234567895', '81987654323', 'larissa.carvalho@example.com');
+```
+
+Esses dados podem ser usados para testar consultas SQL, como:
+
+- Buscar clientes cujo nome contém "Silva":
+
+  ```sql
+  SELECT * FROM cliente WHERE nome LIKE '%Silva%';
+  ```
+- Buscar clientes com CPF começando com "123":
+
+  ```sql
+  SELECT * FROM cliente WHERE cpf LIKE '123%';
+  ```
+- Buscar clientes com telefone terminando em "54321":
+
+  ```sql
+  SELECT * FROM cliente WHERE telefone LIKE '%54321%';
+  ```
+
+### Exemplo de Dados de Endereço
+
+Agora vamos inserir alguns dados na tabela `endereco`:
+
+```sql
+INSERT INTO endereco (rua, cidade, estado, cep) VALUES
+('Rua das Flores, 23', 'Natal', 'RN', '59010-000'),
+('Avenida Prudente de Morais, 553', 'Natal', 'RN', '59020-000'),
+('Rua Jaguarari, 234', 'Natal', 'RN', '59030-000'),
+('Avenida Hermes da Fonseca, 5', 'Natal', 'RN', '59040-000'),
+('Rua São José, 435', 'Natal', 'RN', '59050-000'),
+('Avenida Roberto Freire, 541', 'Natal', 'RN', '59060-000'),
+('Rua Mossoró, 90', 'Natal', 'RN', '59070-000'),
+('Avenida Engenheiro Roberto Freire, 32', 'Natal', 'RN', '59080-000'),
+('Rua João Pessoa, 434', 'Natal', 'RN', '59090-000'),
+('Avenida Rio Branco, 6789', 'Natal', 'RN', '59100-000'),
+('Rua Coronel Estevam, 3423', 'Natal', 'RN', '59110-000'),
+('Avenida Salgado Filho, 2344', 'Natal', 'RN', '59120-000'),
+('Rua Felipe Camarão, 2', 'Natal', 'RN', '59130-000'),
+('Avenida Alexandrino de Alencar, 43', 'Natal', 'RN', '59140-000'),
+('Rua Doutor Barata, 8090', 'Natal', 'RN', '59150-000');
+```
+
+Esses endereços podem ser usados para testar consultas SQL, como:
+
+- Buscar endereços na cidade de Natal:
+
+  ```sql
+  SELECT * FROM endereco WHERE cidade = 'Natal';
+  ```
+- Buscar endereços cujo CEP começa com "5901":
+
+  ```sql
+  SELECT * FROM endereco WHERE cep LIKE '5901%';
+  ```
+- Buscar endereços na Avenida Roberto Freire:
+
+  ```sql
+  SELECT * FROM endereco WHERE rua LIKE '%Roberto Freire%';
+  ```
+
+### Exemplo de Dados de Vendedores
+
+Vamos inserir alguns dados na tabela `vendedor`:
+
+```sql
+INSERT INTO vendedor (nome, endereco, telefone) VALUES
+('Loja A', 'Rua das Flores, 123', '84987654321'),
+('Loja B', 'Avenida Prudente de Morais, 456', '84987654322'),
+('Loja C', 'Rua Jaguarari, 789', '84987654323'),
+('Loja D', 'Avenida Hermes da Fonseca, 101', '84987654324'),
+('Loja E', 'Rua São José, 202', '84987654325');
+```
+
+Esses vendedores podem ser usados para testar consultas SQL, como:
+
+- Buscar vendedores cujo nome contém "Loja":
+
+  ```sql
+  SELECT * FROM vendedor WHERE nome LIKE '%Loja%';
+  ```
+- Buscar vendedores com telefone terminando em "54321":
+
+  ```sql
+  SELECT * FROM vendedor WHERE telefone LIKE '%54321%';
+  ```
+- Buscar vendedores na Rua das Flores:
+
+  ```sql
+  SELECT * FROM vendedor WHERE endereco LIKE '%Rua das Flores%';
+  ```
+
+### Exemplo de Dados de Itens
+
+Agora vamos inserir alguns dados na tabela `item`:
+
+```sql
+INSERT INTO item (nome, preco, descricao, categoria, quantidade_estoque) VALUES
+-- Livros
+('O Poder do Hábito', 39.90, 'Livro sobre hábitos e mudanças comportamentais', 'Livros', 50),
+('1984', 29.90, 'Clássico da literatura distópica de George Orwell', 'Livros', 30),
+('Sapiens: Uma Breve História da Humanidade', 49.90, 'Livro sobre a história da humanidade', 'Livros', 40),
+('A Revolução dos Bichos', 19.90, 'Fábula política de George Orwell', 'Livros', 25),
+('O Pequeno Príncipe', 24.90, 'Clássico da literatura infantil', 'Livros', 60),
+('Dom Casmurro', 14.90, 'Obra de Machado de Assis', 'Livros', 35),
+('Harry Potter e a Pedra Filosofal', 34.90, 'Primeiro livro da série Harry Potter', 'Livros', 45),
+('O Senhor dos Anéis: A Sociedade do Anel', 59.90, 'Primeiro livro da trilogia O Senhor dos Anéis', 'Livros', 20),
+('A Arte da Guerra', 19.90, 'Clássico sobre estratégia militar', 'Livros', 50),
+('O Alquimista', 29.90, 'Livro de Paulo Coelho sobre autodescoberta', 'Livros', 40),
+
+-- Eletrônicos
+('Fone de Ouvido Bluetooth JBL', 199.90, 'Fone de ouvido sem fio com alta qualidade de som', 'Eletrônicos', 15),
+('Smartphone Samsung Galaxy S21', 3999.90, 'Smartphone com câmera de alta resolução', 'Eletrônicos', 10),
+('Notebook Dell Inspiron 15', 3499.90, 'Notebook com processador Intel Core i5', 'Eletrônicos', 8),
+('Smart TV LG 50"', 2499.90, 'Smart TV 4K com 50 polegadas', 'Eletrônicos', 5),
+('Caixa de Som Bluetooth JBL', 299.90, 'Caixa de som portátil com som potente', 'Eletrônicos', 20),
+('Relógio Smartwatch Xiaomi', 349.90, 'Relógio inteligente com monitoramento de saúde', 'Eletrônicos', 25),
+('Câmera GoPro HERO9', 2499.90, 'Câmera de ação com resolução 5K', 'Eletrônicos', 12),
+('Teclado Mecânico Gamer', 399.90, 'Teclado mecânico com iluminação RGB', 'Eletrônicos', 30),
+('Monitor LED 24" Samsung', 899.90, 'Monitor Full HD com 24 polegadas', 'Eletrônicos', 18),
+('Carregador Portátil 20.000mAh', 149.90, 'Power bank de alta capacidade', 'Eletrônicos', 50),
+
+-- Acessórios
+('Mochila para Notebook', 129.90, 'Mochila resistente para notebooks de até 15.6"', 'Acessórios', 40),
+('Capa para Smartphone', 49.90, 'Capa protetora para smartphones', 'Acessórios', 60),
+('Mouse Pad Gamer', 39.90, 'Mouse pad com superfície antiderrapante', 'Acessórios', 50),
+('Fone de Ouvido Intra-Auricular', 59.90, 'Fone de ouvido com isolamento de ruído', 'Acessórios', 30),
+('Carregador Veicular USB', 29.90, 'Carregador para automóveis com duas portas USB', 'Acessórios', 70),
+('Suporte para Celular', 19.90, 'Suporte ajustável para smartphones', 'Acessórios', 80),
+('Bolsa Térmica', 89.90, 'Bolsa térmica para alimentos e bebidas', 'Acessórios', 25),
+('Relógio de Pulso Masculino', 199.90, 'Relógio analógico resistente à água', 'Acessórios', 20),
+('Óculos de Sol UV400', 99.90, 'Óculos de sol com proteção UV', 'Acessórios', 35),
+('Cabo HDMI 2.0', 49.90, 'Cabo HDMI de alta velocidade', 'Acessórios', 100),
+
+-- Mais Livros
+('O Código Da Vinci', 39.90, 'Livro de Dan Brown sobre mistérios e conspirações', 'Livros', 30),
+('A Menina que Roubava Livros', 29.90, 'História emocionante ambientada na Segunda Guerra Mundial', 'Livros', 40),
+('O Hobbit', 34.90, 'Livro de J.R.R. Tolkien sobre aventuras na Terra Média', 'Livros', 25),
+('Cem Anos de Solidão', 49.90, 'Obra-prima de Gabriel García Márquez', 'Livros', 20),
+('Orgulho e Preconceito', 19.90, 'Clássico de Jane Austen', 'Livros', 50),
+
+-- Mais Eletrônicos
+('Headset Gamer HyperX', 299.90, 'Headset com som surround 7.1', 'Eletrônicos', 15),
+('Kindle Paperwhite', 499.90, 'Leitor de e-books com iluminação ajustável', 'Eletrônicos', 10),
+('Placa de Vídeo NVIDIA RTX 3060', 2999.90, 'Placa de vídeo para jogos e edição', 'Eletrônicos', 5),
+('Impressora Multifuncional HP', 699.90, 'Impressora com scanner e copiadora', 'Eletrônicos', 12),
+('Drone DJI Mini 2', 3999.90, 'Drone compacto com câmera 4K', 'Eletrônicos', 8),
+
+-- Mais Acessórios
+('Teclado Bluetooth', 149.90, 'Teclado sem fio compatível com múltiplos dispositivos', 'Acessórios', 25),
+('Cadeira Gamer', 899.90, 'Cadeira ergonômica para jogos', 'Acessórios', 10),
+('Mala de Viagem', 299.90, 'Mala resistente com rodinhas', 'Acessórios', 15),
+('Luminária de Mesa LED', 89.90, 'Luminária com ajuste de intensidade', 'Acessórios', 40),
+('Guarda-Chuva Automático', 59.90, 'Guarda-chuva compacto e resistente', 'Acessórios', 50);
+```
+
+Esses itens podem ser usados para testar consultas SQL, como:
+
+- Buscar itens da categoria "Livros":
+
+  ```sql
+  SELECT * FROM item WHERE categoria = 'Livros';
+  ```
+- Buscar itens com preço maior que 100:
+
+  ```sql
+  SELECT * FROM item WHERE preco > 100;
+  ```
+- Buscar itens cujo nome contém "Smart":
+
+  ```sql
+  SELECT * FROM item WHERE nome LIKE '%Smart%';
+  ```
+
+### Exemplo de Dados de Forma de Pagamento
+
+Agora vamos inserir alguns dados na tabela `forma_pagamento`:
+
+```sql
+INSERT INTO forma_pagamento (tipo) VALUES
+('Cartão de Crédito'),
+('Boleto Bancário'),
+('Transferência Bancária'),
+('Pix'),
+('Cartão de Débito'),
+('PayPal'),
+('Cartão de Presente'), 
+('Criptomoeda'),
+('Vale-Alimentação'),
+('Cheque');
+```
+
+Essas formas de pagamento podem ser usadas para testar consultas SQL, como:
+
+- Buscar formas de pagamento cujo tipo contém "Cartão":
+
+  ```sql
+  SELECT * FROM forma_pagamento WHERE tipo LIKE '%Cartão%';
+  ```
+- Buscar formas de pagamento cujo tipo começa com "Transferência":
+
+  ```sql
+  SELECT * FROM forma_pagamento WHERE tipo LIKE 'Transferência%';
+  ```
+- Buscar formas de pagamento cujo tipo termina com "Bancário":
+
+  ```sql
+  SELECT * FROM forma_pagamento WHERE tipo LIKE '%Bancário';
+  ```
+
+### Exemplo de Dados de Pedidos
+
+Agora vamos inserir alguns dados na tabela `pedido` e `item_pedido`:
+
+```sql
+-- Inserindo pedidos
+INSERT INTO pedido (cliente_id, endereco_id, forma_pagamento_id, data, valor_total, status) VALUES
+(1, 1, 1, '2023-10-01', 259.70, 'Concluído'),
+(2, 2, 2, '2023-10-02', 499.80, 'Concluído'),
+(3, 3, 3, '2023-10-03', 349.70, 'Pendente'),
+(4, 4, 4, '2023-10-04', 699.60, 'Concluído'),
+(5, 5, 5, '2023-10-05', 1199.50, 'Cancelado'),
+(6, 6, 6, '2023-10-06', 899.70, 'Concluído'),
+(7, 7, 7, '2023-10-07', 1499.60, 'Pendente'),
+(8, 8, 8, '2023-10-08', 1999.50, 'Concluído'),
+(9, 9, 9, '2023-10-09', 2499.40, 'Concluído'),
+(10, 10, 10, '2023-10-10', 2999.30, 'Pendente');
+
+-- Inserindo itens nos pedidos
+INSERT INTO item_pedido (pedido_id, item_id, quantidade) VALUES
+-- Pedido 1
+(1, 1, 2),
+(1, 2, 1),
+(1, 3, 1),
+-- Pedido 2
+(2, 4, 1),
+(2, 5, 2),
+(2, 6, 1),
+-- Pedido 3
+(3, 7, 1),
+(3, 8, 1),
+(3, 9, 2),
+-- Pedido 4
+(4, 10, 1),
+(4, 11, 1),
+(4, 12, 1),
+-- Pedido 5
+(5, 13, 2),
+(5, 14, 1),
+(5, 15, 1),
+-- Pedido 6
+(6, 16, 1),
+(6, 17, 1),
+(6, 18, 2),
+-- Pedido 7
+(7, 19, 1),
+(7, 20, 1),
+(7, 21, 1),
+-- Pedido 8
+(8, 22, 1),
+(8, 23, 2),
+(8, 24, 1),
+-- Pedido 9
+(9, 25, 1),
+(9, 26, 1),
+(9, 27, 1),
+-- Pedido 10
+(10, 28, 1),
+(10, 29, 1),
+(10, 30, 2);
+```
+Esses pedidos podem ser usados para testar consultas SQL, como:
+- Buscar pedidos com status "Concluído":
+
+  ```sql
+  SELECT * FROM pedido WHERE status = 'Concluído';
+  ```
+- Buscar pedidos feitos por um cliente específico:
+
+  ```sql
+  SELECT * FROM pedido WHERE cliente_id = 1;
+  ```
+- Buscar pedidos feitos em uma data específica:
+
+  ```sql
+  SELECT * FROM pedido WHERE data = '2023-10-01';
+  ```
+- Buscar pedidos com valor total maior que 1000:
+
+  ```sql
+  SELECT * FROM pedido WHERE valor_total > 1000;
+  ```
+- Buscar pedidos feitos com a forma de pagamento "Cartão de Crédito":
+
+  ```sql
+  SELECT * FROM pedido WHERE forma_pagamento_id = 1;
+  ```
+
 ## Conclusão
 
-A modelagem de dados é uma etapa fundamental no desenvolvimento de sistemas de informação. Ela envolve a identificação das entidades, atributos e relacionamentos que existem no domínio de aplicação, bem como a criação de um modelo conceitual, lógico e físico que represente essas informações. A modelagem de dados deve levar em consideração fatores como desempenho, escalabilidade e segurança, e deve ser baseada nas necessidades do sistema e no ambiente em que o banco de dados será executado.
-
-A modelagem de dados é um processo iterativo e pode ser ajustada conforme o sistema evolui. É importante revisar e atualizar o modelo de dados regularmente para garantir que ele atenda às necessidades do sistema e dos usuários.
-
-A modelagem de dados é uma habilidade essencial para qualquer profissional que trabalhe com dados, e é fundamental para o sucesso de qualquer sistema de informação. Ao entender e modelar os dados corretamente, é possível criar sistemas mais eficientes, escaláveis e seguros.
+Nesta aula, aprendemos sobre a modelagem de dados e como criar tabelas no PostgreSQL. Também inserimos dados de exemplo nas tabelas e fizemos consultas SQL para testar os dados. Na próxima aula, vamos explorar mais sobre consultas SQL, incluindo junções, agrupamentos e funções de agregação.
 
 ## Referências
 
-- Elmasri, R., & Navathe, S. B. (2015). Fundamentals of Database Systems (7th ed.). Pearson.
-
-- Date, C. J. (2004). An Introduction to Database Systems (8th ed.). Addison-Wesley.
-
-- Connolly, T., & Begg, C. (2015). Database Systems: A Practical Approach to Design, Implementation, and Management (6th ed.). Pearson.
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [SQL Tutorial](https://www.w3schools.com/sql/)
+- [Modelagem de Dados](https://www.devmedia.com.br/modelagem-de-dados/)
+- [Banco de Dados Relacional](https://www.devmedia.com.br/banco-de-dados-relacional/)
+- [SGBD Relacional](https://www.devmedia.com.br/sgbd-relacional/)
