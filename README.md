@@ -103,6 +103,7 @@ CREATE TABLE cliente (
 );
 CREATE TABLE endereco (
     endereco_id SERIAL PRIMARY KEY,
+    cliente_id INT REFERENCES cliente(cliente_id),
     rua VARCHAR(255) NOT NULL,
     cidade VARCHAR(100) NOT NULL,
     estado VARCHAR(50) NOT NULL,
