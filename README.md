@@ -32,6 +32,12 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Criação das Tabelas
 
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
+
+- Inserção de Dados
+- Consultas SQL
+  
+
 
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
