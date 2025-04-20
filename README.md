@@ -1,127 +1,34 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
 
-## Objetivo
+# Exercício de Fixação de Programação e Administração de Banco de Dados
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
-
-
-## Metodologia
-
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
-
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
-
-## Pré-Requistos 
-
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
-
-## Agenda
-
-### 1o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
-
-- Inserção de Dados
-- Consultas SQL
+Imagine que você é um desenvolvedor de software e precisa criar um banco de dados para uma aplicação de gerenciamento de biblioteca. O banco de dados deve conter informações sobre livros, autores e usuários.
+O banco de dados deve ter as seguintes tabelas:
+- **livros**: deve conter informações sobre os livros, como título, autor, ano de publicação e gênero.
+- **autores**: deve conter informações sobre os autores, como nome, data de nascimento e nacionalidade.
+- **usuários**: deve conter informações sobre os usuários, como nome, e-mail e data de registro.
+- **empréstimos**: deve conter informações sobre os empréstimos de livros, como o ID do livro, o ID do usuário e a data de empréstimo.
+- **reservas**: deve conter informações sobre as reservas de livros, como o ID do livro, o ID do usuário e a data da reserva.
+- **multas**: deve conter informações sobre as multas aplicadas aos usuários, como o ID do usuário, o valor da multa e a data de pagamento.
+- **categorias**: deve conter informações sobre as categorias dos livros, como o nome da categoria e a descrição.
+- **editoras**: deve conter informações sobre as editoras dos livros, como o nome da editora e o endereço.
   
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
-
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
+Você deve realizar as seguintes tarefas:
+1. Definir o modelo conceitual do banco de dados:
+   - Identificar as entidades, atributos e relacionamentos entre as tabelas.
+   - Definir as chaves primárias e estrangeiras.
+2. Criar o modelo lógico do banco de dados, incluindo as tabelas, colunas e tipos de dados.
+3. Criar o modelo físico com a script SQL para criar as tabelas no banco de dados.
+4. Inserir dados de exemplo em cada tabela.
+5. Criar consultas SQL para responder às seguintes perguntas:
+   - Quais são os livros disponíveis na biblioteca?
+   - Quais são os usuários que mais solicitaram emprestimo de livros?
+   - Quais são as multas pendentes?
+   - Quais são os livros reservados por um usuário específico?
+   - Quais os livros que não foram emprestados nos últimos 6 meses?
+   - Quais os livros mais reservados?
+   - Quais usuarios reservam mais livros?
+   - Quais livros estão disponíveis para reserva?
+   - Quais livros não estão disponíveis para empréstimo?
+   - Liste de maneira agregada os livros por categoria.
   
-
-
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
