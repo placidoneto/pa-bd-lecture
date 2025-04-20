@@ -46,7 +46,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Valores Distintos
 - Subconsultas
   
-
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
 
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
