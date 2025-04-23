@@ -3,7 +3,7 @@
 
 ## Descrição do Trabalho
 
-O trabalho prático consiste em desenvolver um banco de dados relacional para uma aplicação de gerenciamento de baloratórios. O objetivo é aplicar os conceitos de modelagem de dados, criação de tabelas e consultas SQL aprendidos nas aulas.
+O trabalho prático consiste em desenvolver um banco de dados relacional para uma aplicação de gerenciamento de laboratórios. O objetivo é aplicar os conceitos de modelagem de dados, criação de tabelas e consultas SQL aprendidos nas aulas.
 
 **Link assignment Github Classroom**: https://classroom.github.com/a/PIpNkXJW
 
