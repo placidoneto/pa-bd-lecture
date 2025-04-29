@@ -43,14 +43,15 @@ manage.py
 
 Antes de criar a aplicação em Django Rest, é necessário instalar o Django e o Django Rest Framework. Para isso, basta rodar o seguinte comando:
 
-```python
+```
 python3 -m venv env
 
 source /env/bin/activate
+WINDOWS: env\Scripts\activate
 
-pip install Django
+pip install django
 
-pip instal djangorestframework
+pip install djangorestframework
 
 pip install psycopg2-binary
 ```
