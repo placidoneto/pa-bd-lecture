@@ -40,6 +40,21 @@ manage.py
 ```
 
 ### Passo a Passo
+
+Antes de criar a aplicação em Django Rest, é necessário instalar o Django e o Django Rest Framework. Para isso, basta rodar o seguinte comando:
+
+```bash
+python3 -m venv env
+
+source /env/bin/activate
+
+pip install Django
+
+pip instal djangorestframework
+
+pip install psycopg2-binary
+```
+
 1. **Configuração Inicial**
 
    - Crie um novo projeto Django:
@@ -90,7 +105,7 @@ INSTALLED_APPS = [
 
 
 
-2. **Configuração do PostgreSQL**
+1. **Configuração do PostgreSQL**
       - Instale o driver do PostgreSQL:
 ```
 pip install psycopg2-binary
