@@ -1,8 +1,8 @@
-# L02 - Introdução a Django Rest Framework - Models and ORM
+# Introdução a Django Rest Framework - Models and ORM
 
 ## Aplicação de Gerenciamento de Pedidos com PostgreSQL com Django Rest Framework
 
-Imagine uma aplicação web que permite a compra de itens na internet. Essa aplicação seria construída com uma interface intuitiva, onde os usuários podem:
+Imagine uma aplicação web que permite a compra de itens na internet (exemplo que estamos usando desde o início para simular compras na Amazon). Essa aplicação seria construída com uma interface intuitiva, onde os usuários podem:
 
 - Cadastrar um novo cliente/usuário
 - Cadastrar um novo vendedor
