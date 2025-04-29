@@ -50,6 +50,12 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
+
+- Introdução ao Django Rest Framework
+- Conceitos Básicos
+- Exemplo simples usando Model/ORM com Postgres
+
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
