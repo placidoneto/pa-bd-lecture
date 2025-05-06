@@ -56,6 +56,9 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Conceitos Básicos
 - Exemplo simples usando Model/ORM com Postgres
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
+
+
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
