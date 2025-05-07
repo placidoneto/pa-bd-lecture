@@ -1,11 +1,11 @@
 
-# Trabalho Prático 1 - Modelagem e Consultas SQL
+# Trabalho Prático 2 - Modelagem em Django Rest
 
 ## Descrição do Trabalho
 
-O trabalho prático consiste em desenvolver um banco de dados relacional para uma aplicação de gerenciamento de laboratórios. O objetivo é aplicar os conceitos de modelagem de dados, criação de tabelas e consultas SQL aprendidos nas aulas.
+O trabalho prático consiste em evoluir o TP 1, onde foi modelago um sistema de gerenciamento de laboratórios. O sistema deve permitir que os professores reservem horários para utilizar os laboratórios disponíveis, além de permitir a reserva de laboratórios para atividades extras, como reuniões, cursos, palestras, etc.
 
-**Link assignment Github Classroom**: https://classroom.github.com/a/PIpNkXJW
+**Link assignment Github Classroom**: https://classroom.github.com/a/2UIF0oTU
 
 Imagine que a Direção da DIATINF solicitou para que você resolvesse um problema crônico de gestão de laboratórios da nossa Diretoria. O problema é que os laboratórios não têm um controle adequado de agendamento e uso, o que leva a conflitos de horários e falta de recursos disponíveis para os alunos.
 
@@ -19,29 +19,19 @@ Percebam que a gerência dos laboratórios seguem 2 fluxos distintos:
 1. O fluxo principal é de horarios de aulas definidos para os professores e suas respectivas disciplinas e cursos;
 2. A reserva de laboratórios nos horários disponíveis para atividades extras, como reuniões, cursos, palestras, etc.
 
+Para a criação da primeira versão da API deve-se considerar o que já foi trabalhado em sala de aula, ou seja, o sistema deve permitir que os professores reservem horários para utilizar os laboratórios disponíveis, além de permitir a reserva de laboratórios para atividades extras, como reuniões, cursos, palestras, etc.:
+
 ## O que deve ser entregue?
 
-1. Listar os elementos conceituais de domínio do problema e a suas respectivas descrições;
-    - **Exemplo de Possíveis Elementos Conceituais:**
-      1. Laboratório: Nome, Descrição, Capacidade, Status
-      2. Professor: Nome, Disciplina, Curso
-      3. Reserva: Data e Hora de Início, Data e Hora de Fim, Número de Alunos
-      4. Retirada/Entrega de Chave: Data e Hora de Retirada, Data e Hora de Entrega
-      5. Atividade Extra: Tipo (Reunião, Curso, Palestra), Data e Hora
-      6. *OBS: Você tem autonomia para definir outros e novos elementos conceituais que sejam relevantes para o sistema.*
-2. Criar o modelo conceitual a partir dos elementos de domínio;
-3. Criar o modelo lógico a partir do modelo conceitual (DER);
-4. Criar o modelo físico a partir do modelo lógico (Script SQL para criação do banco e tabelas);
-5. Criar o script SQL para popular as tabelas com dados fictícios (de 2 a 5 registros por tabela);
-6. Criar o script SQL para consultas (mínimo 5 consultas) que demonstrem o uso de JOINs, GROUP BY, HAVING, ORDER BY e WHERE para manipulação e consulta dos dados;
-    - **Exemplo de Possíveis Consultas:**
-      1. Listar todos os laboratórios disponíveis para reserva;
-      2. Listar todas as reservas feitas por um professor;
-      3. Listar o histórico de reservas e retiradas de chaves de um laboratório específico;
-      4. Listar o número total de reservas feitas por cada professor em um determinado período;
-      5. Listar o número total de reservas feitas para cada laboratório em um determinado período;
-      6. *OBS: Você tem autonomia para definir outras e novas consultas que sejam relevantes para o sistema.*
+1. Criar a configuração inicial para a implementação de um projeto Django Django Rest que ofereça acesso a uma API em um banco de dados Postgres.
+2. Criar os modelos de dados;
+3. Criar os serializeres para os modelos;
+4. Criar as views para os modelos;
+5. Criar as rotas para os modelos;
+6. Criar acesso a documentação da API usando Swagger;
+7. Criar acesso a documentação da API usando Redoc;
+8. Fazer os teste de API com o Postman ou algum outro software de sua preferência que possa testar as funções da API
 
-OBS.: O trabalho deve ser entregue com as informações no Readme.md do repositório, com os scripts SQL para criação do banco e tabelas, inserção de dados e consultas. 
+Criar um arquivo README.md com as instruções de instalação e uso de acesso a API e suas respectivas funcionalidades.
 
-Os modelos conceitual, lógico e físico devem ser entregues em formato de imagem (PNG ou JPG). A imagem do banco criado no postgres também deve ser incluido no Readme.md.
+**OBS: Neste primeiro momento não há necessidade de relacionar as tabelas. Os modelos devem ser independentes, sem interrelação.**
