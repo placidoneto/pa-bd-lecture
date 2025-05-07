@@ -58,6 +58,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
 
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
