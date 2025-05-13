@@ -35,7 +35,7 @@ O relacionamento ForeignKey é usado para representar uma relação de muitos pa
 
 ```python
 class Endereco(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     rua = models.CharField(max_length=100)
     numero = models.CharField(max_length=10)
     bairro = models.CharField(max_length=50)
