@@ -29,9 +29,3 @@ Para melhorar a estrutura da API, você deve utilizar ViewSets e Routers do Djan
 - Criar métodos customizados para o *endpoint* de `Usuario` que permitam a consulta de empréstimos e reservas realizados por um usuário específico.
 - Criar métodos customizados para o *endpoint* de `Livro` que permitam a consulta de autores e editoras de um livro específico.
 - Criar métodos customizados para o *endpoint* de `Autor` que permitam a consulta de livros escritos por um autor específico.
-
-## Entrega
-
-O trabalho deve ser entregue via GitHub Classroom, em um repositório privado. O repositório deve conter o código fonte do projeto, e um arquivo README.md na raiz do projeto com a descrição do modelo de dados.
-
-[Link Assigment - TP Substitutivo](https://classroom.github.com/a/90TyT3Zu)
