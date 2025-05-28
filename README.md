@@ -75,6 +75,11 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
+
+  - Autenticação JWT
+  - Sistema de Login e Logout
+
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
