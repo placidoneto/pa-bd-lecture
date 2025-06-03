@@ -80,6 +80,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Autenticação JWT
   - Sistema de Login e Logout
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
+
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
