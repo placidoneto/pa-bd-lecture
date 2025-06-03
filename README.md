@@ -1,161 +1,135 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# TP4 - Atividade Prática: API de Gerenciamento de Tarefas com Django Rest Framework 
 
-## Objetivo
+**Objetivo:** Aplicar os conceitos do Django Rest Framework para construir uma API RESTful para um sistema de gerenciamento de tarefas, com foco na criação de endpoints CRUD e ações personalizadas (custom actions) em ViewSets.
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+**Contexto:**
+Você foi encarregado de desenvolver o backend para um sistema simples de gerenciamento de tarefas. A API permitirá criar projetos, adicionar tarefas a esses projetos, atribuir tarefas a usuários e modificar o status das tarefas.
+
+**Modelo de Dados (Django Models):**
 
 
-## Metodologia
+- Usuario: Utilize o modelo `User` padrão do Django (`django.contrib.auth.models.User`).
+- Projeto : Representa os projetos aos quais as tarefas pertencem.
+  - nome (`CharField`)
+  - descricao (`TextField`)
+  - data_criacao (`DateTimeField, auto_now_add=True`)
+  - proprietario (`ForeignKey para User, on_delete=models.CASCADE`)
+- Tarefa: Representa as tarefas que podem ser atribuídas a usuários e associadas a projetos.
+  - titulo (`CharField`)
+  - descricao (`TextField, blank=True, null=True`)
+  - status (`CharField, com escolhas: 'Pendente', 'Em Progresso', 'Concluída'`)
+  - data_criacao (`DateTimeField, auto_now_add=True`)
+  - data_conclusao (`DateTimeField, null=True, blank=True`)
+  - projeto (`ForeignKey para Projeto, related_name='tarefas', on_delete=models.CASCADE`)
+  - atribuido_a (`ForeignKey para User, null=True, blank=True, related_name='tarefas_atribuidas', on_delete=models.SET_NULL`)
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+## Configuração do Projeto e Criação dos Models (Django) 
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+- Crie um novo projeto Django e um app (ex: gestao_tarefas).
+- Defina os modelos Projeto e Tarefa no arquivo `models.py` do seu app, conforme especificado acima.
+- Adicione o `rest_framework` e seu app ao INSTALLED_APPS no `settings.py`.
+- Crie e aplique as migrações (makemigrations e migrate).
+- Crie alguns superusuários para testes.
 
-## Pré-Requistos 
+## Criação dos Serializers (DRF) 
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+- Crie os serializers para seus modelos em um arquivo `serializers.py`:
+  - `UserSerializer` 
+  - `TarefaSerializer`
+  - `ProjetoSerializer`
 
-## Agenda
+## Criação das Views e Endpoints (DRF ViewSets)
 
-### 1o Bimestre
+No arquivo `views.py`, crie ModelViewSets:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
-
-- Inserção de Dados
-- Consultas SQL
-  
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
-
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
-
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest </a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
+- `ProjetoViewSet`: Para gerenciar projetos. Fornecer operações CRUD padrão para Projetos.
+  - Ação Personalizada 1: `tarefas_do_projeto`
+    - Método: `GET`
+    - Endpoint: `/projetos/{pk}/tarefas_do_projeto/`
+    - Funcionalidade: Retornar uma lista de todas as tarefas associadas a um projeto específico.
+  - Ação Personalizada 2: resumo_progresso
+    - Método: `GET`
+    - Endpoint: `/projetos/{pk}/resumo_progresso/`
+    - Funcionalidade: Retornar um resumo do progresso do projeto, incluindo o número total de tarefas, tarefas pendentes, em progresso e concluídas. 
+      - Ex: { `"total_tarefas": X, "concluidas": Y, "pendentes": Z `}
+  - Ação Personalizada 3: `atribuir_proprietario`
+    - Método: `POST`
+    - Endpoint: `/projetos/{pk}/atribuir_proprietario/`
+    - Funcionalidade: Atribuir um proprietário a um projeto, atualizando o campo `proprietario`.
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
+- TarefaViewSet: Para gerenciar tarefas. Fornecer operações CRUD padrão para Tarefas.
+  - Ação Personalizada 1: `marcar_concluida`
+    - Método: `POST`
+    - Endpoint: `/tarefas/{pk}/marcar_concluida/`
+    - Funcionalidade: Marcar uma tarefa como concluída, atualizando o campo `data_conclusao` e o status da tarefa.
+  - Ação Personalizada 2: `atribuir_usuario`
+    - Método: `POST`
+    - Endpoint: `/tarefas/{pk}/atribuir_usuario/`
+    - Funcionalidade: Atribuir uma tarefa a um usuário específico, atualizando o campo `atribuido_a`.
+  - Ação Personalizada 3: `remover_usuario`
+    - Método: `POST`
+    - Endpoint: `/tarefas/{pk}/remover_usuario/`
+    - Funcionalidade: Remover a atribuição de um usuário de uma tarefa, definindo o campo `atribuido_a` como `null`.
+  - Ação Personalizada 4: `mudar_status`
+    - Método: `POST`
+    - Endpoint: `/tarefas/{pk}/mudar_status/`
+    - Funcionalidade: Mudar o status de uma tarefa, recebendo o novo status no corpo da requisição.
+  - Ação Personalizada 5: `tarefas_por_usuario`
+    - Método: `GET`
+    - Endpoint: `/tarefas/tarefas_por_usuario/`
+    - Funcionalidade: Retornar todas as tarefas atribuídas a um usuário específico, recebendo o ID do usuário como parâmetro de consulta.
+  - Ação Personalizada 6: `numero_tarefas_por_projeto`
+    - Método: `GET`
+    - Endpoint: `/tarefas/numero_tarefas_por_projeto/`
+    - Funcionalidade: Retornar o número total de tarefas por projeto, agrupando as tarefas pelo projeto, contando-as em ordem crescente.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
+## Configuração das URLs (DRF Routers)
 
-  - Autenticação JWT
-  - Sistema de Login e Logout
+No arquivo `urls.py` do seu app, configure as URLs usando DRF Routers:
 
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
+- Crie um `DefaultRouter` e registre os ViewSets:
+  - `router.register(r'projetos', ProjetoViewSet, basename='projeto')`
+  - `router.register(r'tarefas', TarefaViewSet, basename='tarefa')`
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
+- Configure o Swagger (opcional, mas recomendado):
+  - Instale o `drf-yasg` e configure o Swagger no seu projeto para documentar a API.  
 
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
+## Testes e Validação
 
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
+- Crei um aplicativo cliente simples em Python para testar os endpoints da API.
+- A execução da aplicação teste deve apresentar um menu/submenu simples cada tipo de modelo/operação, permitindo ao usuário interagir com a API.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
+- Usuários:
+  - Listar usuários: `GET /usuarios/`
+  - Detalhar usuário: `GET /usuarios/{pk}/`
+  - Criar usuário: `POST /usuarios/`
 
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+- Projetos:
+  - Listar projetos: `GET /projetos/`
+  - Criar projeto: `POST /projetos/`
+  - Detalhar projeto: `GET /projetos/{pk}/`
+  - Atualizar projeto: `PUT /projetos/{pk}/`
+  - Deletar projeto: `DELETE /projetos/{pk}/`
+  - Ação personalizada: `GET /projetos/{pk}/tarefas_do_projeto/`
+  - Ação personalizada : `GET /projetos/{pk}/resumo_progresso/`
+  - Ação personalizada : `POST /projetos/{pk}/atribuir_proprietario/`
 
+- Tarefas:
+  - Listar tarefas: `GET /tarefas/`
+  - Criar tarefa: `POST /tarefas/`
+  - Detalhar tarefa: `GET /tarefas/{pk}/`
+  - Atualizar tarefa: `PUT /tarefas/{pk}/`
+  - Deletar tarefa: `DELETE /tarefas/{pk}/`
+  - Ação personalizada: `POST /tarefas/{pk}/marcar_concluida/`
+  - Ação personalizada : `POST /tarefas/{pk}/atribuir_usuario/`
+  - Ação personalizada : `POST /tarefas/{pk}/remover_usuario/`
+  - Ação personalizada : `POST /tarefas/{pk}/mudar_status/`
+  - Ação personalizada : `GET /tarefas/tarefas_por_usuario/`
+  - Ação personalizada : `GET /tarefas/numero_tarefas_por_projeto/`  
 
+## Considerações Finais
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
+- Certifique-se de que a API esteja bem documentada, utilizando o Swagger para facilitar o entendimento dos endpoints.
+- Link Assigment: [GitHub Classroom](https://classroom.github.com/a/dqcSHj9n)
+- Data de Entrega: **04/06/2025 às 16:30**
