@@ -1,8 +1,13 @@
-# TP4 - Atividade Prática: API de Gerenciamento de Tarefas com Django Rest Framework 
+# TP5 - Atividade Prática: API de Gerenciamento de Tarefas com Autenticação
 
-**Objetivo:** Aplicar os conceitos do Django Rest Framework para construir uma API RESTful para um sistema de gerenciamento de tarefas, com foco na criação de endpoints CRUD e ações personalizadas (custom actions) em ViewSets.
+**Objetivo:** Aplicar os conceitos do Django Rest Framework para construir uma API RESTful para um sistema de gerenciamento de tarefas, com foco na criação de endpoints CRUD e ações personalizadas (custom actions) em ViewSets em conjunto com autenticação.
 
-**Contexto:**
+Cada dupla deverá escolher um dos códigos do TP4 como base para o desenvolvimento da API para inclusão de autenticação. Antes de qualquer execução de criação de projeto ou tarefa, é necessário que o usuário esteja autenticado. A autenticação será feita utilizando o sistema de autenticação visto em sala de aula.
+
+Cada dupla deverá implementar o front em Python, utilizando a biblioteca `requests` para interagir com a API desenvolvida. O front deve permitir que o usuário realize operações de CRUD e ações personalizadas, conforme especificado abaixo, mas para isso, a primeira operação a ser feita é a de autenticação do usuário. O usuário só poderá criar projetos e tarefas, bem como realizar as ações personalizadas, se estiver autenticado.
+
+
+**Contexto do TP4 a ser considerado:**
 Você foi encarregado de desenvolver o backend para um sistema simples de gerenciamento de tarefas. A API permitirá criar projetos, adicionar tarefas a esses projetos, atribuir tarefas a usuários e modificar o status das tarefas.
 
 **Modelo de Dados (Django Models):**
@@ -128,8 +133,14 @@ No arquivo `urls.py` do seu app, configure as URLs usando DRF Routers:
   - Ação personalizada : `GET /tarefas/tarefas_por_usuario/`
   - Ação personalizada : `GET /tarefas/numero_tarefas_por_projeto/`  
 
+- **Autenticação** (novos endpoints incluidos para o TP5):
+  - Login: `POST /api/token/login/` (utilizando o sistema de autenticação visto em sala de aula)
+  - Logout: `POST /api/token/logout/`
+  - Verificar se o usuário está autenticado: `GET /api/token/verify/` 
+  
 ## Considerações Finais
 
 - Certifique-se de que a API esteja bem documentada, utilizando o Swagger para facilitar o entendimento dos endpoints.
-- Link Assigment: [GitHub Classroom](https://classroom.github.com/a/dqcSHj9n)
-- Data de Entrega: **04/06/2025 às 16:30**
+- Link Assigment: [GitHub Classroom](https://classroom.github.com/a/u7wD4XzY)
+- Para aqueles que já implementaram o TP4 com autenticação e entregou em 04/06 está dispensado do TP5.
+- Data de Entrega: **11/06/2025 às 16:30**
