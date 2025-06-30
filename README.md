@@ -102,6 +102,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp6-2025_1"> Trabalho Prático 6</a>
+
 <!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
 
 
