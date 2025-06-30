@@ -98,6 +98,10 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Definindo Perfil de Usuário Específicos
   - Registro de Usuário
   - Login e Logout
+
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
+
 <!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
 
 
