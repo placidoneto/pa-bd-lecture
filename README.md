@@ -1,182 +1,141 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Seminários 2o Bimestre sobre Desenvolvimento de API Restful com Framework Spring Boot.
 
 ## Objetivo
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
-
-
-## Metodologia
-
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
-
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
-
-## Pré-Requistos 
-
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
-
-## Agenda
-
-### 1o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
-
-- Inserção de Dados
-- Consultas SQL
-  
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
-
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
-
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest </a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
-
-### 2o Bimestre
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-<!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
-
-
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
+O objetivo deste seminário é proporcionar uma compreensão aprofundada do desenvolvimento de APIs RESTful utilizando o framework Spring Boot. Os grupos aprenderão sobre os princípios fundamentais do design de APIs, as melhores práticas de desenvolvimento e como implementar uma API RESTful completa usando o Spring Boot.
+
+Os temas serão abordados em grupos, cada um focando em um aspecto específico do desenvolvimento de APIs RESTful. Cada grupo terá a responsabilidade de apresentar seu tema e entregar um trabalho prático (TP) relacionado.
+
+## Temas e Cronograma
+
+
+**1. Configuração Inicial do Projeto Spring Boot + CRUD 1 Classe/Modelo com acesso ao Postgres(JPA)**
+Data da apresentação: 08/07
+Data do TP: 09/07
+Integrantes: Jeremias, Wesley, Marya, Lucas M, Neemias.
+
+**2. Relacionamento e CRUD para todas as classes do Modelo**
+Data da apresentação: 15/07
+Data do TP: 16/07
+Integrantes: Luiz Roberto, Luiz Fernando, Ana Maria, Jesrriel.
+
+**3. Relacionamento e CRUD para todas as classes do Modelo com acesso ao Neo4j para backup de dados**
+Data da apresentação: 22/07
+Data do TP: 23/07
+Integrantes: Mateus, Fábio, Gabrielly, Danilo e Gabrielle.
+
+**4. Gerenciamento de Perfil e autenticação**
+Data da apresentação: 29/07
+Data do TP: 30/07
+Integrantes: Nathan, Lucas P, Maycon, Wilson e Agnes.
+
+**5. Filtragem de dados e consultas avançados com Spring Boot**
+Data da apresentação: 05/08
+Data do TP: 06/08
+Integrantes: Luiz Felipe, Anderson, Giovana, Samuel, Laura.
+
+## Requisitos
+
+Cada grupo deverá descreve (através de uma apresentação) o conteúdo que que ficou responsável, incluindo os seguintes pontos:
+- Conceitos básicos do Spring Boot e APIs RESTful.
+- Configuração do ambiente de desenvolvimento.
+- Implementação de um CRUD básico com uma classe/modelo.
+- Implementação de relacionamentos entre classes/modelos.
+- Implementação de autenticação e gerenciamento de perfis.
+- Implementação de filtragem de dados e consultas avançadas.
+- Demonstração de como realizar backup de dados utilizando o Neo4j.
+
+## Entregas
+- Cada grupo deverá apresentar um Trabalho Prático - TP, que consiste em desenvolver uma API Restful com acesso a Banco de Dados utilizando o framework apresentado para que os demais alunos possam implementar.
+- Cada grupo deverá apresentar um tutorial de como implementar/resolver o TP.
+- Cada grupo deverá apresentar as informações, exemplos e TP em Markdown no repositório no GithubClassroom.
+- Link do repositório no GithubClassroom: https://classroom.github.com/a/e75b8yIb
+
+## Sistema a ser desenvolvido
+
+O sistema a ser considerado é um sistema para gerenciamento de atendimento de pets em clínicas veterinárias. O sistema deve permitir o cadastro de pets, gerenciamento de histórico de atendimentos e gerenciamento de tutores. Tanto os tutores quanto
+os pets devem possuir um perfil, onde o tutor pode gerenciar os dados do pet e o histórico de atendimentos. O sistema deve permitir a autenticação de usuários e a filtragem de dados para consultas avançadas. Os médicos veterinários devem ter acesso ao histórico de atendimentos dos pets e poder registrar novos atendimentos.
+
+O sistema pode também incluir registro de vacinas, medicamentos e cirurgia para cada pet. Os tutores podem verificar o histórico geral de cada um dos seus pets.
+
+### Alguns requisitos funcionais:
+- Cadastro de pets com informações básicas (nome, idade, raça, etc.).
+- Cadastro de tutores com informações básicas (nome, contato, etc.).
+- Autenticação de usuários (tutores e veterinários).
+- Vinculação de pets a tutores.
+- Gerenciamento de histórico de atendimentos (data, descrição, veterinário responsável, etc.).
+- Registro de vacinas, medicamentos e cirurgias.
+- Filtragem de dados para consultas avançadas (por exemplo, pets por raça, atendimentos por data, etc.).
+- Backup de dados utilizando o Neo4j.
+- A lista de requisitos pode ser expandida conforme necessário, dependendo das necessidades do sistema.
+
+### Alguns modelos a serem considerados:
+- **Pet**: id, nome, idade, tipo, raça, tutor (referência ao Tutor), histórico de atendimentos (lista de Atendimentos).
+- **Tutor**: id, nome, contato, pets (lista de Pets).
+- **Atendimento**: id, data, descrição, veterinário responsável (referência ao Veterinário), pet (referência ao Pet).
+- **Veterinário**: id, nome, especialidade, atendimentos (lista de Atendimentos).
+- **Vacina**: id, nome, data de aplicação, pet (referência ao Pet).
+- **Medicamento**: id, nome, dosagem, pet (referência ao Pet).
+- **Cirurgia**: id, nome, data, pet (referência ao Pet).  
+
+Veja abaixo o modelo de dados:
+
+```mermaid
+erDiagram
+    PET {
+        int id
+        string nome
+        int idade
+        string tipo
+        string raca
+        TUTOR tutor
+        ATENDIMENTO[] historicoAtendimentos
+    }
+    TUTOR {
+        int id
+        string nome
+        string contato
+        PET[] pets
+    }
+    ATENDIMENTO {
+        int id
+        date data
+        string descricao
+        VETERINARIO veterinarioResponsavel
+        PET pet
+    }
+    VETERINARIO {
+        int id
+        string nome
+        string especialidade
+        ATENDIMENTO[] atendimentos
+    }
+    VACINA {
+        int id
+        string nome
+        date dataAplicacao
+        PET pet
+    }
+    MEDICAMENTO {
+        int id
+        string nome
+        string dosagem
+        PET pet
+    } 
+    CIRURGIA {
+        int id
+        string nome
+        date data
+        PET pet
+    }
+
+    PET ||--o{ TUTOR : possui
+    TUTOR ||--o{ PET : possui
+    PET ||--o{ ATENDIMENTO : possui    
+    VETERINARIO ||--o{ ATENDIMENTO : realiza
+    PET ||--o{ VACINA : recebe
+    PET ||--o{ MEDICAMENTO : recebe
+    PET ||--o{ CIRURGIA : realiza
+    MEDICAMENTO ||--o{ PET : administradoEm
+    CIRURGIA ||--o{ PET : realizadaEm    
+```
