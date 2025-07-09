@@ -1,193 +1,205 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
 
-## Objetivo
+# PetCare - Sistema de Gerenciamento de Atendimentos Veterinários
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+Este projeto é um sistema para gerenciamento de atendimentos de pets em clínicas veterinárias. Ele permite o cadastro e gerenciamento de tutores, pets e atendimentos, além de registrar informações importantes como vacinas, medicamentos e cirurgias.
 
+O sistema foi desenvolvido como parte de um trabalho acadêmico utilizando **Spring Boot** com **JPA** e **PostgreSQL**.
 
-## Metodologia
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+Link Assigment: [Spring Boot - Tema 1 - PetCare](https://classroom.github.com/a/8jYobUms)
+---
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+## Funcionalidades
 
-## Pré-Requistos 
+- Cadastro de tutores com informações de contato
+- Cadastro de pets e associação com tutores
+- Cadastro de atendimentos veterinários
+- Registro de vacinas, medicamentos e cirurgias por pet
+- Histórico de atendimentos consultável por veterinários e tutores
+- Autenticação de usuários (tutores e veterinários)
+- Consultas avançadas com filtros (por data, raça, tipo, etc.)
+- Backup de dados planejado com integração ao banco de grafos **Neo4j** (em desenvolvimento)
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+---
 
-## Agenda
+## Tecnologias Utilizadas
 
-### 1o Bimestre
+- Java 17 ou 21
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- PostgreSQL
+- Maven
+- Lombok (opcional)
+- Neo4j (para futura extensão)
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
+---
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
+## Estrutura do Projeto
 
+```
+petcare/
+├── src/
+│   ├── main/
+│   │   ├── java/com/example/petcare/
+│   │   │   ├── controller/
+│   │   │   ├── model/
+│   │   │   ├── repository/
+│   │   │   └── PetcareApplication.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── ...
+├── pom.xml
+└── README.md
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
+---
 
-- Inserção de Dados
-- Consultas SQL
-  
+## Modelos e Relacionamentos
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
+- **Tutor**: id, nome, telefone, lista de pets
+- **Pet**: id, nome, idade, tipo, raça, tutor, histórico de atendimentos
+- **Atendimento**: id, data, descrição, veterinário, pet
+- **Veterinário**: id, nome, especialidade
+- **Vacina**: id, nome, data de aplicação, pet
+- **Medicamento**: id, nome, dosagem, pet
+- **Cirurgia**: id, nome, data, pet
 
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
+---
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
+## Como Rodar o Projeto
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
+### 1. Requisitos
 
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
+Antes de iniciar, você precisa ter os seguintes softwares instalados:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
+- **Java JDK 17 ou 21**
+  - Verifique se o Java está instalado com: `java -version`
+- **Git**
+  - Verifique com: `git --version`
+- **PostgreSQL**
+  - Crie um banco chamado `petcare` com um usuário e senha configurados
+  - O usuário padrão é `postgres´ e a porta 5432 - porta de uso padrão.
+- **VS Code ou IntelliJ**
+- **Maven (ou use o Maven Wrapper incluso)**
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
+### 2. Clonar o Repositório
 
+```bash
+git clone https://github.com/IFRN/semin-rios-framework-spring-boot-2o-bimestre-tema1-crud-springboot-postgre.git
+cd petcare
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
+### 3. Configurar o Banco de Dados
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+No PostgreSQL, crie um banco chamado `petcare`.  
+Depois, abra o arquivo `src/main/resources/application.properties` e edite com suas configurações:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest </a>
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/petcare
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
+### 4. Rodar o Projeto
 
+#### No Windows (com Maven Wrapper):
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
+```bash
+.\mvnw spring-boot:run
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
+#### No Linux/macOS:
 
-  - Autenticação JWT
-  - Sistema de Login e Logout
+```bash
+./mvnw spring-boot:run
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
+Caso esteja usando Maven instalado no sistema, use:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
+```bash
+mvn spring-boot:run
+```
 
-### 2o Bimestre
+---
 
+## Acesse o Swagger
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
+Com o projeto rodando, abra no navegador:
 
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
+```
+http://localhost:8081/swagger-ui/index.html
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
+Lá você pode testar todos os endpoints da API de forma interativa.
 
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
+---
 
+## Verifique os dados no PostgreSQL
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
+Para visualizar os dados persistidos:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp6-2025_1"> Trabalho Prático 6</a>
+1. Acesse o banco `petcare` pelo **pgAdmin**
+2. Vá até a aba de consultas (`Query Tool`)
+3. Execute:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 10. Filtragem de Dados em Django Rest Framework</a>
+```sql
+SELECT * FROM pet;
+```
 
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
 
-<!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
+## Contribuidores
 
+- Marya Eduarda Alexandre
+- Wesley Costa
+- Neemias Renan
+- Jeremias
+- Lucas 
 
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
+---
+# Link público para a apresentação
+[https://www.canva.com/design/DAGsblaVi18/BjY426DbTCgD_cSEYhtXCQ/view?utm_content=DAGsblaVi18&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6ab7844645]
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
 
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
 
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
+## Trabalho Prático
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
+### Tarefa: Implementação de Novos Modelos
+**Objetivo**: Criar novos modelos para expandir o sistema PetCare com as seguintes entidades:
 
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
 
+#### 1. Modelo Atendimento
+- **Atributos**:
+  - `id` (Long) - Identificador único
+  - `data` (LocalDate) - Data do atendimento
+  - `descricao` (String) - Descrição do atendimento realizado
 
+#### 2. Modelo Vacina
+- **Atributos**:
+  - `id` (Long) - Identificador único
+  - `nome` (String) - Nome da vacina
+  - `dataAplicacao` (LocalDate) - Data de aplicação da vacina
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
+#### 3. Modelo Medicamento
+- **Atributos**:
+  - `id` (Long) - Identificador único
+  - `nome` (String) - Nome do medicamento
+  - `dosagem` (String) - Dosagem prescrita
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+#### 4. Modelo Cirurgia
+- **Atributos**:
+  - `id` (Long) - Identificador único
+  - `nome` (String) - Nome/tipo da cirurgia
+  - `data` (LocalDate) - Data da cirurgia
 
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
+#### Detalhes e Requisitos da Implementação:
+OBS:Para esse TP não será necessário criar os relacionamentos entre os Modelos.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
+- Criar os modelos seguindo o padrão dos modelos existentes (Pet, Tutor, Veterinario)
+- Implementar repositories para cada modelo
+- Criar services com métodos para listar e salvar
+- Desenvolver controllers com endpoints GET (listar) e POST (criar)
 
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
