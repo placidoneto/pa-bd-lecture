@@ -1,98 +1,42 @@
+# Relacionamento e CRUD para todas as classes do sistema PetCare
+Este repositório se refere a 2° etapa do desenvolvimento do projeto PetCare, expandindo a estrutura inicial criada pelo Grupo 1. A implementação engloba os relacionamentos entre todas as classes do modelo e os respectivos endpoints CRUD).
 
-# PetCare - Sistema de Gerenciamento de Atendimentos Veterinários
+## Relacionamentos Implementados
+As entidades foram modeladas com base nas regras de negócio do sistema, utilizando anotações JPA para refletir os relacionamentos no banco de dados PostgreSQL:<br>
+Tutor ↔ Pet → Um-para-Muitos <br>
+Pet ↔ Atendimento → Um-para-Muitos <br>
+Pet ↔ Vacina, Medicamento, Cirurgia → Um-para-Muitos <br>
+Veterinário ↔ Atendimento → Um-para-Muitos <br>
+Todos os relacionamentos foram testados e verificados via Postman e pgAdmin. <br>
 
-Este projeto é um sistema para gerenciamento de atendimentos de pets em clínicas veterinárias. Ele permite o cadastro e gerenciamento de tutores, pets e atendimentos, além de registrar informações importantes como vacinas, medicamentos e cirurgias.
+## Endpoints CRUD
+Para cada entidade do projeto, foram desenvolvidos endpoints RESTful com as seguintes operações: <br>
+GET /entidade – Listagem completa <br>
+GET /entidade/{id} – Busca por ID <br>
+POST /entidade – Cadastro de novo registro <br>
+PUT /entidade/{id} – Atualização de registro existente <br>
+DELETE /entidade/{id} – Exclusão <br>
+As entidades cobertas: 
+- Tutor
+- Pet
+- Atendimento
+- Veterinário
+- Vacina
+- Medicamento
+- Cirurgia
 
-O sistema foi desenvolvido como parte de um trabalho acadêmico utilizando **Spring Boot** com **JPA** e **PostgreSQL**.
+## Como testar
 
-
-Link Assigment: [Spring Boot - Tema 1 - PetCare](https://classroom.github.com/a/8jYobUms)
----
-
-## Funcionalidades
-
-- Cadastro de tutores com informações de contato
-- Cadastro de pets e associação com tutores
-- Cadastro de atendimentos veterinários
-- Registro de vacinas, medicamentos e cirurgias por pet
-- Histórico de atendimentos consultável por veterinários e tutores
-- Autenticação de usuários (tutores e veterinários)
-- Consultas avançadas com filtros (por data, raça, tipo, etc.)
-- Backup de dados planejado com integração ao banco de grafos **Neo4j** (em desenvolvimento)
-
----
-
-## Tecnologias Utilizadas
-
-- Java 17 ou 21
-- Spring Boot
-- Spring Web
-- Spring Data JPA
-- PostgreSQL
-- Maven
-- Lombok (opcional)
-- Neo4j (para futura extensão)
-
----
-
-## Estrutura do Projeto
-
-```
-petcare/
-├── src/
-│   ├── main/
-│   │   ├── java/com/example/petcare/
-│   │   │   ├── controller/
-│   │   │   ├── model/
-│   │   │   ├── repository/
-│   │   │   └── PetcareApplication.java
-│   │   └── resources/
-│   │       ├── application.properties
-│   │       └── ...
-├── pom.xml
-└── README.md
-```
-
----
-
-## Modelos e Relacionamentos
-
-- **Tutor**: id, nome, telefone, lista de pets
-- **Pet**: id, nome, idade, tipo, raça, tutor, histórico de atendimentos
-- **Atendimento**: id, data, descrição, veterinário, pet
-- **Veterinário**: id, nome, especialidade
-- **Vacina**: id, nome, data de aplicação, pet
-- **Medicamento**: id, nome, dosagem, pet
-- **Cirurgia**: id, nome, data, pet
-
----
-
-## Como Rodar o Projeto
-
-### 1. Requisitos
-
-Antes de iniciar, você precisa ter os seguintes softwares instalados:
-
-- **Java JDK 17 ou 21**
-  - Verifique se o Java está instalado com: `java -version`
-- **Git**
-  - Verifique com: `git --version`
-- **PostgreSQL**
-  - Crie um banco chamado `petcare` com um usuário e senha configurados
-  - O usuário padrão é `postgres´ e a porta 5432 - porta de uso padrão.
-- **VS Code ou IntelliJ**
-- **Maven (ou use o Maven Wrapper incluso)**
-
-### 2. Clonar o Repositório
+### 1. Clone o Repositório
 
 ```bash
-git clone https://github.com/IFRN/semin-rios-framework-spring-boot-2o-bimestre-tema1-crud-springboot-postgre.git
-cd petcare
+git clone https://github.com/IFRN/semin-rios-framework-spring-boot-2o-bimestre-tema2-relacionamento-crud-todas-classes.git
+cd petcare/petcare
 ```
 
-### 3. Configurar o Banco de Dados
+### 2. Configurar o Banco de Dados
 
-No PostgreSQL, crie um banco chamado `petcare`.  
+No PGAdmin (Postgres), crie um banco chamado `petcare`.  
 Depois, abra o arquivo `src/main/resources/application.properties` e edite com suas configurações:
 
 ```properties
@@ -104,7 +48,7 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 ```
 
-### 4. Rodar o Projeto
+### 3. Rode o Projeto
 
 #### No Windows (com Maven Wrapper):
 
@@ -124,82 +68,68 @@ Caso esteja usando Maven instalado no sistema, use:
 mvn spring-boot:run
 ```
 
----
-
-## Acesse o Swagger
+### 4. Acesse o Swagger
 
 Com o projeto rodando, abra no navegador:
 
 ```
-http://localhost:8081/swagger-ui/index.html
+http://localhost:8080/swagger-ui/index.html
 ```
 
 Lá você pode testar todos os endpoints da API de forma interativa.
 
----
+## Membros da equipe
+<table style>
+  <tr>
+    <td align="center"><a href="https://github.com/namariaa">
+        <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/namariaa" width="100px;" alt="Bolsista 2"/>
+        <br />
+        <a href="https://github.com/namariaa"><b>Ana Maria</b></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/rielps">
+        <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/170769111?v=4" width="100px;" alt="Jesrriel Moura"/>
+        <br />
+        <a href="https://github.com/rielps"><b>Jesrriel Moura</b></a>
+    </td>
+    <td align="center"><a href="https://github.com/luuiizf">
+        <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/97256376?v=4" width="100px;" alt="Luiz Fernando"/>
+        <br />
+        <a href="https://github.com/luuiizf"><b>Luiz Fernando</b></a>
+    </td>
+    <td align="center"><a href="https://github.com/luiizr">
+        <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/164033637?v=4" width="100px;" alt="Luiz Roberto"/>
+        <br />
+        <a href="https://github.com/luiizr"><b>Luiz Roberto</b></a>
+    </td>
+  </tr>
 
-## Verifique os dados no PostgreSQL
+</table>
 
-Para visualizar os dados persistidos:
+## Trabalho prático
+Depois de trabalharmos juntos nos modelos de atendimento, vacina, tutores e mais, está na hora de darmos o próximo passo no projeto. E pra deixar o sistema ainda mais completo, vamos construir dois novos modelos super importantes: Clinica e Agendamento. <br>
+-Clínica: Esse modelo vai permitir registrar todas as informações essenciais sobre uma clínica veterinária, como nome, localização e dados de contato. Com isso, o sistema poderá conectar cada agendamento ao local onde será realizado, garantindo mais organização e controle para os profissionais e tutores.
+ <br>
+- Agendamento: Com esse modelo, os atendimentos podem ser marcados com mais organização. Vocês vão registrar a data, o veterinário, o tipo de atendimento e até a clínica onde o pet será cuidado. Tudo com praticidade e controle! <br>
+**A missão de vocês Agora é com vocês!** A ideia é que cada um coloque a mão na massa e ajude a construir esses modelos no sistema. <br>
+### 1. Modelo Clínica 
+Objetivo: Representar uma clínica veterinária onde os atendimentos podem ser realizados. <br>
+**Atributos** <br>
+- **id** (Long): Identificador único da clínica
+- **nome** (String): Nome da clínica
+- **endereco** (String): Localização da clínica (rua, número, bairro etc.)
+- **telefone** (String): Contato principal da clínica
 
-1. Acesse o banco `petcare` pelo **pgAdmin**
-2. Vá até a aba de consultas (`Query Tool`)
-3. Execute:
-
-```sql
-SELECT * FROM pet;
-```
-
-
-## Contribuidores
-
-- Marya Eduarda Alexandre
-- Wesley Costa
-- Neemias Renan
-- Jeremias
-- Lucas 
-
----
-# Link público para a apresentação
-[https://www.canva.com/design/DAGsblaVi18/BjY426DbTCgD_cSEYhtXCQ/view?utm_content=DAGsblaVi18&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6ab7844645]
-
-
-
-## Trabalho Prático
-
-### Tarefa: Implementação de Novos Modelos
-**Objetivo**: Criar novos modelos para expandir o sistema PetCare com as seguintes entidades:
+### 2. Modelo Agendamento
+Objetivo: Representar um agendamento envolvendo atendimento, pet, veterinário e clínica. <br>
+**Atributos** <br>
+- **id** (Long): Identificador único <br>
+- **dataAgendada** (LocalDate): Data marcada para o atendimento <br>
+- **pet** (Pet): Pet que será atendido <br>
+- **veterinario** (Veterinario): Veterinário responsável <br>
+- **atendimento** (Atendimento): Qual atendimento ele está relacionado <br>
+- **clinica** (Clinica): Local do agendamento <br>
 
 
-#### 1. Modelo Atendimento
-- **Atributos**:
-  - `id` (Long) - Identificador único
-  - `data` (LocalDate) - Data do atendimento
-  - `descricao` (String) - Descrição do atendimento realizado
-
-#### 2. Modelo Vacina
-- **Atributos**:
-  - `id` (Long) - Identificador único
-  - `nome` (String) - Nome da vacina
-  - `dataAplicacao` (LocalDate) - Data de aplicação da vacina
-
-#### 3. Modelo Medicamento
-- **Atributos**:
-  - `id` (Long) - Identificador único
-  - `nome` (String) - Nome do medicamento
-  - `dosagem` (String) - Dosagem prescrita
-
-#### 4. Modelo Cirurgia
-- **Atributos**:
-  - `id` (Long) - Identificador único
-  - `nome` (String) - Nome/tipo da cirurgia
-  - `data` (LocalDate) - Data da cirurgia
-
-#### Detalhes e Requisitos da Implementação:
-OBS:Para esse TP não será necessário criar os relacionamentos entre os Modelos.
-
-- Criar os modelos seguindo o padrão dos modelos existentes (Pet, Tutor, Veterinario)
-- Implementar repositories para cada modelo
-- Criar services com métodos para listar e salvar
-- Desenvolver controllers com endpoints GET (listar) e POST (criar)
 
