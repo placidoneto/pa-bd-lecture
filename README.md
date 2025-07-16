@@ -108,6 +108,9 @@ Lá você pode testar todos os endpoints da API de forma interativa.
 </table>
 
 ## Trabalho prático
+
+### Link Assignment --> https://classroom.github.com/a/FgriK3In
+
 Depois de trabalharmos juntos nos modelos de atendimento, vacina, tutores e mais, está na hora de darmos o próximo passo no projeto. E pra deixar o sistema ainda mais completo, vamos construir dois novos modelos super importantes: Clinica e Agendamento. <br>
 -Clínica: Esse modelo vai permitir registrar todas as informações essenciais sobre uma clínica veterinária, como nome, localização e dados de contato. Com isso, o sistema poderá conectar cada agendamento ao local onde será realizado, garantindo mais organização e controle para os profissionais e tutores.
  <br>
