@@ -90,3 +90,6 @@ ou
 * Verifique o readme anterior se esqueceu de completar algum passo.
 * Peça ajuda a nós, o grupo, em caso de dúvida 
 
+## Assigment TP3
+
+Link: https://classroom.github.com/a/7O9RXBtq 
