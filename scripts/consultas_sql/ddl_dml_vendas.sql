@@ -1,19 +1,31 @@
+-- Remover tabelas se já existirem (ordem inversa das dependências)
+DROP TABLE IF EXISTS itens_pedido CASCADE;
+DROP TABLE IF EXISTS pedido CASCADE;
+DROP TABLE IF EXISTS produto CASCADE;
+DROP TABLE IF EXISTS usuario CASCADE;
+
+-- Remover tipos personalizados se existirem
+DROP TYPE IF EXISTS status_pedido_enum CASCADE;
+
 -- ==========================================
--- Sistema de Vendas - DDL e DML
--- Criação das tabelas básicas
+-- TIPOS PERSONALIZADOS
 -- ==========================================
 
--- Remover tabelas se já existirem (ordem inversa das dependências)
-DROP TABLE IF EXISTS itens_pedido;
-DROP TABLE IF EXISTS pedido;
-DROP TABLE IF EXISTS produto;
-DROP TABLE IF EXISTS usuario;
+-- Criar ENUM para status do pedido
+CREATE TYPE status_pedido_enum AS ENUM (
+    'pendente', 
+    'confirmado', 
+    'processando', 
+    'enviado', 
+    'entregue', 
+    'cancelado'
+);
 
 -- ==========================================
 -- TABELA: USUARIO
 -- ==========================================
 CREATE TABLE usuario (
-    id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     telefone VARCHAR(20),
@@ -27,12 +39,12 @@ CREATE TABLE usuario (
 -- TABELA: PRODUTO
 -- ==========================================
 CREATE TABLE produto (
-    id_produto INT PRIMARY KEY AUTO_INCREMENT,
+    id_produto SERIAL PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     descricao TEXT,
     categoria VARCHAR(50),
     preco DECIMAL(10,2) NOT NULL CHECK (preco >= 0),
-    quantidade_estoque INT DEFAULT 0 CHECK (quantidade_estoque >= 0),
+    quantidade_estoque INTEGER DEFAULT 0 CHECK (quantidade_estoque >= 0),
     peso DECIMAL(8,3),
     dimensoes VARCHAR(50),
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -43,10 +55,10 @@ CREATE TABLE produto (
 -- TABELA: PEDIDO
 -- ==========================================
 CREATE TABLE pedido (
-    id_pedido INT PRIMARY KEY AUTO_INCREMENT,
-    id_usuario INT NOT NULL,
+    id_pedido SERIAL PRIMARY KEY,
+    id_usuario INTEGER NOT NULL,
     data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status_pedido ENUM('pendente', 'confirmado', 'processando', 'enviado', 'entregue', 'cancelado') DEFAULT 'pendente',
+    status_pedido status_pedido_enum DEFAULT 'pendente',
     valor_total DECIMAL(12,2) DEFAULT 0.00 CHECK (valor_total >= 0),
     endereco_entrega TEXT NOT NULL,
     observacoes TEXT,
@@ -54,33 +66,30 @@ CREATE TABLE pedido (
     data_entrega_real DATE,
     
     -- Chave estrangeira
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE RESTRICT
+    CONSTRAINT fk_pedido_usuario FOREIGN KEY (id_usuario) 
+        REFERENCES usuario(id_usuario) ON DELETE RESTRICT
 );
 
 -- ==========================================
 -- TABELA: ITENS_PEDIDO
 -- ==========================================
 CREATE TABLE itens_pedido (
-    id_item INT PRIMARY KEY AUTO_INCREMENT,
-    id_pedido INT NOT NULL,
-    id_produto INT NOT NULL,
-    quantidade INT NOT NULL CHECK (quantidade > 0),
+    id_item SERIAL PRIMARY KEY,
+    id_pedido INTEGER NOT NULL,
+    id_produto INTEGER NOT NULL,
+    quantidade INTEGER NOT NULL CHECK (quantidade > 0),
     preco_unitario DECIMAL(10,2) NOT NULL CHECK (preco_unitario >= 0),
     subtotal DECIMAL(12,2) GENERATED ALWAYS AS (quantidade * preco_unitario) STORED,
     
     -- Chaves estrangeiras
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE CASCADE,
-    FOREIGN KEY (id_produto) REFERENCES produto(id_produto) ON DELETE RESTRICT,
+    CONSTRAINT fk_itens_pedido FOREIGN KEY (id_pedido) 
+        REFERENCES pedido(id_pedido) ON DELETE CASCADE,
+    CONSTRAINT fk_itens_produto FOREIGN KEY (id_produto) 
+        REFERENCES produto(id_produto) ON DELETE RESTRICT,
     
     -- Índice único para evitar duplicação de produto no mesmo pedido
-    UNIQUE KEY unique_pedido_produto (id_pedido, id_produto)
+    CONSTRAINT unique_pedido_produto UNIQUE (id_pedido, id_produto)
 );
-
-
-
--- ==========================================
--- DADOS DE EXEMPLO (DML)
--- ==========================================
 
 -- Inserir usuários
 INSERT INTO usuario (nome, email, telefone, endereco, data_nascimento) VALUES
