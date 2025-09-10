@@ -117,6 +117,10 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring3">TP Tema 3</a> 
 
+<a href="https://github.com/MaVitor/seminario-spring4">Spring Boot - Tema 4</a> 
+
+<a href="https://github.com/MaVitor/seminario-spring5">Spring Boot - Tema 5</a> 
+
 
 <!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
 
