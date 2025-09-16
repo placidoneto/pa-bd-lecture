@@ -3,6 +3,7 @@ import sys
 from typing import Optional
 import psycopg2
 from psycopg2 import sql
+#import tabulate
 
 DB_CONFIG = {
     'host': 'localhost',
@@ -57,6 +58,9 @@ class SistemaVendasCLI:
             resultados = cursor.fetchall()
             colunas = [desc[0] for desc in cursor.description]
             
+            #table = tabulate.tabulate(resultados, headers=colunas, tablefmt="grid")
+            #print(table)
+            
             if resultados:
                 # Exibir cabeçalhos
                 print("\n Resultados:")
@@ -76,6 +80,7 @@ class SistemaVendasCLI:
                     #  Une todos os valores formatados com " | " como separador
                     #  Resultado: colunas alinhadas visualmente em formato tabular
                     row = " | ".join(f"{str(valor):<20}" for valor in linha)
+                    
                     print(row)
                     
                 print(f"\nTotal de registros encontrados: {len(resultados)}")
@@ -110,7 +115,7 @@ class SistemaVendasCLI:
     def consulta_02_produtos_categoria(self):
         """2. Catálogo de Produtos por Categoria"""
         sql = """
-        SELECT nome, preco, quantidade_estoque
+        SELECT nome, preco, quantidade_estoque, categoria
         FROM produto
         WHERE categoria = 'Informática' AND ativo = TRUE
         ORDER BY preco ASC;
