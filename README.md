@@ -45,7 +45,7 @@ Considerando a relação ```Pedido -> FormaPagamento```, podemos realizar um JOI
 
 ```sql
 SELECT * FROM pedido
-JOIN forma_pagamento ON pedido.forma_pagamento_id = forma_pagamento.id
+JOIN forma_pagamento ON pedido.forma_pagamento_id = forma_pagamento.forma_pagamento_id
 WHERE pedido.id = 1;
 ```
 
@@ -55,16 +55,16 @@ No entanto se eu quiser um relatório com todos os pedidos cujo a formas de paga
 
 ```sql
 SELECT * FROM pedido
-JOIN forma_pagamento ON pedido.forma_pagamento_id = forma_pagamento.id
-WHERE forma_pagamento.descricao = 'Cartão de Crédito';
+JOIN forma_pagamento ON pedido.forma_pagamento_id = forma_pagamento.forma_pagamento_id
+WHERE forma_pagamento.tipo = 'Cartão de Crédito';
 ```
 
 Ainda se for necessário obter um relatório com todos os pedidos (com a quantidade de cada pedido), agrupado por forma de pagamento, podemos fazer o seguinte:
 
 ```sql
-SELECT formas_pagamento.descricao, count(pedidos.id) as total_pedidos FROM pedidos
-JOIN formas_pagamento ON pedidos.forma_pagamento_id = formas_pagamento.id
-GROUP BY formas_pagamento.descricao;
+SELECT forma_pagamento.tipo, count(pedido.pedido_id) as total_pedidos FROM pedido
+JOIN forma_pagamento ON pedido.forma_pagamento_id = forma_pagamento.forma_pagamento_id
+GROUP BY forma_pagamento.tipo;
 ```
 
 
@@ -72,18 +72,18 @@ Considerando a relação ```Pedido -> ItensPedido -> Itens```, podemos realizar 
 
 ```sql
 SELECT * FROM pedido
-JOIN itens_pedido ON pedido.id = itens_pedido.pedido_id
-JOIN itens ON itens_pedido.item_id = itens.id
-WHERE pedido.id = 1;
+JOIN item_pedido ON pedido.pedido_id = item_pedido.pedido_id
+JOIN item ON item_pedido.item_id = item.item_id
+WHERE pedido.pedido_id = 1;
 ```
 
 Se eu quiser obter o valor total de um pedido, posso fazer o seguinte:
 
 ```sql
-SELECT sum(itens.valor) as total FROM pedido
-JOIN itens_pedido ON pedido.id = itens_pedido.pedido_id
-JOIN itens ON itens_pedido.item_id = itens.id
-WHERE pedido.id = 1;
+SELECT sum(item.preco) as total FROM pedido
+JOIN item_pedido ON pedido.pedido_id = item_pedido.pedido_id
+JOIN item ON item_pedido.item_id = item.item_id
+WHERE pedido.pedido_id = 1;
 ```
 
 Perceba que nestes 2 exemplos acima são necessários 2 **JOIN** pois estamos relacionando 3 tabelas. vale sempre lembrar que o **JOIN** é feito através da chave estrangeira, que é a relação entre as tabelas.
@@ -91,9 +91,10 @@ Perceba que nestes 2 exemplos acima são necessários 2 **JOIN** pois estamos re
 Considerando a relação ```Pedido -> Vendedor```, podemos realizar um JOIN para obter o vendedor de um pedido específico.
 
 ```sql
-SELECT * FROM pedido
-JOIN vendedor ON pedido.vendedor_id = vendedor.id
-WHERE pedido.id = 1;
+SELECT * FROM item
+JOIN item_pedido ON item_pedido.item_pedido_id = item.item_id
+JOIN vendedor ON item.vendedor_id = vendedor.vendedor_id
+WHERE item_pedido.pedido_id = 1;
 ```
 
 Podemos também verificar os pedidos de um vendedor específico:
