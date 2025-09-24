@@ -1,206 +1,293 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# TP1 - 2025.2 Consultas Avançadas
+
+Link Assignment: https://classroom.github.com/a/Uln1eKr9
+Nome Repositório: *TP1_NomeSobrenome*
+
+Considere que você está para modelar o banco de um Sistema de PetShop, e após a modelagem, você identificou algumas das tabelas listadas abaixo.
+
+# Modelo de Dados - Sistema Petshop
+
+## 1. Tabela: CLIENTES
+```sql
+CREATE TABLE clientes (
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(15),
+    email VARCHAR(100),
+    endereco TEXT,
+    data_cadastro DATE
+);
+```
+
+## 2. Tabela: PETS
+```sql
+CREATE TABLE pets (
+    id_pet INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    especie VARCHAR(30),
+    raca VARCHAR(50),
+    idade INT,
+    peso DECIMAL(5,2),
+    id_cliente INT,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+);
+```
+
+## 3. Tabela: SERVICOS
+```sql
+CREATE TABLE servicos (
+    id_servico INT PRIMARY KEY AUTO_INCREMENT,
+    nome_servico VARCHAR(80) NOT NULL,
+    preco DECIMAL(8,2) NOT NULL,
+    duracao_minutos INT,
+    categoria VARCHAR(30)
+);
+```
+
+## 4. Tabela: FUNCIONARIOS
+```sql
+CREATE TABLE funcionarios (
+    id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    cargo VARCHAR(50),
+    salario DECIMAL(8,2),
+    data_admissao DATE,
+    especialidade VARCHAR(50)
+);
+```
+
+## 5. Tabela: AGENDAMENTOS
+```sql
+CREATE TABLE agendamentos (
+    id_agendamento INT PRIMARY KEY AUTO_INCREMENT,
+    id_pet INT,
+    id_servico INT,
+    id_funcionario INT,
+    data_agendamento DATE,
+    hora_agendamento TIME,
+    status VARCHAR(20),
+    valor_pago DECIMAL(8,2),
+    observacoes TEXT,
+    FOREIGN KEY (id_pet) REFERENCES pets(id_pet),
+    FOREIGN KEY (id_servico) REFERENCES servicos(id_servico),
+    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id_funcionario)
+);
+```
+
+## Relacionamentos:
+- **CLIENTES** (1) → (N) **PETS**
+- **PETS** (1) → (N) **AGENDAMENTOS**
+- **SERVICOS** (1) → (N) **AGENDAMENTOS**
+- **FUNCIONARIOS** (1) → (N) **AGENDAMENTOS**
+
+Considerando o que foi definido acima, responda as seguintes questões no README do Repositório.
+
+**Instruções:** Para cada consulta SQL apresentada abaixo, descreva detalhadamente o que está sendo executado, incluindo quais tabelas estão sendo consultadas, como estão sendo relacionadas e qual é o resultado esperado.
+
+---
+
+## Questão 1 
+```sql
+SELECT c.nome AS cliente, p.nome AS pet, p.especie, p.raca
+FROM clientes c
+INNER JOIN pets p ON c.id_cliente = p.id_cliente
+WHERE p.especie = 'Cão'
+ORDER BY c.nome;
+```
+
+**Descreva o que esta consulta faz:**
+```
+_______________________________________________________________
+_______________________________________________________________
+_______________________________________________________________
+```
+
+---
+
+## Questão 2 
+```sql
+SELECT s.categoria, COUNT(*) as total_agendamentos, SUM(a.valor_pago) as receita_total
+FROM servicos s
+INNER JOIN agendamentos a ON s.id_servico = a.id_servico
+WHERE a.status = 'Concluído'
+GROUP BY s.categoria
+ORDER BY receita_total DESC;
+```
+
+**Descreva o que esta consulta faz:**
+```
+_______________________________________________________________
+_______________________________________________________________
+_______________________________________________________________
+```
+
+---
+
+## Questão 3 
+```sql
+SELECT f.nome AS funcionario, f.cargo, COUNT(a.id_agendamento) as total_atendimentos
+FROM funcionarios f
+LEFT JOIN agendamentos a ON f.id_funcionario = a.id_funcionario 
+    AND a.data_agendamento BETWEEN '2024-01-01' AND '2024-12-31'
+GROUP BY f.id_funcionario, f.nome, f.cargo
+ORDER BY total_atendimentos DESC;
+```
+
+**Descreva o que esta consulta faz:**
+```
+_______________________________________________________________
+_______________________________________________________________
+_______________________________________________________________
+```
 
-## Objetivo
+---
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+## Questão 4 
+```sql
+SELECT c.nome AS cliente, COUNT(DISTINCT p.id_pet) as qtd_pets, 
+       COUNT(a.id_agendamento) as total_agendamentos
+FROM clientes c
+LEFT JOIN pets p ON c.id_cliente = p.id_cliente
+LEFT JOIN agendamentos a ON p.id_pet = a.id_pet
+GROUP BY c.id_cliente, c.nome
+HAVING COUNT(DISTINCT p.id_pet) > 1
+ORDER BY qtd_pets DESC;
+```
 
+**Descreva o que esta consulta faz:**
+```
+_______________________________________________________________
+_______________________________________________________________
+_______________________________________________________________
+```
 
-## Metodologia
+---
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+## Questão 5 
+```sql
+SELECT s.nome_servico, s.preco, AVG(s.preco) OVER() as preco_medio_geral,
+       CASE 
+           WHEN s.preco > AVG(s.preco) OVER() THEN 'Acima da Média'
+           ELSE 'Na Média ou Abaixo'
+       END as classificacao
+FROM servicos s
+ORDER BY s.preco DESC;
+```
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+**Descreva o que esta consulta faz:**
+```
+_______________________________________________________________
+_______________________________________________________________
+_______________________________________________________________
+```
 
-## Pré-Requistos 
+---
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+## Questão 6 
+```sql
+SELECT MONTH(a.data_agendamento) as mes, 
+       COUNT(*) as total_agendamentos,
+       SUM(a.valor_pago) as receita_mensal
+FROM agendamentos a
+WHERE YEAR(a.data_agendamento) = 2024 
+  AND a.status IN ('Concluído', 'Pago')
+GROUP BY MONTH(a.data_agendamento)
+ORDER BY mes;
+```
 
-## Agenda
+**Descreva o que esta consulta faz:**
+```
+_______________________________________________________________
+_______________________________________________________________
+_______________________________________________________________
+```
 
-### 1o Bimestre
+---
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
 
+**Instruções:** Com base no modelo de dados do sistema petshop apresentado anteriormente, crie consultas SQL para resolver os problemas propostos abaixo. Suas consultas devem ser funcionais e otimizadas.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
+---
 
-- Inserção de Dados
-- Consultas SQL
-  
+## Questão 7
+**Problema:** O gerente do petshop precisa de uma lista com todos os pets cadastrados no sistema, mostrando o nome do pet, a espécie, a raça e o nome do dono. A lista deve estar ordenada alfabeticamente pelo nome do pet.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
+**Sua consulta SQL:**
+```sql
+-- Escreva sua consulta aqui:
 
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
 
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
+---
 
+## Questão 8
+**Problema:** A recepcionista precisa saber quais são os 3 serviços mais caros oferecidos pelo petshop e quantas vezes cada um já foi agendado (independente do status). Se um serviço nunca foi agendado, ainda deve aparecer na lista com quantidade 0.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
+**Sua consulta SQL:**
+```sql
+-- Escreva sua consulta aqui:
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest </a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
 
-  - Autenticação JWT
-  - Sistema de Login e Logout
+```
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
+---
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
+## Questão 9
+**Problema:** O dono do petshop quer identificar os clientes mais fiéis. Ele precisa de um relatório mostrando os clientes que têm pelo menos 2 pets cadastrados E que já fizeram pelo menos 5 agendamentos no total (considerando todos os seus pets). O relatório deve mostrar: nome do cliente, quantidade de pets, total de agendamentos e o valor total já pago por esse cliente.
 
-### 2o Bimestre
+**Sua consulta SQL:**
+```sql
+-- Escreva sua consulta aqui:
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
 
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
 
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
 
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp6-2025_1"> Trabalho Prático 6</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 10. Filtragem de Dados em Django Rest Framework</a>
+```
 
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
+---
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring1">Spring Boot - Tema 1</a>
+## Questão 10
+**Problema:** Para fins de análise de desempenho, o petshop precisa de um relatório mensal dos últimos 6 meses mostrando: o mês/ano, quantos agendamentos foram realizados, quantos foram cancelados, qual a receita total do mês (apenas agendamentos concluídos), e qual foi o serviço mais popular (mais agendado) em cada mês.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring2">Spring Boot - Tema 2</a>
+**Dica:** Considere que estamos em dezembro de 2024. Foque apenas na parte principal do relatório (mês, total de agendamentos, cancelados e receita). O serviço mais popular pode ser uma consulta separada se necessário.
 
-<a href="https://github.com/MaVitor/Spring-Boot-Tema3">Spring Boot - Tema 3</a> 
+**Sua consulta SQL:**
+```sql
+-- Escreva sua consulta aqui:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring3">TP Tema 3</a> 
 
-<a href="https://github.com/MaVitor/seminario-spring4">Spring Boot - Tema 4</a> 
 
-<a href="https://github.com/MaVitor/seminario-spring5">Spring Boot - Tema 5</a> 
 
 
-<!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
 
 
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
 
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
 
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
+```
 
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
+---
 
 
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
+### Critérios de Avaliação:
+- Identificação correta das tabelas envolvidas
+- Explicação do tipo de JOIN utilizado
+- Compreensão das funções agregadas (COUNT, SUM, AVG)
+- Explicação do GROUP BY e ORDER BY
+- Interpretação do resultado esperado

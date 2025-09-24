@@ -158,7 +158,7 @@ class SistemaVendasCLI:
         SELECT DISTINCT ON (categoria) categoria, nome, preco
         FROM produto
         WHERE ativo = TRUE
-        ORDER BY categoria, preco DESC;
+        ORDER BY categoria, preco ASC;
         """
         self.executar_consulta(sql, "6. Produtos Mais Caros por Categoria")
     
