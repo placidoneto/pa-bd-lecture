@@ -90,7 +90,7 @@ Considerando o que foi definido acima, responda as seguintes questões no README
 ```sql
 SELECT c.nome AS cliente, p.nome AS pet, p.especie, p.raca
 FROM clientes c
-INNER JOIN pets p ON c.id_cliente = p.id_cliente
+JOIN pets p ON c.id_cliente = p.id_cliente
 WHERE p.especie = 'Cão'
 ORDER BY c.nome;
 ```
@@ -108,7 +108,7 @@ _______________________________________________________________
 ```sql
 SELECT s.categoria, COUNT(*) as total_agendamentos, SUM(a.valor_pago) as receita_total
 FROM servicos s
-INNER JOIN agendamentos a ON s.id_servico = a.id_servico
+JOIN agendamentos a ON s.id_servico = a.id_servico
 WHERE a.status = 'Concluído'
 GROUP BY s.categoria
 ORDER BY receita_total DESC;
@@ -127,7 +127,7 @@ _______________________________________________________________
 ```sql
 SELECT f.nome AS funcionario, f.cargo, COUNT(a.id_agendamento) as total_atendimentos
 FROM funcionarios f
-LEFT JOIN agendamentos a ON f.id_funcionario = a.id_funcionario 
+JOIN agendamentos a ON f.id_funcionario = a.id_funcionario 
     AND a.data_agendamento BETWEEN '2024-01-01' AND '2024-12-31'
 GROUP BY f.id_funcionario, f.nome, f.cargo
 ORDER BY total_atendimentos DESC;
@@ -147,8 +147,8 @@ _______________________________________________________________
 SELECT c.nome AS cliente, COUNT(DISTINCT p.id_pet) as qtd_pets, 
        COUNT(a.id_agendamento) as total_agendamentos
 FROM clientes c
-LEFT JOIN pets p ON c.id_cliente = p.id_cliente
-LEFT JOIN agendamentos a ON p.id_pet = a.id_pet
+JOIN pets p ON c.id_cliente = p.id_cliente
+JOIN agendamentos a ON p.id_pet = a.id_pet
 GROUP BY c.id_cliente, c.nome
 HAVING COUNT(DISTINCT p.id_pet) > 1
 ORDER BY qtd_pets DESC;
