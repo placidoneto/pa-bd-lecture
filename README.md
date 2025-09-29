@@ -97,9 +97,7 @@ ORDER BY c.nome;
 
 **Descreva o que esta consulta faz:**
 ```
-_______________________________________________________________
-_______________________________________________________________
-_______________________________________________________________
+Lista todos os clientes que possuem cães, mostrando nome do cliente, nome do pet, espécie e raça. O uso da junção entre clientes e pets, filtra apenas cães e ordena por nome do cliente.
 ```
 
 ---
@@ -116,9 +114,7 @@ ORDER BY receita_total DESC;
 
 **Descreva o que esta consulta faz:**
 ```
-_______________________________________________________________
-_______________________________________________________________
-_______________________________________________________________
+Agrupa os serviços por categoria e calcula o total de agendamentos concluídos e a receita total por categoria. Ordena pela receita (maior para menor).
 ```
 
 ---
@@ -135,9 +131,7 @@ ORDER BY total_atendimentos DESC;
 
 **Descreva o que esta consulta faz:**
 ```
-_______________________________________________________________
-_______________________________________________________________
-_______________________________________________________________
+Mostra todos os funcionários com a quantidade de atendimentos realizados em 2024. Ordena por quantidade de atendimentos.
 ```
 
 ---
@@ -156,9 +150,7 @@ ORDER BY qtd_pets DESC;
 
 **Descreva o que esta consulta faz:**
 ```
-_______________________________________________________________
-_______________________________________________________________
-_______________________________________________________________
+Lista clientes que possuem mais de 1 pet, mostrando quantos pets cada um tem e total de agendamentos. O uso de várias junções e having filtra para considerar as restrições.
 ```
 
 ---
@@ -176,9 +168,7 @@ ORDER BY s.preco DESC;
 
 **Descreva o que esta consulta faz:**
 ```
-_______________________________________________________________
-_______________________________________________________________
-_______________________________________________________________
+Lista todos os serviços comparando o preço de cada um com a média geral, classificando se está acima ou na média/abaixo. 
 ```
 
 ---
@@ -197,9 +187,7 @@ ORDER BY mes;
 
 **Descreva o que esta consulta faz:**
 ```
-_______________________________________________________________
-_______________________________________________________________
-_______________________________________________________________
+Relatório mensal de 2024 mostrando quantidade de agendamentos e receita por mês, apenas para agendamentos concluídos ou pagos.
 ```
 
 ---
@@ -215,12 +203,10 @@ _______________________________________________________________
 
 **Sua consulta SQL:**
 ```sql
--- Escreva sua consulta aqui:
-
-
-
-
-
+SELECT p.nome AS pet, p.especie, p.raca, c.nome AS dono
+FROM pets p
+INNER JOIN clientes c ON p.id_cliente = c.id_cliente
+ORDER BY p.nome;
 ```
 
 ---
@@ -230,14 +216,12 @@ _______________________________________________________________
 
 **Sua consulta SQL:**
 ```sql
--- Escreva sua consulta aqui:
-
-
-
-
-
-
-
+SELECT s.nome_servico, s.preco, COUNT(a.id_agendamento) as vezes_agendado
+FROM servicos s
+LEFT JOIN agendamentos a ON s.id_servico = a.id_servico
+GROUP BY s.id_servico, s.nome_servico, s.preco
+ORDER BY s.preco DESC
+LIMIT 3;
 ```
 
 ---
@@ -247,16 +231,17 @@ _______________________________________________________________
 
 **Sua consulta SQL:**
 ```sql
--- Escreva sua consulta aqui:
-
-
-
-
-
-
-
-
-
+SELECT c.nome AS cliente, 
+       COUNT(DISTINCT p.id_pet) as qtd_pets,
+       COUNT(a.id_agendamento) as total_agendamentos,
+       COALESCE(SUM(a.valor_pago), 0) as valor_total_pago
+FROM clientes c
+INNER JOIN pets p ON c.id_cliente = p.id_cliente
+LEFT JOIN agendamentos a ON p.id_pet = a.id_pet
+GROUP BY c.id_cliente, c.nome
+HAVING COUNT(DISTINCT p.id_pet) >= 2 
+   AND COUNT(a.id_agendamento) >= 5
+ORDER BY valor_total_pago DESC;
 ```
 
 ---
@@ -268,18 +253,20 @@ _______________________________________________________________
 
 **Sua consulta SQL:**
 ```sql
--- Escreva sua consulta aqui:
-
-
-
-
-
-
-
-
-
-
-
+-- ANULADA -- ANULADA -- ANULADA -- ANULADA -- ANULADA -- 
+SELECT 
+    CONCAT(YEAR(a.data_agendamento), '-', LPAD(MONTH(a.data_agendamento), 2, '0')) as mes_ano,
+    COUNT(*) as total_agendamentos,
+    COUNT(CASE WHEN a.status = 'Cancelado' THEN 1 END) as cancelados,
+    SUM(CASE WHEN a.status = 'Concluído' THEN a.valor_pago ELSE 0 END) as receita_total
+FROM agendamentos a
+-- Filtra apenas agendamentos dos últimos 6 meses
+-- DATE_SUB subtrai 6 meses da data atual (CURDATE)
+-- Exemplo: se hoje é 29/09/2024, pega agendamentos >= 29/03/2024
+WHERE a.data_agendamento >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+GROUP BY YEAR(a.data_agendamento), MONTH(a.data_agendamento)
+ORDER BY a.data_agendamento DESC;
+-- ANULADA -- ANULADA -- ANULADA -- ANULADA -- ANULADA --
 ```
 
 ---
