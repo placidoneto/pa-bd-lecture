@@ -30,11 +30,13 @@ def delete_cliente(cliente_id):
 # Exemplo de uso
 if __name__ == '__main__':
     # Criar um novo Cliente
-    #new_cliente = {'nome': 'Cliente Novo', 'email': 'novo.cliente@gmail.coma', 'telefone': '456sss789'}
-    #created_cliente = create_cliente(new_cliente)
+    print("----CRIANDO CLIENTE----")
+    new_cliente = {'nome': 'João da Silva', 'email': 'joao.silva@gmail.com', 'telefone': '456987789'}
+    created_cliente = create_cliente(new_cliente)
     #print('Cliente criado:', created_cliente)
 
     # Obter todos os Clientes
+    print("----LISTANDO CLIENTES----")
     clientes = get_clientes()
     for cliente in clientes:
         print('Cliente:', cliente)

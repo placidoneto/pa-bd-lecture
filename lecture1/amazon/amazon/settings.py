@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
     "rest_framework",
     'drf_yasg',
     "backend",
@@ -79,9 +80,9 @@ WSGI_APPLICATION = "amazon.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'amazon',
-        'USER': 'placidoneto',
-        'PASSWORD': 'placidoneto',
+        'NAME': 'amazon_db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
