@@ -68,7 +68,10 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - Relacionamento 1 para N
 - Relacionamento N para N
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest </a>
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/atividade_fixacao_relacionamento20252"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.2</a>
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.1</a>
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
 
