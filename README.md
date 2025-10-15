@@ -1,150 +1,207 @@
-# TP2 - 2025.2 Sistema Bancário
+# Atividade Prática de Fixação Relacionamentos usando DRF: 
+**Sistema Kanban com Django REST Framework (DRF)**
 
-Link Assignment: https://classroom.github.com/a/cVxn4hMj
+Link Assignment (horário limite envio - 15:00): https://classroom.github.com/a/pQM4wCk_
 
-## Descrição do Problema
+## Objetivo
+Criar uma API REST para um sistema de controle de tarefas estilo Kanban, praticando relacionamentos entre modelos usando Django REST Framework.
 
-Imagine que um banco nacional solicitou para que você desenvolvesse um sistema de gerenciamento bancário para modernizar suas operações. O problema é que o banco não possui um sistema que permita o controle adequado de agências, contas, clientes e transações financeiras, o que leva a inconsistências nos dados e dificuldades no atendimento aos clientes.
+## Descrição do Sistema
 
-A diretoria do banco decidiu criar um sistema de gestão bancária, onde será possível cadastrar agências, abrir contas para clientes, registrar depósitos, saques e transferências entre contas. O sistema deve garantir a rastreabilidade de todas as operações financeiras realizadas.
+Você vai construir uma API para gerenciar:
+- **Projetos** 
+- **Colunas**  - ex: "A Fazer", "Em Progresso", "Concluído"
+- **Tarefas** 
+- **Usuários** 
+- **Comentários** 
+
+## Estrutura dos Modelos e Relacionamentos
+
+### 1. **Projeto** 
+- nome
+- descrição
+- data de criação
+- proprietário (ForeignKey → Usuario)
+- membros (ManyToMany → Usuario)
+
+### 2. **Comula** 
+- título
+- ordem (para ordenação)
+- projeto (ForeignKey → Projeto)
+
+### 3. **Tarefa** 
+- título
+- descrição
+- coluna (ForeignKey → Coluna)
+- responsável (ForeignKey → Usuario, nullable)
+- criador (ForeignKey → Usuario)
+- prioridade (choices: baixa, média, alta)
+- data de criação
+- data de conclusão
+- tags (ManyToMany → Etiqueta)
+
+### 4. **Etiqueta** 
+- nome
+- cor
+
+### 5. **Comentario** 
+- tarefa (ForeignKey → Tarefa)
+- autor (ForeignKey → Usuario)
+- texto
+- data de criação
+
+## Requisitos da Atividade
+
+### **Parte 1: Modelagem (30 min)**
+1. Crie os modelos com os relacionamentos descritos
+2. Implemente os métodos `__str__()` apropriados
 
 
-## Contexto do Sistema
+### **Parte 2: Serializers (45 min)**
+Crie serializers que:
 
-O sistema bancário deve gerenciar os seguintes elementos:
+1. **ProjetoSerializer**
+   - Mostre a lista de colunas aninhadas
+   - Mostre os nomes dos membros
+   - Inclua contagem de tarefas totais
 
-### Agências
-Cada agência bancária possui:
-- Código da agência (único)
-- Nome da agência
-- Endereço completo
-- Telefone de contato
-- Gerente responsável
-- Status (ativa ou inativa)
+2. **ColunaSerializer**
+   - Mostre as tarefas da coluna aninhadas
+   - Inclua o nome do projeto
 
-### Clientes
-Cada cliente do banco possui:
-- CPF (único)
-- Nome completo
-- Data de nascimento
-- Endereço
-- Telefone
-- Email
-- Data de cadastro
-- Status (ativo ou inativo)
+3. **TarefaSerializer**
+   - Mostre informações completas do responsável
+   - Mostre tags como lista de nomes
+   - Inclua contagem de comentários
 
-### Contas
-Cada conta bancária possui:
-- Número da conta (único)
-- Código da agência
-- CPF do titular
-- Tipo de conta (Corrente, Poupança, Salário)
-- Saldo atual
-- Data de abertura
-- Status (ativa, bloqueada ou encerrada)
-- Limite de saque diário
+4. **ComentarioSerializer**
+   - Mostre todos os comentários aninhados
 
-### Depósitos
-Cada operação de depósito registra:
-- Número da conta
-- Valor do depósito
-- Data e hora da operação
-- Tipo de depósito (Dinheiro, Cheque, Transferência, PIX)
-- Descrição/observações
-- Caixa/operador responsável
+### **Parte 3: ViewSets e Rotas (30 min)**
+1. Crie ViewSets para cada modelo
+2. Configure as rotas usando Router
+3. Implemente filtros básicos (ex: tarefas por prioridade, por coluna)
 
-### Saques
-Cada operação de saque registra:
-- Número da conta
-- Valor do saque
-- Data e hora da operação
-- Local do saque (Caixa, Caixa Eletrônico)
-- Caixa/operador responsável (se aplicável)
-- Status da operação (Aprovado, Negado)
 
-### Transferências
-Cada transferência entre contas registra:
-- Número da conta de origem
-- Número da conta de destino
-- Valor da transferência
-- Data e hora da operação
-- Tipo de transferência (TED, DOC, PIX, Transferência Interna)
-- Descrição/finalidade
-- Status da operação (Processando, Concluída, Falhou)
+4. **Atribuir responsável**
+```python
+   @action(detail=True, methods=['post'])
+   def atribuir(self, request, pk=None):
+       # POST /api/tarefa/{id}/atribuir/
+```
 
-O sistema bancário segue diferentes fluxos de operação:
+1. **Adicionar membro ao projeto**
+```python
+   @action(detail=True, methods=['post'])
+   def add_membro(self, request, pk=None):
+       # POST /api/projetos/{id}/adicionar/
+       # Body: {"user_id": 5}
+```
 
-1. **Fluxo de Cadastro**: Registro de agências, clientes e abertura de contas
-2. **Fluxo de Depósitos**: Registro de entrada de valores nas contas
-3. **Fluxo de Saques**: Registro de retirada de valores das contas
-4. **Fluxo de Transferências**: Movimentação de valores entre diferentes contas
+1. **Listar tarefas por usuário em um projeto**
+```python
+   @action(detail=True, methods=['get'])
+   def minhas_tarefas(self, request, pk=None):
+       # GET /api/projetos/{id}/minhas_tarefas/
+```
 
-## Fluxos do Sistema
+## Entrega Esperada
 
-O sistema bancário segue diferentes fluxos de operação:
+1. Código dos models, serializers e views
+2. Arquivo `urls.py` com as rotas configuradas
+3. Exemplos de requisições (pode ser um arquivo README)
 
-1. **Fluxo de Cadastro**: Registro de agências, clientes e abertura de contas
-2. **Fluxo de Depósitos**: Registro de entrada de valores nas contas
-3. **Fluxo de Saques**: Registro de retirada de valores das contas
-4. **Fluxo de Transferências**: Movimentação de valores entre diferentes contas
+### Documentação Oficial
+- [Django REST Framework - Serializer Relations](https://www.django-rest-framework.org/api-guide/relations/)
+- [Django REST Framework - ViewSets](https://www.django-rest-framework.org/api-guide/viewsets/)
+- [Django Models - Relationships](https://docs.djangoproject.com/en/stable/topics/db/models/#relationships)
 
-## Requisitos do Trabalho Prático
+### Estrutura de Pastas Sugerida
+```
+kanban_api/
+├── manage.py
+├── projeto_kanban/
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── tarefas/
+    ├── models.py
+    ├── serializers.py
+    ├── views.py
+    ├── urls.py
+    └── admin.py
+```
 
-Para a criação da primeira versão da API, considere o que foi trabalhado em sala de aula. O sistema deve permitir o gerenciamento completo de todas as entidades do banco:
+## Dicas
 
-### 1. Configuração Inicial
-- Criar a configuração inicial para a implementação de um projeto Django com Django Rest Framework
-- Configurar acesso a um banco de dados PostgreSQL
-- Configurar as variáveis de ambiente necessárias
+1. **Comece simples**: Implemente o CRUD básico antes de partir para as actions customizadas
+2. **Teste no Admin**: Configure o Django Admin para visualizar os relacionamentos antes de criar os serializers
+3. **Documente suas rotas**: Mantenha um arquivo com exemplos de requisições para cada endpoint
+4. **Commits incrementais**: Faça commits a cada funcionalidade implementada
 
-### 2. Modelos de Dados
-Criar os modelos Django para:
-- Agência
-- Cliente
-- Conta
-- Depósito
-- Saque
-- Transferência
+## Configuração Inicial (Lembrete)
 
-### 3. Serializers
-- Criar serializers para todos os modelos criados
-- Implementar validações básicas nos serializers
+```bash
+# Criar ambiente virtual
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# ou
+venv\Scripts\activate  # Windows
 
-### 4. Views
-- Criar views (ViewSets ou APIViews) para todos os modelos
-- Implementar operações CRUD (Create, Read, Update, Delete)
+# Instalar dependências
+pip install django djangorestframework django-filter
 
-### 5. Rotas
-- Configurar as rotas da API usando o Router do DRF
-- Seguir o padrão RESTful para nomenclatura das rotas
+# Criar projeto
+django-admin startproject projeto_kanban .
+python manage.py startapp tarefas
 
-### 6. Documentação
-- Configurar e disponibilizar documentação da API usando **Swagger**
-- Configurar e disponibilizar documentação da API usando **Redoc**
+# Adicionar ao INSTALLED_APPS
+ 'rest_framework',
+ 'django_filters',
+ 'tarefas',
 
-### 7. Testes
-- Realizar testes de todas as funcionalidades da API usando Swagger ou um Frontend CLI
+# Criar migrations e migrar
+python manage.py makemigrations
+python manage.py migrate
 
-### 8. README
-- O arquivo README.md do seu repositório deve conter:
-  - Descrição do projeto
-  - Descrição dos modelos
-  - Descrição dos endpoints
-- 
-## Observações Importantes
+# Criar superusuário
+python manage.py createsuperuser
 
-**OBS 1**: Neste primeiro momento **não há necessidade de relacionar as tabelas**. Os modelos devem ser independentes, sem interrelação via ForeignKey ou relacionamentos do Django ORM.
+# Executar servidor
+python manage.py runserver
+```
 
-**OBS 2**: Os campos que referenciam outras entidades (como "código da agência" em Conta, ou "número da conta" em Depósito) devem ser implementados como campos simples (CharField, IntegerField, etc.), não como chaves estrangeiras.
+## Exemplo de Dados para Teste
 
-**OBS 3**: As validações de negócio (como verificar se uma conta existe antes de fazer um depósito) **não são necessárias nesta primeira versão**. O foco é na estrutura básica da API.
+### Projeto
+```json
+{
+  "nome": "Sistema de Vendas",
+  "descricao": "Desenvolvimento do novo sistema de vendas online",
+  "proprietario": 1
+}
+```
 
-## Entrega
+### Coluna
+```json
+{
+  "titulo": "Em Progresso",
+  "ordem": 2,
+  "projeto": 1
+}
+```
 
-O trabalho deve ser entregue através do GitHub Classroom no link fornecido acima. 
+### Tarefa
+```json
+{
+  "titulo": "Implementar autenticação JWT",
+  "descricao": "Adicionar sistema de autenticação usando JWT",
+  "coluna": 2,
+  "responsavel": 1,
+  "criador": 1,
+  "prioridade": "alta",
+  "tags": [1, 2]
+}
+```
 
-Certifique-se de que:
-
-1. O código está completo e funcional
-2. O README.md possui todas as instruções necessárias
-3. A API está devidamente documentada
+---
