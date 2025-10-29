@@ -1,4 +1,4 @@
-# TP4 - Atividade Prática: API de Gerenciamento de Tarefas com Django Rest Framework 
+# API de Gerenciamento de Tarefas com Django Rest Framework 
 
 **Objetivo:** Aplicar os conceitos do Django Rest Framework para construir uma API RESTful para um sistema de gerenciamento de tarefas, com foco na criação de endpoints CRUD e ações personalizadas (custom actions) em ViewSets.
 
