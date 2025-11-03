@@ -1,209 +1,200 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# Atividade Fixação Autenticação
 
 ## Objetivo
-
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
-
-
-## Metodologia
-
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
-
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
-
-## Pré-Requistos 
-
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
-
-## Agenda
-
-### 1o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
-
-- Inserção de Dados
-- Consultas SQL
-  
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
-
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
-
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/atividade_fixacao_relacionamento20252"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
-
-### 2o Bimestre
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp6-2025_1"> Trabalho Prático 6</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 10. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring1">Spring Boot - Tema 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring2">Spring Boot - Tema 2</a>
-
-<a href="https://github.com/MaVitor/Spring-Boot-Tema3">Spring Boot - Tema 3</a> 
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring3">TP Tema 3</a> 
-
-<a href="https://github.com/MaVitor/seminario-spring4">Spring Boot - Tema 4</a> 
-
-<a href="https://github.com/MaVitor/seminario-spring5">Spring Boot - Tema 5</a> 
-
-
-<!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
-
-
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
+Desenvolver uma API REST  usando Django REST Framework para gerenciar usuários, projetos e tarefas, incluindo um cliente CLI em Python para consumir os endpoints.
+
+## Descrição do Sistema
+
+O sistema deve permitir que usuários gerenciem seus projetos e tarefas através de uma API REST. Cada usuário pode criar múltiplos projetos, e cada projeto pode conter várias tarefas.
+
+### Hierarquia de Dados
+```
+Usuario
+  └── Projeto (1:N)
+       └── Tarefa (1:N)
+```
+
+## Requisitos
+
+### 1. Modelos Django
+
+#### Modelo Usuario
+- Utilizar o modelo de usuário padrão do Django (`AbstractUser` ou `User`)
+- Campos personalizados (opcional):
+  - `bio`: TextField
+  - `data_cadastro`: DateTimeField (auto_now_add)
+
+#### Modelo Projeto
+- `nome`: CharField (max_length=200)
+- `descricao`: TextField
+- `usuario`: ForeignKey para Usuario
+- `data_criacao`: DateTimeField (auto_now_add)
+- `data_atualizacao`: DateTimeField (auto_now)
+- `status`: CharField com choices (Planejamento, Em Andamento, Concluído)
+
+#### Modelo Tarefa
+- `titulo`: CharField (max_length=200)
+- `descricao`: TextField
+- `projeto`: ForeignKey para Projeto
+- `concluida`: BooleanField (default=False)
+- `prioridade`: CharField com choices (Baixa, Média, Alta)
+- `data_criacao`: DateTimeField (auto_now_add)
+- `data_conclusao`: DateTimeField (null=True, blank=True)
+
+### 2. API REST
+
+#### Autenticação
+- Implementar autenticação via Token (TokenAuthentication)
+- Endpoint de registro: `POST /api/auth/registro/`
+- Endpoint de login: `POST /api/auth/login/`
+- Endpoint de logout: `POST /api/auth/logout/`
+
+#### Endpoints - Projetos
+- `GET /api/projetos/` - Listar projetos do usuário autenticado
+- `POST /api/projetos/` - Criar novo projeto
+- `GET /api/projetos/{id}/` - Detalhes de um projeto
+- `PUT /api/projetos/{id}/` - Atualizar projeto
+- `DELETE /api/projetos/{id}/` - Deletar projeto
+
+#### Endpoints - Tarefas
+- `GET /api/projetos/{projeto_id}/tarefas/` - Listar tarefas de um projeto
+- `POST /api/projetos/{projeto_id}/tarefas/` - Criar nova tarefa
+- `GET /api/tarefas/{id}/` - Detalhes de uma tarefa
+- `PUT /api/tarefas/{id}/` - Atualizar tarefa
+- `PATCH /api/tarefas/{id}/concluir/` - Marcar tarefa como concluída
+- `DELETE /api/tarefas/{id}/` - Deletar tarefa
+
+#### Serializers
+- `UsuarioSerializer`
+- `ProjetoSerializer`
+- `TarefaSerializer`
+
+#### Permissions
+- Usuários só podem ver/editar/deletar seus próprios projetos
+- Usuários só podem ver/editar/deletar tarefas de seus projetos
+
+### 3. Cliente CLI Python
+
+Desenvolver um CLI em Python puro (sem Django) que consuma a API.
+
+#### Funcionalidades do CLI
+
+**Autenticação:**
+```bash
+python cli.py registrar --username usuario --password senha --email email@example.com
+python cli.py login --username usuario --password senha
+python cli.py logout
+```
+
+**Projetos:**
+```bash
+python cli.py projetos listar
+python cli.py projetos criar --nome "Meu Projeto" --descricao "Descrição" --status "Em Andamento"
+python cli.py projetos ver --id 1
+python cli.py projetos atualizar --id 1 --nome "Novo Nome"
+python cli.py projetos deletar --id 1
+```
+
+**Tarefas:**
+```bash
+python cli.py tarefas listar --projeto_id 1
+python cli.py tarefas criar --projeto_id 1 --titulo "Tarefa" --descricao "Desc" --prioridade "Alta"
+python cli.py tarefas ver --id 1
+python cli.py tarefas atualizar --id 1 --titulo "Novo Título"
+python cli.py tarefas concluir --id 1
+python cli.py tarefas deletar --id 1
+```
+
+#### Requisitos Técnicos do CLI
+- Usar biblioteca `requests` para chamadas HTTP
+- Armazenar token em arquivo local (ex: `.token`)
+- Formatação de saída com `tabulate` ou `rich`
+- Tratamento de erros adequado
+
+## Estrutura de Pastas Sugerida
+
+```
+projeto_api/
+├── manage.py
+├── projeto_api/
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── api/
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── permissions.py
+│   └── tests.py
+├── requirements.txt
+└── cli/
+    ├── cli.py
+    ├── api_client.py
+    └── requirements.txt
+```
+
+## Etapas de Desenvolvimento
+
+### Fase 1: Setup Inicial
+1. Criar projeto Django
+2. Instalar Django REST Framework
+3. Configurar settings (REST_FRAMEWORK, AUTHENTICATION)
+4. Criar app `api`
+
+### Fase 2: Modelos e Admin
+1. Criar modelos Usuario, Projeto e Tarefa
+2. Fazer migrations
+3. Registrar modelos no admin
+4. Criar superuser para testes
+
+### Fase 3: Serializers e Views
+1. Criar serializers para cada modelo
+2. Implementar ViewSets ou APIViews
+3. Configurar URLs
+4. Implementar permissions personalizadas
+
+### Fase 4: Autenticação
+1. Configurar TokenAuthentication
+2. Criar endpoints de registro e login
+3. Testar autenticação com Postman/curl
+
+### Fase 5: Cliente CLI
+1. Criar estrutura do CLI
+2. Implementar cliente HTTP (api_client.py)
+3. Implementar comandos com argparse
+4. Adicionar formatação e tratamento de erros
+
+### Fase 6: Testes
+1. Escrever testes unitários para a API
+2. Testar todos os endpoints
+3. Testar permissões
+4. Testar CLI em diferentes cenários
+
+## Dependências
+
+**Backend:**
+```txt
+Django==4.2
+djangorestframework==3.14
+```
+
+**CLI:**
+```txt
+requests==2.31
+```
+
+## Entregáveis
+
+1. Código fonte do backend Django
+2. Código fonte do CLI Python
+3. Arquivo requirements.txt para ambos
+4. README com instruções de setup e uso
+5. Exemplos de uso da API e CLI
+6. (Opcional) Collection do Postman para testar a API
+
+## Recursos Adicionais
+
+- Documentação Django REST Framework: https://www.django-rest-framework.org/
+- Tutorial de TokenAuthentication: https://www.django-rest-framework.org/api-guide/authentication/
+- Documentação argparse: https://docs.python.org/3/library/argparse.html
