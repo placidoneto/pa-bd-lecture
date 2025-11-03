@@ -88,9 +88,11 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
 
 
+
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/fixacao-autenticacao-2025_2"> Atividade de Fixação Autenticação 2025.2 - Criação de Usuários, Projetos e Tarefas</a>
 
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/aula-revisao-2025_2"> Revisão 1o Bimestre - 2025.2</a>
 
 ### 2o Bimestre
 
