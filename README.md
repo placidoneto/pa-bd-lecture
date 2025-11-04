@@ -1,216 +1,205 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# TP4 1o Bimestre - Sistema de Gerenciamento de Hotel
 
-## Objetivo
+**Disciplina:** Programação e Administração de Banco de Dados  
+**Duração:** 3 horas (das 9h às 12h)  
+**Modalidade:** Em dupla 
+**Assignment:** https://classroom.github.com/a/SReEtNRx 
+**Pontuação:** 40 pontos
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+---
 
+## Informações Gerais
 
-## Metodologia
-
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
-
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
-
-## Pré-Requistos 
-
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
-
-## Agenda
-
-### 1o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
-
-- Inserção de Dados
-- Consultas SQL
-  
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
-
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
-
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/atividade_fixacao_relacionamento20252"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/fixacao-autenticacao-2025_2"> Atividade de Fixação Autenticação 2025.2 - Criação de Usuários, Projetos e Tarefas</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/aula-revisao-2025_2"> Revisão 1o Bimestre - 2025.2</a>
-
-### 2o Bimestre
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp6-2025_1"> Trabalho Prático 6</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 10. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring1">Spring Boot - Tema 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring2">Spring Boot - Tema 2</a>
-
-<a href="https://github.com/MaVitor/Spring-Boot-Tema3">Spring Boot - Tema 3</a> 
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring3">TP Tema 3</a> 
-
-<a href="https://github.com/MaVitor/seminario-spring4">Spring Boot - Tema 4</a> 
-
-<a href="https://github.com/MaVitor/seminario-spring5">Spring Boot - Tema 5</a> 
-
-
-<!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
-
-
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
+### Objetivos da Avaliação
+- Avaliar a capacidade de modelagem de dados para sistemas reais
+- Verificar o domínio de Django REST Framework
+- Testar habilidades de implementação de regras de negócio
+- Avaliar a capacidade de trabalho em equipe
+
+### Orientações Importantes
+- **Trabalho em dupla (opcional))**
+- **Consulta permitida:** documentação oficial do Django/DRF, anotações pessoais
+- **Consulta proibida:** internet (exceto documentação), comunicação com outras duplas
+- **Entrega:** código fonte completo via GitHub Classroom
+- **Plágio resultará em nota zero para todos os envolvidos**
+
+---
+
+## Cenário do Sistema
+
+Você foi contratado para desenvolver um sistema de gerenciamento para a rede de hotéis **Grand Comfort Hotels**. O sistema deve gerenciar reservas de quartos, processos de check-in/check-out, solicitação de serviços adicionais e avaliações de estadias.
+
+O sistema terá três tipos de usuários:
+- **Hóspedes:** podem buscar quartos disponíveis, fazer reservas e solicitar serviços
+- **Recepcionistas:** gerenciam check-in/check-out e visualizam todas as reservas
+- **Gerentes:** têm acesso completo ao sistema incluindo relatórios e configurações
+
+---
+
+## Estrutura da Avaliação
+
+### Questão 1 - Modelagem de Dados 
+
+Implemente os modelos Django conforme a estrutura fornecida:
+
+**a) Modelo Usuario**
+- Estenda o modelo User ou AbstractUser do Django
+- Adicione campo `tipo` com choices (Hospede, Recepcionista, Gerente)
+- Adicione campos relevantes: CPF, telefone, data_nascimento
+
+**b) Modelos de Quarto**
+- Implemente `TipoQuarto` com todos os campos especificados
+- Implemente `Quarto` com relacionamento adequado
+- Configure choices para status do quarto
+
+**c) Modelo Reserva**
+- Implemente com todos os relacionamentos
+- Configure choices para status da reserva
+- Adicione validações básicas no modelo
+
+**d) Modelos de Serviços**
+- Implemente `ServicoAdicional` e `SolicitacaoServico`
+- Configure relacionamentos adequados
+
+**Critérios de Avaliação:**
+- Nomenclatura correta dos campos 
+- Tipos de campos apropriados 
+- Relacionamentos corretos 
+- Configuração de choices 
+- Método __str__  
+- Validações no modelo 
+- Migrations funcionais 
+
+---
+
+### Questão 2 - Serializers 
+
+Crie serializers para manipulação de dados via API:
+
+**a) Serializers Básicos**
+- `TipoQuartoSerializer`: todos os campos
+- `QuartoSerializer`: incluir dados do tipo aninhado
+- `ServicoAdicionalSerializer`: todos os campos
+
+**b) ReservaSerializer**
+- Campos read-only: hospede (preencher automaticamente), valor_total, status inicial
+- Campos write-only quando apropriado
+- Validação customizada:
+  - Data check-in não pode ser no passado
+  - Data check-out deve ser posterior ao check-in
+  - Número de hóspedes não pode exceder capacidade do quarto
+  - Quarto deve estar disponível no período
+
+**Critérios de Avaliação:**
+- Estrutura correta dos serializers 
+- Campos aninhados adequados
+- Validações implementadas 
+
+---
+
+### Questão 3 - Views e Endpoints 
+
+Implemente as views utilizando ViewSets ou APIViews:
+
+**a) QuartoViewSet**
+- Listar quartos com filtros (tipo, status, capacidade mínima)
+- Detalhes de um quarto específico
+- Action customizada `disponibilidade`:
+  - Parâmetros: data_inicio, data_fim
+  - Retorna quartos disponíveis no período
+
+**b) ReservaViewSet**
+- CRUD completo de reservas
+- Filtros: hospede, status, período
+- Permissions: 
+  - Hóspede vê apenas suas reservas
+  - Recepcionista e Gerente veem todas
+- Actions customizadas:
+  - `fazer_checkin`: muda status para Checkin (apenas Recepcionista/Gerente)
+  - `fazer_checkout`: muda status para Checkout e libera quarto
+  - `cancelar`: implementa cancelamento com validações
+
+**c) SolicitacaoServicoViewSet**
+- Criar solicitação vinculada a uma reserva
+- Listar solicitações (filtrar por reserva)
+- Atualizar status (apenas Recepcionista/Gerente)
+
+**Critérios de Avaliação:**
+- Estrutura correta das views 
+- Implementação de filtros 
+- Actions customizadas funcionais 
+- Permissions adequadas 
+- Tratamento de exceções 
+- Responses HTTP corretos 
+---
+
+### Questão 4 - Regras de Negócio 
+
+Implemente as seguintes regras de negócio:
+
+**a) Validação de Disponibilidade **
+- Ao criar/editar reserva, verificar se quarto está disponível
+- Considerar reservas existentes no período
+- Impedir reserva de quarto em manutenção
+
+**b) Cálculo de Valor Total**
+- Calcular automaticamente valor_total da reserva:
+  - valor_total = (data_checkout - data_checkin) × preco_diaria
+- Atualizar ao salvar reserva
+
+**c) Política de Cancelamento**
+- Permitir cancelamento apenas se status for Pendente ou Confirmada
+- Se cancelamento com menos de 48h da data_checkin:
+  - Adicionar campo `valor_reembolso` (50% do valor_total)
+- Se cancelamento com mais de 48h:
+  - valor_reembolso = 100% do valor_total
+
+**d) Controle de Check-in/Check-out**
+- Check-in apenas se:
+  - Status da reserva = Confirmada
+  - Data atual = data_checkin
+- Check-out atualiza status do quarto para Disponível
+- Após checkout, permitir criação de Avaliacao
+
+**Critérios de Avaliação:**
+- Validação de disponibilidade correta 
+- Política de cancelamento implementada
+- Lógica de check-in/check-out 
+---
+
+
+## Checklist de Entrega
+
+- [ ] Código executa sem erros
+- [ ] Migrations criadas e aplicadas
+- [ ] Models com relacionamentos corretos
+- [ ] Serializers com validações
+- [ ] ViewSets com actions customizadas
+- [ ] Regras de negócio funcionando
+- [ ] README com instruções
+- [ ] requirements.txt atualizado
+
+---
+
+## 📝 Critérios de Correção
+
+| Aspecto | Pontuação |
+|---------|-----------|
+| Questão 1 - Modelagem | 5 |
+| Questão 2 - Serializers | 5 |
+| Questão 3 - Views e Endpoints | 15 |
+| Questão 4 - Regras de Negócio | 15 |
+| **TOTAL** | **40** |
+
+
+---
+
+## Dicas Importantes
+
+1. **Leiam todo o enunciado antes de começar**
+2. **Organizem as tarefas entre a dupla**
+3. **Façam commits frequentes (se usar Git)**
+4. **Não deixem migrations para o final**
+5. **Usem o admin do Django para validar dados**
+
+---
