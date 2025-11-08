@@ -4,7 +4,7 @@ from django.conf import settings # type: ignore
 from rest_framework.authtoken.models import Token # type: ignore
 
 
-class User(AbstractUser):
+class Usuario(AbstractUser):
     PERFIL = (
         ('admin', 'Administrador'),
         ('professor', 'Professor'),

@@ -1,7 +1,7 @@
 from django.shortcuts import render # type: ignore
 
-from .models import MeuUsuario, User
-from .serializers import MeuUsuarioSerializer, UserSerializer
+from .models import MeuUsuario, Usuario
+from .serializers import MeuUsuarioSerializer, UsuarioSerializer
 from rest_framework import viewsets # type: ignore
 from rest_framework.response import Response # type: ignore
 from rest_framework import status  # type: ignore
@@ -14,7 +14,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
 
-from django.contrib.auth.models import User # type: ignore
+#from django.contrib.auth.models import User # type: ignore
 from rest_framework.authtoken.models import Token # type: ignore
 
 ## Permissions
@@ -26,7 +26,7 @@ from django.shortcuts import get_object_or_404 # type: ignore
 
 class RegistroUsuarioView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,44 +63,4 @@ class LogoutUsuarioView(APIView):
 
         return Response({'detail': 'Usuário deslogado com sucesso.'})
 
-
-
-
-
-
-
-
-
-# class MeuUsuarioViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = MeuUsuarioSerializer
-
-
-#     @api_view(['POST'])
-#     def login(request):
-#         user = get_object_or_404(User, username=request.data['username'])
-#         if not user.check_password(request.data['password']):
-#             return Response({'message': 'Not Found!'}, status=status.HTTP_400_BAD_REQUEST)
-        
-#         token, created = Token.objects.get_or_create(user=user)
-#         serializer = MeuUsuarioSerializer(instance=user)
-#         return Response({'token': token.key, 'user':serializer.data})
-
-#     @api_view(['POST'])
-#     def signup(request):
-#         serializer = MeuUsuarioSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             user = User.objects.get(username=request.data['username'])
-#             user.set_password(request.data['password'])
-#             user.save()
-#             token = Token.objects.create(user=user)
-#             return Response({'token': token.key, 'user':serializer.data})
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#     @api_view(['GET'])
-#     @authentication_classes([TokenAuthentication, SessionAuthentication])
-#     @permission_classes([IsAuthenticated])
-#     def test_token(request):
-#         return Response("passou para {}".format(request.user.email))
 

@@ -218,6 +218,87 @@ Authorization: Token <token>
 
 ``` 
 
+## Frontend React-Vite
+
+```
+npm create vite@latest front-autenticacao -- --template react
+
+cd front-autenticacao
+
+npm install
+
+npm run dev
+```
+
+O código de instalação do React utilizando Vite é bastante simples e eficiente. O comando `npm create vite@latest front-autenticacao -- --template react` cria um novo projeto React chamado `front-autenticacao` utilizando o Vite como ferramenta de construção. O Vite é uma ferramenta moderna que oferece um ambiente de desenvolvimento rápido e otimizado, permitindo que os desenvolvedores aproveitem recursos como recarregamento a quente e construção rápida de pacotes. O uso do template `react` garante que a estrutura inicial do projeto já esteja configurada para um aplicativo React.
+
+Após a criação do projeto, o comando `cd front-autenticacao` é utilizado para navegar até o diretório do projeto recém-criado. Em seguida, o comando `npm install` instala todas as dependências necessárias para o projeto, conforme especificado no arquivo `package.json`. Isso inclui bibliotecas essenciais para o funcionamento do React e do Vite. Por fim, o comando `npm run dev` inicia o servidor de desenvolvimento, permitindo que você visualize e interaja com seu aplicativo React em um navegador, facilitando o processo de desenvolvimento e testes.
+
+## Estrutura do Projeto
+
+O arquivo `App.jsx` é o componente principal inicial do projeto Vite. Ele serve como o ponto de entrada para a aplicação React, onde a estrutura e a lógica do aplicativo são definidas. Dentro do `App.jsx`, você pode organizar seus componentes, gerenciar estados e implementar a lógica de navegação.
+
+O arquivo `main.jsx` é responsável por incorporar o `App` e inicializar a aplicação. Ele utiliza a função `createRoot` do React para renderizar o componente `App` no DOM. Essa abordagem permite que o React gerencie a interface do usuário de forma eficiente, garantindo que as atualizações sejam refletidas rapidamente na tela.
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+Neste exemplo, o `main.jsx` importa o `App` e o renderiza dentro do elemento com o ID `root`, que é onde a aplicação será exibida no navegador.
+
+
+## Configuração de CORS no Backend
+
+Para permitir que o frontend React se comunique com o backend Django, é necessário configurar o CORS (Cross-Origin Resource Sharing). O CORS é um mecanismo de segurança que permite ou restringe solicitações HTTP de diferentes origens. Sem a configuração adequada, o navegador bloqueará as requisições do frontend para o backend.
+
+### Instalação do django-cors-headers
+
+Primeiro, instale o pacote `django-cors-headers`:
+
+```bash
+pip install django-cors-headers
+```
+
+### Configuração no settings.py
+
+Adicione `corsheaders` à lista de aplicativos instalados e configure o middleware:
+
+```python
+INSTALLED_APPS = [
+  # ...
+  'corsheaders',
+  'rest_framework',
+  'rest_framework.authtoken',
+  # ...
+]
+
+MIDDLEWARE = [
+  'corsheaders.middleware.CorsMiddleware',  # Deve estar no topo
+  'django.middleware.common.CommonMiddleware',
+  # ...
+]
+
+# Permitir requisições do frontend em desenvolvimento
+CORS_ALLOWED_ORIGINS = [
+  "http://localhost:5173",  # Porta padrão do Vite
+  "http://127.0.0.1:5173",
+]
+
+# Ou, apenas para desenvolvimento, permitir todas as origens (não recomendado em produção)
+# CORS_ALLOW_ALL_ORIGINS = True
+```
+
+A configuração `CORS_ALLOWED_ORIGINS` especifica quais origens podem fazer requisições ao backend. No desenvolvimento, permitimos as URLs locais onde o Vite executa (porta 5173). Sem essa configuração, o navegador bloqueará requisições AJAX do frontend para o backend, exibindo erros de CORS no console.
+
+
 ## Conclusão
 
 Nesta aula vimos como autenticar usuários usando o perfil de usuário no Django Rest Framework. Criamos um modelo de perfil de usuário que estende o modelo de usuário padrão do Django e contém os campos adicionais necessários. Criamos um serializer para o modelo de perfil de usuário e um viewset para permitir a criação, atualização e exclusão de perfis de usuário. Além disso, criamos rotas para as views de registro, login e logout de usuários. Por fim, testamos a API usando um cliente HTTP e verificamos se a API está funcionando corretamente.

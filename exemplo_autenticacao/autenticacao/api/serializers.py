@@ -1,30 +1,20 @@
 from rest_framework import serializers #type: ignore
-from .models import User #type: ignore
+from .models import Usuario #type: ignore
 
-class UserSerializer(serializers.ModelSerializer):
+class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Usuario
         fields = ['username', 'email', 'perfil', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        return user
-
-
-
-
-
-
-
-
-
-
+        usuario = Usuario.objects.create_user(**validated_data)
+        return usuario
 
 
 #Antigo
 class MeuUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Usuario
         fields = ['id', 'username', 'password', 'email']
         

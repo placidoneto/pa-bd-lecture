@@ -18,14 +18,14 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-AUTH_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'api.Usuario'
 
 
 REST_FRAMEWORK = {
  
     'DEFAULT_AUTHENTICATION_CLASSES': (             
         'rest_framework.authentication.TokenAuthentication', 
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        #'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
  
 }
@@ -60,6 +60,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 
 # Application definition
 
@@ -73,17 +87,19 @@ INSTALLED_APPS = [
 
     # Aplicação de autenticação
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',
+    #'rest_framework_simplejwt',
 
     'rest_framework',
     'api',
     'drf_yasg',
+    'corsheaders',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
