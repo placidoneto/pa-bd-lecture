@@ -96,13 +96,14 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 ### 2o Bimestre
 
-<!--
+
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
 
   - Definindo Perfil de Usuário
   - Registro de Usuário
   - Login e Logout
-
+  
+<!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
 
   - Definindo Perfil de Usuário Específicos
