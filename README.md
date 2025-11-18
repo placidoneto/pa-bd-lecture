@@ -299,6 +299,321 @@ CORS_ALLOWED_ORIGINS = [
 A configuração `CORS_ALLOWED_ORIGINS` especifica quais origens podem fazer requisições ao backend. No desenvolvimento, permitimos as URLs locais onde o Vite executa (porta 5173). Sem essa configuração, o navegador bloqueará requisições AJAX do frontend para o backend, exibindo erros de CORS no console.
 
 
+## Implementação da Página de Registro no React
+
+Além da página de login, é necessário criar uma página de registro para permitir que novos usuários se cadastrem na aplicação. O componente `Registro.jsx` se comunica com a API de registro do Django para criar novos perfis de usuário.
+
+Crie um arquivo `Registro.jsx` na pasta `src`:
+
+```javascript
+import { useState } from 'react';
+import './Registro.css';
+
+function Registro() {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    perfil: 'admin',
+    password: ''
+  });
+
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const perfis = [
+    { value: 'admin', label: 'Administrador' },
+    { value: 'professor', label: 'Professor' },
+    { value: 'aluno', label: 'Aluno' },
+    { value: 'coordenador', label: 'Coordenador' },
+    { value: 'diretor', label: 'Diretor' }
+  ];
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Validação básica
+    if (!formData.username || !formData.email || !formData.password) {
+      setError('Todos os campos são obrigatórios');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/registro/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSuccess('Usuário registrado com sucesso!');
+        setFormData({
+          username: '',
+          email: '',
+          perfil: 'admin',
+          password: ''
+        });
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Erro ao registrar usuário');
+      }
+    } catch (err) {
+      setError('Erro de conexão com o servidor');
+    }
+  };
+
+  return (
+    <div className="registro-container">
+      <h2>Registro de Usuário</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Nome de Usuário:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="perfil">Perfil:</label>
+          <select
+            id="perfil"
+            name="perfil"
+            value={formData.perfil}
+            onChange={handleChange}
+            required
+          >
+            {perfis.map((perfil) => (
+              <option key={perfil.value} value={perfil.value}>
+                {perfil.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Senha:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
+
+        <button type="submit">Registrar</button>
+      </form>
+    </div>
+  );
+}
+
+export default Registro;
+
+```
+
+
+### Explicação do Código
+
+O componente `Registro.jsx` segue uma estrutura similar ao componente de login, mas com funcionalidades adicionais específicas para o cadastro de novos usuários. O hook `useState` é utilizado para gerenciar cinco campos de entrada: `username`, `email`, `password`, `confirmPassword` e `perfil`, além dos estados de erro e sucesso.
+
+A função `handleChange` captura as mudanças em todos os campos do formulário, atualizando o estado `formData` dinamicamente. Isso permite que o componente mantenha os valores inseridos pelo usuário de forma reativa.
+
+A função `handleSubmit` implementa validações no lado do cliente antes de enviar os dados para a API. Primeiro, verifica se todos os campos obrigatórios foram preenchidos. Em seguida, compara os campos `password` e `confirmPassword` para garantir que o usuário digitou a mesma senha duas vezes, prevenindo erros de digitação. Também valida o tamanho mínimo da senha, garantindo que tenha pelo menos 6 caracteres.
+
+Após as validações locais, a função realiza uma requisição POST para o endpoint `/api/auth/registro/` do Django. Note que apenas os campos necessários (`username`, `email`, `password` e `perfil`) são enviados no corpo da requisição, excluindo o campo `confirmPassword`, que é usado apenas para validação no frontend.
+
+O campo `perfil` é renderizado como um elemento `<select>`, permitindo que o usuário escolha entre os diferentes tipos de perfil disponíveis na aplicação (aluno, professor, coordenador, diretor e administrador). Esses valores correspondem às opções definidas no modelo `Usuario` do Django.
+
+Quando o registro é bem-sucedido, uma mensagem de sucesso é exibida e o formulário é limpo, permitindo que o usuário seja redirecionado para a página de login. O tratamento de erros captura tanto erros de validação retornados pela API quanto erros de conexão, exibindo mensagens apropriadas ao usuário.
+
+A estilização utiliza cores diferentes do componente de login (verde em vez de azul) para diferenciar visualmente as ações de registro das ações de login, melhorando a experiência do usuário através de pistas visuais consistentes.
+
+
+## Implementação da Página de Login no React
+
+Uma página de login funcional se comunica com a API de autenticação do Django. Primeiro, crie um componente `Login.jsx` na pasta `src`:
+
+```javascript
+import { useState } from 'react';
+import './Login.css';
+
+function Login() {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  });
+
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Validação básica
+    if (!formData.username || !formData.password) {
+      setError('Todos os campos são obrigatórios');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSuccess('Login realizado com sucesso!');
+
+        // Armazenar o token no localStorage
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
+
+        // Limpar o formulário
+        setFormData({
+          username: '',
+          password: ''
+        });
+
+        // Aqui você pode redirecionar o usuário ou atualizar o estado global
+        console.log('Login successful:', data);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.mensagem || errorData.message || 'Credenciais inválidas');
+      }
+    } catch (err) {
+      console.error('Erro completo:', err);
+      setError('Erro de conexão com o servidor: ' + err.message);
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Nome de Usuário:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Senha:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
+
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  );
+}
+
+export default Login;
+
+```
+
+### Atualização do App.jsx
+
+Modifique o arquivo `App.jsx` para incluir o componente de login:
+
+```javascript
+import { useState } from 'react'
+import './App.css'
+import Login from './Login'
+import Registro from './Registro'
+
+function App() {
+  const [showLogin, setShowLogin] = useState(true)
+
+  return (
+    <div className="App">
+      <div className="toggle-container">
+        <button
+          className={showLogin ? 'active' : ''}
+          onClick={() => setShowLogin(true)}
+        >
+          Login
+        </button>
+        <button
+          className={!showLogin ? 'active' : ''}
+          onClick={() => setShowLogin(false)}
+        >
+          Registro
+        </button>
+      </div>
+
+      {showLogin ? <Login /> : <Registro />}
+    </div>
+  )
+}
+
+export default App
+
+```
+
 ## Conclusão
 
 Nesta aula vimos como autenticar usuários usando o perfil de usuário no Django Rest Framework. Criamos um modelo de perfil de usuário que estende o modelo de usuário padrão do Django e contém os campos adicionais necessários. Criamos um serializer para o modelo de perfil de usuário e um viewset para permitir a criação, atualização e exclusão de perfis de usuário. Além disso, criamos rotas para as views de registro, login e logout de usuários. Por fim, testamos a API usando um cliente HTTP e verificamos se a API está funcionando corretamente.
