@@ -12,7 +12,7 @@ O modelo `AbstractUser`  do Django é uma classe abstrata que pode ser estendida
 
 from django.contrib.auth.models import AbstractUser
 
-class User(AbstractUser): # modelo de perfil de usuário (esse usuário User não é a classe de autenticação do Django)
+class Usuario(AbstractUser): # modelo de perfil de usuário (esse usuário User não é a classe de autenticação do Django)
     nome = models.CharField(max_length=100)
     sobrenome = models.CharField(max_length=100)
     data_nascimento = models.DateField()
@@ -37,12 +37,12 @@ from rest_framework import serializers
 from .models import User
 
 class Meta:
-        model = User
+        model = Usuario
         fields = ['username', 'email', 'perfil', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        user = Usuario.objects.create_user(**validated_data)
         return user
 
 ```
