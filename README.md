@@ -102,7 +102,11 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
   - Definindo Perfil de Usuário
   - Registro de Usuário
   - Login e Logout
-  
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/fixacao-autenticacao-perfil-usuario">Atividade de Fixação sobre Autenticação usando Perfil de Usuário</a>
+
+
+
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios_2025_2">SEMINÁRIO 2o BIMESTRE - Diferentes Framework Rest</a>
 
 
