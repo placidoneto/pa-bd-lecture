@@ -4,7 +4,7 @@
 ### Informações Gerais
 **Disciplina:** Programação e Administração de Banco de Dados  
 **Duração:** 3 horas (das 9h às 12h)  
-**Assignment:** [https://classroom.github.com/a/SReEtNRx](https://classroom.github.com/a/SReEtNRx)  
+**Assignment:** [https://classroom.github.com/a/TcVKLYwZ](https://classroom.github.com/a/TcVKLYwZ)  
 **Pontuação:** 40 pontos
 
 ### Objetivos
