@@ -1,0 +1,101 @@
+{
+  "usuarios_para_registro": [
+    {
+      "username": "maria",
+      "email": "maria@email.com",
+      "password": "senha123",
+      "password_confirm": "senha123",
+      "first_name": "Maria",
+      "last_name": "Santos",
+      "tipo_perfil": "GERENTE",
+      "telefone": "84988887777"
+    },
+    {
+      "username": "joao",
+      "email": "joao@email.com",
+      "password": "senha123",
+      "password_confirm": "senha123",
+      "first_name": "João",
+      "last_name": "Silva",
+      "tipo_perfil": "CLIENTE",
+      "telefone": "84999998888"
+    },
+    {
+      "username": "carlos",
+      "email": "carlos@email.com",
+      "password": "senha123",
+      "password_confirm": "senha123",
+      "first_name": "Carlos",
+      "last_name": "Souza",
+      "tipo_perfil": "MECANICO",
+      "telefone": "84977776666"
+    },
+    {
+      "username": "ana",
+      "email": "ana@email.com",
+      "password": "senha123",
+      "password_confirm": "senha123",
+      "first_name": "Ana",
+      "last_name": "Costa",
+      "tipo_perfil": "CLIENTE",
+      "telefone": "84966665555"
+    },
+    {
+      "username": "paulo",
+      "email": "paulo@email.com",
+      "password": "senha123",
+      "password_confirm": "senha123",
+      "first_name": "Paulo",
+      "last_name": "Oliveira",
+      "tipo_perfil": "GERENTE",
+      "telefone": "84955554444"
+    }
+  ],
+  "endpoints": {
+    "registro": {
+      "url": "http://localhost:8000/api/registro/",
+      "method": "POST",
+      "description": "Endpoint para registrar novos usuários",
+      "body_example": {
+        "username": "usuario",
+        "email": "usuario@email.com",
+        "password": "senha123",
+        "password_confirm": "senha123",
+        "first_name": "Nome",
+        "last_name": "Sobrenome",
+        "tipo_perfil": "CLIENTE",
+        "telefone": "84999999999"
+      }
+    },
+    "login": {
+      "url": "http://localhost:8000/api/login/",
+      "method": "POST",
+      "description": "Endpoint para fazer login e obter tokens JWT",
+      "body_example": {
+        "username": "maria",
+        "password": "senha123"
+      }
+    },
+    "token_refresh": {
+      "url": "http://localhost:8000/api/token/refresh/",
+      "method": "POST",
+      "description": "Endpoint para renovar o token de acesso usando o refresh token",
+      "body_example": {
+        "refresh": "<seu_refresh_token_aqui>"
+      }
+    },
+    "usuario_atual": {
+      "url": "http://localhost:8000/api/usuario/",
+      "method": "GET",
+      "description": "Endpoint para obter dados do usuário autenticado",
+      "headers": {
+        "Authorization": "Bearer <seu_access_token_aqui>"
+      }
+    }
+  },
+  "tipos_perfil_disponiveis": [
+    "GERENTE",
+    "CLIENTE",
+    "MECANICO"
+  ]
+}
