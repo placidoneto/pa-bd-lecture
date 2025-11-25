@@ -91,7 +91,7 @@ INSTALLED_APPS = [
     'corsheaders',
     
     # Apps locais
-    'auth',
+    'auths',
 ]
 
 # Adicionar middleware do CORS (no início da lista)
