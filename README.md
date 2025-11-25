@@ -28,7 +28,7 @@ pip install django djangorestframework djangorestframework-simplejwt django-cors
 django-admin startproject oficina .
 
 # Criar app
-python manage.py startapp auth
+python manage.py startapp auths
 ```
 
 Os comandos acima são fundamentais para estruturar o projeto Django. O comando `django-admin startproject oficina .` cria a estrutura básica do projeto Django chamado "oficina" no diretório atual, indicado pelo ponto (`.`). Isso gera arquivos essenciais como `manage.py`, que é a interface de linha de comando do projeto, além da pasta de configurações contendo `settings.py`, `urls.py` e `wsgi.py`. Em seguida, o comando `python manage.py startapp auth` cria uma aplicação Django denominada "auth", que funcionará como um módulo específico dentro do projeto. Esta aplicação será responsável por toda a lógica relacionada à autenticação de usuários, perfis e permissões, mantendo o código organizado e modular.
