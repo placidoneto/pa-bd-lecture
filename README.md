@@ -107,7 +107,7 @@ MIDDLEWARE = [
 ]
 
 # Configurar modelo de usuário customizado
-AUTH_USER_MODEL = 'auth.Usuario'
+AUTH_USER_MODEL = 'auths.Usuario'
 
 # Configurações do REST Framework
 REST_FRAMEWORK = {
