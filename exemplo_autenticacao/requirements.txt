@@ -1,5 +1,0 @@
-django
-djangorestframework
-djangorestframework-jwt
-psycopg2-binary
-requests
