@@ -109,6 +109,9 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios_2025_2">SEMINÁRIO 2o BIMESTRE - Diferentes Framework Rest</a>
 
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-jwt"> Autenticação com JWT</a>
+
+<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp1-2obimestre-2025_2"> Trabalho Prático - Autenticação JWT e Controle de Acesso</a>
 
 <!--
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
