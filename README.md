@@ -214,14 +214,12 @@ A atividade será avaliada considerando os seguintes critérios:
 ### 4. Serializers e Validações
 
 - Serializers bem estruturados
-- Validações customizadas implementadas
 - Tratamento adequado de dados aninhados
 - Serializers diferentes para leitura/escrita quando apropriado
 
 ### 5. Views
 
 - ViewSets corretamente implementados
-- Permissões customizadas funcionando
 - Actions customizadas quando necessário
 - Filtragens implementadas
 
@@ -231,7 +229,7 @@ A atividade será avaliada considerando os seguintes critérios:
 ### Formato de Entrega
 
 - O projeto deve ser entregue via **GitHub Classroom**
-- Link do GitHub Classroom: [[A ser disponibilizado]](https://classroom.github.com/a/JbLH7aUd)
+- Link do GitHub Classroom: [[Link de Acesso]](https://classroom.github.com/a/JbLH7aUd)
 - O projeto pode ser realizado em **dupla**
 - **Ambos os integrantes devem fazer commits** no repositório (critério de avaliação)
 
@@ -244,7 +242,7 @@ A atividade será avaliada considerando os seguintes critérios:
    - Instruções de instalação e execução
    - Exemplos de uso da API
    - Credenciais de teste para cada tipo de usuário
-4. Arquivo `db.sqlite3` com dados de exemplo (pelo menos 3 usuários de cada tipo, 10 itens no cardápio, alguns pedidos)
+4. **Arquivo `db.sqlite3` com dados de exemplo (pelo menos 3 usuários de cada tipo, 5-10 itens no cardápio, alguns pedidos)**
 
 
 ## Dicas de Implementação
