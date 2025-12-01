@@ -99,7 +99,7 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios_2025_2">SEMINÁRIO 2o BIMESTRE - Diferentes Framework Rest</a>
 
-- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/checkout seminario-quarkus-20252">Quarkus (Java)</a>
+- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-quarkus-20252">Quarkus (Java)</a>
 - Flask (Python)
 - Laravel (PHP)
 - Hapi (Node)
