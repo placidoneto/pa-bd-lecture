@@ -20,6 +20,37 @@ Adotando padrões consagrados no universo Java, como JAX-RS (REST), CDI (injeç�
 
 O núcleo do Quarkus utiliza Vert.x, fornecendo modelo de programação reativa, e Eclipse MicroProfile, que agrega padrões para APIs corporativas. Além disso, grande parte das configurações e otimizações é processada no build, proporcionando máxima eficiência em produção.
 
+
+### Arquitetura em Camadas
+
+A arquitetura do serviço em Quarkus segue uma organização em camadas que separa responsabilidades e facilita a manutenção do código. Essa estrutura é baseada no padrão arquitetural amplamente utilizado em aplicações Java e já familiar aos desenvolvedores que trabalharam com Spring.
+
+A aplicação está dividida em camadas bem definidas que trabalham conjuntamente para processar requisições de forma organizada e eficiente:
+
+#### - Resources (Camada de Entrada)
+
+A camada de **Resources**  os endpoints REST da aplicação, utilizando as anotações JAX-RS. Ela é responsável por receber requisições HTTP dos clientes, processar parâmetros, chamar os serviços apropriados e retornar respostas com códigos de status HTTP adequados. Os Resources recebem **DTOs de entrada**, validam dados e delegam a lógica de negócio aos serviços.
+
+#### - Service (Lógica de Negócio)
+
+A camada de **Service** concentra toda a lógica de negócio da aplicação. Os serviços orquestram chamadas aos repositórios, aplicam validações, transformam dados e executam as regras do domínio. Dessa forma, a camada de Resources permanece "magra", apenas delegando o processamento aos serviços, que são facilmente testáveis e reusáveis.
+
+#### - Domain (Modelo de Negócio)
+
+A camada de **Domain** representa o coração da aplicação, contendo as **entidades** e objetos que modelam os conceitos principais do negócio. Esses modelos refletem diretamente as regras e conceitos do domínio (por exemplo, contas, clientes, transações em um sistema bancário). As entidades de domínio são utilizadas tanto pelos serviços quanto pelos repositórios.
+
+#### - Repository (Acesso a Dados)
+
+A camada de **Repository** encapsula todo o acesso ao banco de dados, utilizando APIs de persistência como Hibernate ORM ou Panache. Os repositórios fornecem métodos para buscar, salvar, atualizar e remover entidades, mantendo a lógica de acesso a dados isolada. Os serviços consomem os repositórios sem precisar conhecer detalhes de SQL ou da tecnologia de persistência utilizada.
+
+#### - DTOs e Mappers (Transferência de Dados)
+
+**DTOs** (Data Transfer Objects) são classes simples utilizadas para trafegar dados entre a API e o mundo externo. Eles evitam expor diretamente as entidades de domínio, proporcionando mais segurança e flexibilidade.
+
+**Mappers** são responsáveis por converter entre entidades de domínio e DTOs. Normalmente estão posicionados entre Resources e Services, garantindo uma fronteira clara entre o modelo interno da aplicação (entidades) e os dados enviados ou recebidos pela API (DTOs). Isso facilita mudanças futuras sem impactar os clientes da API.
+
+<img src="https://github.com/IFRN/semin-rios-2o-bimestre-sobre-desenvolvimento-de-api-rest-contacomigo_quarkus/blob/main/apresentacao/quarkus-service-architecure.png" alt="quarkus service architecure">
+
 ## Princípios RESTful com Quarkus
 
 - Design orientado a recursos, com cada endpoint representando um recurso do sistema, manipulado por métodos HTTP (GET, POST, PUT, DELETE).
