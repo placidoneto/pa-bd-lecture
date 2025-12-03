@@ -10,6 +10,7 @@ Repositório do grupo Conta Comigo para o Seminário do 2º Bimestre da discipli
 
 - [Apresentação Teórica](./apresentacao/README.md)
 - [Exemplo Prático](./exemplo-pratico/README.md)
+- [Trabalho Prático Proposto](./trabalho-pratico/enunciado.md)
 
 
 ## Sobre
