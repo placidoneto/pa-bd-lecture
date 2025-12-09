@@ -7,9 +7,9 @@ Repositório do grupo BemTeOuvi para o Seminário do 2º Bimestre da disciplina 
 [Manoel Jr](https://github.com/Manoelpj)
 
 ## Índice
-- [Apresentacao](https://github.com/IFRN/semin-rios-2o-bimestre-sobre-desenvolvimento-de-api-rest-bemteouvi_flask/tree/ebdcab5ad03e5f02f40c30b290d2479c920d2efb/apresentacao)
-- [Exemplo Prático](https://github.com/IFRN/semin-rios-2o-bimestre-sobre-desenvolvimento-de-api-rest-bemteouvi_flask/tree/ebdcab5ad03e5f02f40c30b290d2479c920d2efb/exemplo-pratico)
-- [Trabalho Prático](https://#)
+- [Apresentacao](apresentacao/README.md)
+- [Exemplo Prático](exemplo-pratico/README.md)
+- [Trabalho Prático](trabalho-pratico/enunciado.md)
 
 ## Sobre
 Este repositório reúne todos os materiais referentes ao desenvolvimento, apresentação e exercício prático utilizando o framework Flask.
