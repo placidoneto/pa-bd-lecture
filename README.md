@@ -102,7 +102,7 @@ Cada branch implementada marca um conjunto de conceitos que s√£o aplicados em c√
 - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-quarkus-20252">Quarkus (Java)</a>
 - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask-20252">Flask (Python)</a>
 - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-laravel-20252">Laravel (PHP)</a>
-- Hapi (Node)
+- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-hapi-20252"> Hapi (Node)</a>
 - FastAPI (Python)	
 - Koa (Node)
 
