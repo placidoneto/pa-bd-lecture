@@ -1,10 +1,10 @@
-# Brainz - Laravel
+# Pulso - Hapi
 
-Repositório do grupo Brainz para o Seminário do 2º Bimestre da disciplina de Programação e Administração de Banco de Dados (PABD), ministrado pelo professor [**Plácido Neto**](https://github.com/placidoneto).
+Repositório do grupo Pulso para o Seminário do 2º Bimestre da disciplina de Programação e Administração de Banco de Dados (PADB), ministrado pelo professor [**Plácido Neto**](https://github.com/placidoneto).
 
-**Framework**: Laravel
+**Framework**: Hapi
 
-**Integrantes**: [**Antônio Irineu**](https://github.com/AntonioIrineuFilho), [**Bernardo Moura**](https://github.com/bernardommedeiros), [**Mário Luiz**](https://github.com/marioluizguimaraes), [**Nicollas Prado**](https://github.com/nicollasprado) e [**Ryan Paulista**](https://github.com/ryanpaulista).
+**Integrantes**: [**Asaph Arruda**](https://github.com/ArrudaAsaph), [**Flávio Matias**](https://github.com/FlavioMatias), [**Gustavo Maia**](https://github.com/gusttavokr), [**Ícaro Gabriel**](https://github.com/IcaroGabrielIcaro), [**Robson Alencastro**](https://github.com/Alencast).
 
 ## Índice
 
@@ -14,4 +14,4 @@ Repositório do grupo Brainz para o Seminário do 2º Bimestre da disciplina de 
 
 ## Sobre
 
-Este repositório reúne todos os materiais referentes ao desenvolvimento, apresentação e exercício prático utilizando o framework Laravel.
+Este repositório reúne todos os materiais referentes ao desenvolvimento, apresentação e exercício prático utilizando o framework Nodejs Hapi.
