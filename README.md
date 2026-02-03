@@ -103,8 +103,8 @@ Cada branch implementada marca um conjunto de conceitos que são aplicados em c�
 - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask-20252">Flask (Python)</a>
 - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-laravel-20252">Laravel (PHP)</a>
 - <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-hapi-20252"> Hapi (Node)</a>
-- FastAPI (Python)	
-- Koa (Node)
+- FastAPI (Python)	--> TP CANCELADO <--
+- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-koa-20252"> Koa (Node)</a>
 
 
 <a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
