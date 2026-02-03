@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  lume-koa-db:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=lume-koa
+
+  app:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://docker:docker@lume-koa-db:5432/lume-koa?schema=public
+    depends_on:
+      - lume-koa-db
+    command: sh -c "npm install && npx prisma generate && npx prisma migrate deploy && npm run dev"

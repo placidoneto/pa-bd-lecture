@@ -1,0 +1,24 @@
+{
+  "name": "Koa Project",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "prisma.prisma"
+      ]
+    }
+  },
+  "forwardPorts": [3000, 5432],
+  "postCreateCommand": "npm install && npx prisma generate",
+  "postStartCommand": "npm run dev",
+  "remoteUser": "node"
+}

@@ -1,535 +1,710 @@
-# Hapi
+# Koa
 
 ## Introdução
 
-O **Hapi** é um framework **open-source para Node.js** voltado para a criação de aplicações backend **poderosas, escaláveis e organizadas**, com baixa sobrecarga e foco na simplicidade. Ele oferece uma **funcionalidade completa pronta para uso**, permitindo que o desenvolvedor concentre seus esforços na resolução dos problemas do negócio, e não nos detalhes da ferramenta. Sua arquitetura fornece um conjunto sólido de **APIs centrais** e um sistema de **plugins extensíveis**, tornando-o uma escolha confiável para aplicações de **nível empresarial**.
+O **Koa** é um framework **open-source para Node.js** voltado para a criação de aplicações web e APIs **modernas, expressivas e minimalistas**. Criado pela mesma equipe responsável pelo Express.js, o Koa representa uma evolução conceitual no desenvolvimento de servidores HTTP em JavaScript, oferecendo uma base pequena, elegante e altamente extensível. Diferente de frameworks que já incluem funcionalidades prontas por padrão, o Koa entrega apenas o essencial, permitindo que o desenvolvedor construa sua aplicação escolhendo exatamente os componentes que precisa.
 
-## A criação do Hapi
+O uso intensivo de **async/await** e o modelo de middleware em cascata tornam o código mais legível, reduzem a dependência de callbacks aninhados e fortalecem o controle de fluxo e tratamento de erros de forma mais natural e previsível.
 
-### Sobre o criador
+## A criação do Koa
 
-O **Hapi não surgiu do nada**. Ele é resultado direto de problemas reais enfrentados em ambientes corporativos de grande escala. Seu criador, **Eran Hammer**, é um engenheiro e executivo de tecnologia com mais de trinta anos de experiência, tendo passado por empresas como **Yahoo, Citi e Walmart eCommerce**, onde atuou como diretor de serviços móveis. Diferente do perfil tradicional da área, Hammer possui formação em **cinema e estudos audiovisuais**, o que contribuiu para uma visão mais estrutural e narrativa sobre sistemas — pensando menos em “código isolado” e mais em **arquiteturas coerentes e previsíveis**.
+### Sobre os criadores
 
-Além disso, Hammer foi um dos **coautores do OAuth**, um protocolo amplamente utilizado para **autenticação e autorização na web** (ou seja, definir quem é o usuário e o que ele pode acessar). Essa experiência com padrões de segurança influenciou profundamente o design do Hapi, que nasceu com uma filosofia **“security-first” (segurança em primeiro lugar)**.
+O Koa foi lançado em **2014** por **TJ Holowaychuk** e sua equipe — os mesmos desenvolvedores que criaram o Express.js, framework que até hoje é um dos mais populares do ecossistema Node.js. TJ Holowaychuk é uma figura reconhecida na comunidade JavaScript, tendo criado diversas bibliotecas e ferramentas amplamente utilizadas, como Mocha (framework de testes), Commander (parser de linha de comando) e Jade (agora Pug, template engine).
 
-> No Hapi, comportamentos críticos não ficam escondidos ou implícitos: tudo é **configurado de forma explícita**, reduzindo erros e aumentando a previsibilidade da aplicação. Em vez disso, o framework incentiva que essas regras sejam configuradas de forma explícita, diretamente nos pontos onde elas realmente importam. Isso significa que decisões como exigir autenticação, validar dados de entrada ou aplicar restrições de segurança são declaradas de maneira clara e centralizada, evitando que essas regras fiquem espalhadas pelo código.
+A decisão de criar um novo framework, mesmo já tendo o Express consolidado, não foi arbitrária. Ela nasceu de limitações reais e de uma visão clara sobre como o desenvolvimento web em Node.js poderia evoluir com as novas funcionalidades da linguagem JavaScript.
 
-#### Exemplo comum no Express (implícito)
+### Problemas com o modelo tradicional de callbacks
 
-```js
-app.use(authMiddleware);
-app.use(validationMiddleware);
+Quando o Node.js e o Express surgiram, o JavaScript ainda não possuía suporte nativo para Promises ou async/await. O modelo dominante era o de **callbacks**, funções que são passadas como argumentos para serem executadas quando uma operação assíncrona é concluída.
 
-app.post("/users", (req, res) => {
-  // lógica de criação do usuário
+Esse modelo funciona bem em cenários simples, mas em aplicações complexas, com múltiplas operações assíncronas encadeadas, rapidamente se transforma no que a comunidade passou a chamar de **"callback hell"** (inferno de callbacks) — código profundamente aninhado, difícil de ler, manter e debugar.
+
+```javascript
+// Exemplo de callback hell
+app.get('/user/:id', function(req, res) {
+  db.getUser(req.params.id, function(err, user) {
+    if (err) return res.status(500).send(err);
+    
+    db.getUserPosts(user.id, function(err, posts) {
+      if (err) return res.status(500).send(err);
+      
+      db.getPostComments(posts[0].id, function(err, comments) {
+        if (err) return res.status(500).send(err);
+        
+        res.json({ user, posts, comments });
+      });
+    });
+  });
 });
 ```
 
-#### O mesmo cenário no Hapi (explícito)
+Além da legibilidade comprometida, esse modelo também torna o tratamento de erros inconsistente. Cada callback precisa verificar erros manualmente, e a ausência de um mecanismo unificado aumenta o risco de falhas silenciosas.
 
-```js
-server.route({
-  method: "POST",
-  path: "/users",
-  options: {
-    auth: "jwt", // autenticação explícita
-    validate: {
-      payload: {
-        name: Joi.string().required(),
-        email: Joi.string().email().required()
-      }
-    }
-  },
-  handler: (request, h) => {
-    // lógica de criação do usuário
-    return { success: true };
+### A chegada do async/await
+
+Com a evolução do JavaScript, especialmente a partir do **ES2015 (ES6)** e **ES2017**, a linguagem ganhou suporte nativo para **Promises** e **async/await**. Essas funcionalidades permitiram escrever código assíncrono de forma mais próxima à lógica síncrona tradicional, eliminando a necessidade de callbacks aninhados e centralizando o tratamento de erros com `try/catch`.
+
+O mesmo exemplo anterior, reescrito com async/await, fica significativamente mais simples e legível:
+
+```javascript
+// Código moderno com async/await
+app.get('/user/:id', async (req, res) => {
+  try {
+    const user = await db.getUser(req.params.id);
+    const posts = await db.getUserPosts(user.id);
+    const comments = await db.getPostComments(posts[0].id);
+    
+    res.json({ user, posts, comments });
+  } catch (err) {
+    res.status(500).send(err);
   }
 });
 ```
 
-### Problemas com o Express
+O Express, por ter sido criado antes dessas funcionalidades existirem, foi construído sobre o modelo de callbacks. Embora seja possível usar async/await no Express, o framework não foi projetado com essa abordagem em mente desde o início, o que resulta em uma experiência menos natural e idiomática.
 
-Inicialmente, o Hapi **não foi pensado como um framework público**. A equipe do Walmart Labs tentou usar o **Express.js**, que na época era o framework Node.js mais popular. 
+### Koa como resposta a essas limitações
 
-O Express é um framework **minimalista**, inspirado no Sinatra (Ruby), cujo principal mecanismo de extensão é o uso de **middlewares**. Middlewares podem ser aplicados de forma **global, por grupo de rotas** ou **rota a rota**, e o comportamento final da aplicação depende da **ordem em que esses middlewares são registrados**. 
+Foi nesse contexto que o Koa surgiu. Em vez de tentar adaptar o Express para o novo paradigma, TJ Holowaychuk e sua equipe decidiram criar um framework completamente novo, projetado desde a base para aproveitar ao máximo as capacidades modernas do JavaScript.
 
-Isso significa que regras importantes não ficam declaradas junto da rota, mas espalhadas pelo código, exigindo que o desenvolvedor conheça toda a cadeia de execução para entender o que realmente acontece em uma requisição.
+O Koa não é apenas "Express com async/await". Ele representa uma reformulação conceitual de como middlewares devem funcionar, de como o contexto de requisição e resposta deve ser tratado, e de como o desenvolvedor interage com o ciclo de vida de uma requisição HTTP.
 
-> Um middleware é, de forma simples, uma **função que fica no meio do caminho entre a requisição do usuário e a resposta do servidor**. Ele pode verificar autenticação, validar dados, registrar logs ou modificar a requisição antes que ela chegue à lógica principal da aplicação. Esse modelo é poderoso, mas também traz desafios quando utilizado em larga escala.
+## A filosofia do Koa
 
-```js
-app.use(authMiddleware);
-app.use(validationMiddleware);
+### Minimalismo e núcleo enxuto
 
-app.post("/users", (req, res) => {
-  // lógica de criação do usuário
-});
-```
-Nesse exemplo, não é possível saber apenas olhando para a rota:
-- se ela exige autenticação ou não
-- quais dados estão sendo validados
-- em que ponto essas regras são aplicadas
+O Koa segue uma filosofia radicalmente minimalista. Enquanto o Express já inclui funcionalidades como roteamento, parsing de requisições e handling de cookies por padrão, o Koa entrega apenas o **núcleo essencial** — um sistema de middlewares e o objeto de contexto.
 
-Para entender o comportamento completo, é necessário:
-- localizar os middlewares
-- entender sua lógica interna
-- verificar a ordem em que foram registrados
+Isso não significa que o Koa seja menos capaz. Na verdade, é justamente o contrário: ao não impor decisões arquiteturais ou incluir funcionalidades que podem não ser necessárias, o Koa oferece maior **flexibilidade** e **controle** ao desenvolvedor. Quer usar um roteador específico? Escolha o que preferir. Precisa de validação de dados? Integre a biblioteca que melhor se adequa ao seu projeto.
 
-Em projetos pequenos, isso raramente é um problema. Porém, em **ambientes corporativos**, com **múltiplas equipes trabalhando simultaneamente**, esse modelo tende a gerar inconsistências. Cada equipe pode criar seus próprios middlewares, aplicar regras de formas diferentes e organizar rotas segundo critérios próprios. Com o tempo, surgem **múltiplos padrões dentro do mesmo sistema**, dificultando manutenção, testes e auditorias de segurança.
+Essa abordagem resulta em um framework com tamanho reduzido — o core do Koa tem aproximadamente **550 linhas de código** e **~500KB** após instalação, comparado aos vários megabytes de um Express com suas dependências.
 
-Foi justamente essa falta de **estrutura clara e previsível**, aliada à necessidade de lidar com **grandes volumes de tráfego** e **requisitos rigorosos de segurança**, que levou à percepção de que o Express, embora excelente para projetos menores, não atendia às necessidades reais de um ambiente corporativo.
+### Configuração explícita
 
-### Black Friday
+Outra característica importante do Koa é a preferência por **configuração explícita** em vez de comportamentos implícitos ou "mágicos". No Express, por exemplo, é comum que comportamentos sejam definidos globalmente através de middlewares que afetam todas as rotas. No Koa, a tendência é que cada comportamento seja declarado de forma clara e localizada.
 
-Os problemas com o Express ficaram ainda mais evidentes em eventos de tráfego extremo, como a **Black Friday**. O Walmart precisava de sistemas capazes de lidar com **milhões de requisições simultâneas**, mantendo **segurança consistente, deploys confiáveis** e **facilidade de testes e auditoria**. Nesse cenário, depender de múltiplos middlewares de terceiros para funções críticas tornava o Express **inseguro, inconsistente e difícil de controlar**.
+Isso não elimina a possibilidade de usar middlewares globais, mas incentiva uma arquitetura onde decisões críticas — como autenticação, validação ou timeout — sejam visíveis no ponto onde realmente importam.
 
-> Essa insegurança não vinha apenas do volume de tráfego, mas da dependência de múltiplos middlewares de terceiros para funções críticas. Cada middleware seguia padrões próprios, com níveis diferentes de maturidade e decisões de segurança independentes, fragmentando a proteção da aplicação. Em ambientes de alta carga, como a Black Friday, essa combinação de dependências externas, configurações distribuídas e ausência de um modelo de segurança centralizado aumentava significativamente o risco de falhas e vulnerabilidades.
+## Pré-requisitos e instalação
 
-## A consolidação do Hapi como framework
+Antes de começar com o Koa, é importante garantir que o ambiente de desenvolvimento esteja preparado. O Koa depende do **Node.js**, o runtime JavaScript que permite a execução de código JavaScript fora do navegador.
 
-### Hapi como solução para problemas reais
+### Requisitos do sistema
 
-Com os problemas claramente identificados e os objetivos bem definidos, o Hapi deixa de ser apenas uma solução pontual e passa a se estruturar como um **framework completo**. A partir desse momento, suas decisões deixam de ser reativas e passam a formar uma **arquitetura consistente**, guiada por princípios claros de organização, segurança e previsibilidade.
+O Koa requer **Node.js versão 18.0.0 ou superior**. Isso se deve ao uso de funcionalidades modernas do JavaScript, especialmente async functions. Para 2026, recomenda-se utilizar as versões LTS 20.x ou 22.x, que garantem maior estabilidade e compatibilidade.
 
-O foco do Hapi não era apenas resolver o problema imediato do alto volume de requisições, mas criar uma base capaz de **sustentar sistemas complexos ao longo do tempo**. Para isso, o framework consolida escolhas que evitam ambiguidades e reduzem a margem de erro humano, especialmente em ambientes com múltiplas equipes e ciclos frequentes de deploy.
-
-Nesse estágio, o Hapi já não se posiciona como uma alternativa genérica dentro do ecossistema Node.js, mas como uma ferramenta com identidade própria, voltada a cenários onde **clareza arquitetural, segurança e controle** não são opcionais, mas requisitos fundamentais.
-
-### Como o Hapi resolve esses problemas
-
-O Hapi resolve as limitações observadas por meio de quatro decisões arquiteturais centrais: **configuração explícita, arquitetura baseada em plugins, segurança integrada ao núcleo do framework e escalabilidade**. Esses elementos não são recursos isolados, mas partes de um modelo coeso que define como uma aplicação deve se comportar desde o início.
-
-#### Configuração explícita (configuração sobre código)
-
-No Hapi, decisões críticas não ficam escondidas em middlewares globais ou na ordem de execução da aplicação. Em vez disso, o comportamento de cada rota é descrito de forma declarativa, diretamente em sua configuração. Autenticação, validação de dados, estratégias de cache e limites de requisição são definidos de maneira explícita, permitindo que qualquer pessoa entenda o funcionamento de uma rota apenas lendo sua definição.
-
-```js
-server.route({
-  method: "POST",
-  path: "/upload",
-  options: {
-    payload: {
-      maxBytes: 1024 * 1024, // 1 MB
-      timeout: 5000
-    }
-  },
-  handler: () => ({ status: "recebido" })
-});
-```
-
-Aqui, o comportamento da rota em relação ao tamanho do corpo da requisição e ao tempo limite é declarado diretamente na configuração da rota.
-
-#### Arquitetura baseada em plugins
-
-Outra forma pela qual o Hapi soluciona problemas de escala organizacional é por meio de uma arquitetura baseada em plugins. Em vez de concentrar lógica em arquivos centrais ou espalhar responsabilidades pelo código, funcionalidades são agrupadas em módulos independentes.
-
-Plugins não representam um padrão arquitetural da aplicação, mas um **mecanismo do próprio framework para organizar e registrar comportamentos HTTP**. Eles funcionam como unidades de infraestrutura responsáveis por conectar partes da aplicação ao servidor.
-
-> Um plugin pode registrar rotas, definir validações, configurar autenticação ou estender o ciclo de vida da requisição. Ele não substitui arquiteturas como camadas, MVC ou Clean Architecture — essas continuam existindo dentro da aplicação. O papel do plugin é apenas **encapsular como essas partes são expostas e configuradas no servidor**.
-
-```cmd
-Servidor Hapi
-   │
-   ├── Plugin Users
-   │     └── registra rotas /users
-   │
-   ├── Plugin Auth
-   │     └── registra autenticação
-   │
-   └── Plugin Health
-         └── registra /health
-```
-
-Essa separação é especialmente útil em projetos grandes. Em vez de concentrar todas as rotas e configurações em arquivos centrais, cada módulo funcional pode registrar seu próprio comportamento de forma isolada. Isso reduz conflitos entre equipes, melhora a legibilidade do sistema e torna o crescimento da aplicação mais previsível.
-
-#### Segurança integrada ao núcleo
-
-Diferente do Express, onde segurança depende fortemente de middlewares externos, o Hapi trata autenticação, autorização e validação como partes fundamentais do framework. Estratégias de autenticação são registradas de forma centralizada e aplicadas explicitamente às rotas que precisam delas.
-
-A validação de entrada é feita antes da execução da lógica de negócio, garantindo que dados inválidos não cheguem ao core da aplicação. Mensagens de erro, cabeçalhos HTTP, limites de payload e timeouts seguem padrões seguros por padrão, reduzindo o risco de falhas de configuração.
-
-#### Escalabilidade e previsibilidade em alta carga
-
-O Hapi foi projetado para escalar não apenas em volume de requisições, mas também em complexidade estrutural. Em vez de depender de convenções informais ou de cadeias dinâmicas de middlewares, o framework define um ciclo de vida de requisição bem estruturado, com pontos claros de extensão e comportamento determinístico. Isso garante que, mesmo sob milhões de requisições simultâneas, o fluxo de execução permaneça previsível e controlável.
-
-Além disso, o Hapi oferece mecanismos nativos para controle de carga, como limites de payload, timeouts configuráveis, controle de concorrência e cache integrado, permitindo que a aplicação se proteja contra abuso e degradação de desempenho sem depender de soluções externas.
-
-## Express vs Hapi — uma comparação conceitual
-
-| Aspecto | Express.js | Hapi |
-|---------|------------|------|
-| Filosofia | Minimalista e flexível | Opinativo e estruturado |
-| Organização | Definida pelo desenvolvedor | Definida pelo framework |
-| Autenticação | Via middlewares externos | Integrada ao core |
-| Validação de dados | Bibliotecas externas | Nativa e declarativa |
-| Fluxo de execução | Dependente da ordem dos middlewares | Explícito e previsível |
-| Escalabilidade organizacional | Difícil em equipes grandes | Pensado para ambientes corporativos |
-| Auditoria e testes | Complexos em sistemas grandes | Facilitados pela centralização |
-
-Essa comparação evidencia que o Hapi não tenta substituir o Express em todos os cenários, mas atender **a um tipo específico de problema**.
-
-
-## Pré-requisitos e primeiro passo com Hapi
-
-Antes de qualquer linha de código com Hapi, é importante entender o que sustenta o framework e o que é necessário para que ele funcione corretamente no ambiente de desenvolvimento.
-
-O Hapi é construído sobre o **Node.js**, o runtime JavaScript que permite a execução de aplicações fora do navegador. Em outras palavras, o Hapi não funciona de forma isolada: ele depende diretamente do Node para existir. Sem o Node.js, não há servidor, não há rotas e não há aplicação — da mesma forma que não é possível executar Java sem a JVM.
-
-Além do runtime, o Node.js já inclui o **npm**, que é o gerenciador de pacotes responsável por instalar bibliotecas, frameworks e plugins utilizados no projeto, incluindo o próprio Hapi. É por meio dele que o ecossistema Node se mantém organizado e reutilizável.
-
-Por esse motivo, o primeiro requisito para trabalhar com Hapi é ter o Node.js instalado corretamente na máquina. Recomenda-se utilizar a versão **LTS** mais recente, disponível no site oficial, garantindo maior estabilidade e compatibilidade com o framework. O processo de instalação varia de acordo com o sistema operacional (Windows, macOS ou Linux).
-
-Após a instalação, é possível verificar se o ambiente está pronto executando os seguintes comandos no terminal:
+Para verificar se o Node.js está instalado e qual versão está ativa:
 
 ```bash
-node -v   # exibe a versão instalada do Node.js
-npm -v    # exibe a versão do npm
+node --version
 ```
 
-Com o ambiente configurado, o próximo passo é entender como nasce um projeto básico utilizando o framework. O ponto de partida é a criação de um diretório para o projeto. Esse diretório irá concentrar o código da aplicação, suas dependências e configurações.
+Caso seja necessário gerenciar múltiplas versões do Node.js, ferramentas como **nvm** (Node Version Manager) facilitam esse processo:
 
 ```bash
-mkdir projeto-hapi
-cd projeto-hapi
+nvm install 20
+nvm use 20
 ```
 
-Dentro desse diretório, o projeto deve ser inicializado como uma aplicação Node.js, criando o arquivo `package.json`, que será responsável por organizar as dependências e metadados do projeto:
+### Criando um projeto
+
+O ponto de partida é criar um diretório para o projeto e inicializá-lo como uma aplicação Node.js:
 
 ```bash
-npm init
+mkdir projeto-koa
+cd projeto-koa
+npm init -y
 ```
 
-Em seguida, o Hapi pode ser instalado como dependência do projeto:
+O comando `npm init -y` cria o arquivo `package.json`, que organiza as dependências e metadados do projeto. Em seguida, o Koa pode ser instalado:
 
 ```bash
-npm install @hapi/hapi
+npm install koa
 ```
 
-Esse comando adiciona o core do Hapi ao package.json e torna possível começar a definir o servidor, as rotas e o sistema de plugins. A partir desse momento, o projeto já possui tudo o que é necessário para criar um servidor funcional.
+Esse comando adiciona o core do Koa ao projeto. Para funcionalidades adicionais, como roteamento e parsing de requisições, outras bibliotecas podem ser instaladas conforme necessário:
 
-## Estrutura de um projeto básico em Hapi
+```bash
+npm install @koa/router koa-bodyparser
+```
 
-Com o ambiente configurado e o Hapi instalado, o próximo passo é entender como nasce um projeto básico utilizando o framework. Diferente de soluções que exigem estruturas complexas logo de início, o Hapi permite começar de forma simples, evoluindo conforme a aplicação cresce.
+A partir desse momento, o projeto já possui tudo o que é necessário para criar um servidor funcional.
+
+## Estrutura de um projeto básico em Koa
+
+Com o ambiente configurado e o Koa instalado, o próximo passo é entender como construir um servidor básico. Diferente de soluções que exigem estruturas complexas desde o início, o Koa permite começar de forma simples, evoluindo conforme a aplicação cresce.
 
 ### Criando o servidor
 
-No Hapi, o servidor é o elemento central da aplicação. Ele é responsável por escutar requisições, aplicar configurações globais e orquestrar rotas, plugins e políticas de segurança.
+No Koa, o servidor é o elemento central da aplicação. Ele é responsável por escutar requisições, executar middlewares e orquestrar o ciclo de vida de cada requisição HTTP.
 
-Um exemplo mínimo de criação de servidor pode ser feito em um arquivo como ```index.js```:
+Um exemplo mínimo de servidor pode ser criado em um arquivo `index.js`:
 
-```js
-'use strict';
+```javascript
+const Koa = require('koa');
+const app = new Koa();
 
-const Hapi = require('@hapi/hapi');
-
-const init = async () => {
-
-    const server = Hapi.server({
-        port: 3000,
-        host: 'localhost'
-    });
-
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
-};
-
-process.on('unhandledRejection', (err) => {
-
-    console.log(err);
-    process.exit(1);
+app.use(async (ctx) => {
+  ctx.body = 'Hello World';
 });
 
-init();
-```
-
-Nesse trecho, o servidor é instanciado de forma explícita, informando a porta e o host em que a aplicação irá rodar. O uso de uma função assíncrona permite que o processo de inicialização seja controlado com segurança, tratando possíveis erros durante a execução.
-
-Ao executar o arquivo com node ```index.js```, o servidor passa a escutar requisições na porta definida, mesmo sem ainda possuir rotas configuradas.
-
-### Definindo rotas
-
-Com o servidor criado, o próximo passo é definir rotas. No Hapi, as rotas são declaradas de forma explícita, associando método HTTP, caminho e lógica de tratamento em um único ponto. Isso reforça a filosofia do framework de tornar o comportamento da aplicação previsível e fácil de entender.
-
-Um exemplo simples de rota pode ser adicionado ao mesmo arquivo:
-
-```js
-'use strict';
-
-const Hapi = require('@hapi/hapi');
-
-const init = async () => {
-
-    const server = Hapi.server({
-        port: 3000,
-        host: 'localhost'
-    });
-
-    server.route({
-        method: 'GET',
-        path: '/',
-        handler: (request, h) => {
-
-            return 'Hello World!';
-        }
-    });
-
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
-};
-
-process.on('unhandledRejection', (err) => {
-
-    console.log(err);
-    process.exit(1);
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
 });
-
-init();
 ```
 
-Nesse exemplo, a rota é definida diretamente no servidor, deixando claro:
-- qual método HTTP é aceito (GET)
-- qual caminho será acessado (/)
-- qual lógica será executada ao receber a requisição
+Neste exemplo, quando uma requisição chega ao servidor, o middleware definido é executado. O objeto `ctx` (contexto) encapsula tanto a requisição quanto a resposta, e o middleware define o corpo da resposta como "Hello World".
 
-Ao acessar ```http://localhost:3000```, o servidor responde com a mensagem Hello World!, confirmando que a aplicação está funcionando corretamente.
-
-## Dependências
-
-Ao utilizar o Hapi, é importante entender que o framework **não tenta controlar toda a stack da aplicação**. Seu papel principal é definir **como o servidor HTTP funciona**, como as requisições são processadas e onde regras importantes devem ser declaradas. O Hapi estabelece uma **arquitetura clara, explícita e previsível**, mas deixa ao desenvolvedor a liberdade de escolher as ferramentas que fazem sentido para o domínio do projeto — como banco de dados, ORM, cache ou filas. Nesse sentido, o Hapi atua como um **orquestrador do fluxo HTTP**, enquanto as demais bibliotecas entram como componentes especializados.
-
-As dependências a seguir são apenas exemplos de dependências possíveis de serem utilizadas no framework e podem ser instaladas com os seguintes comandos:
+Para executar o servidor:
 
 ```bash
-npm install @hapi/boom joi
-npm install hapi-swagger @hapi/inert @hapi/vision
-npm install sequelize pg pg-hstore
-npm install --save-dev nodemon
+node index.js
 ```
 
-### @hapi/hapi — *framework core*
+Acessando `http://localhost:3000` no navegador, a resposta "Hello World" será exibida.
 
-O **@hapi/hapi** é o **núcleo arquitetural da aplicação**: é o framework inteiro que lida com o ciclo de requisição, roteamento, plugins e extensões. Diferente de micro-frameworks minimalistas, Hapi aplica uma filosofia “configuração sobre convenção”, incentivando que comportamentos de rota, segurança e validação sejam **declarados de forma explícita e previsível** no servidor.
+### Entendendo o contexto (ctx)
 
-Ele não é uma biblioteca de utilidades soltas, é um **framework completo orientado por configurações e plugins** que define como o servidor HTTP trata tudo que envolve requisições web.
+O objeto de contexto é um dos conceitos mais importantes do Koa. Ele encapsula os objetos de requisição e resposta do Node.js, oferecendo uma interface mais limpa e direta para interagir com a requisição HTTP.
 
-### @hapi/boom — *erros HTTP consistentes*
+Em vez de trabalhar com `req` e `res` separadamente (como no Express), no Koa tudo está acessível através de `ctx`:
 
-**Boom** é uma biblioteca criada pelo mesmo ecossistema do Hapi para **padronizar erros HTTP**. Em vez de lançar exceções genéricas ou strings de erro com status confuso, Boom encapsula **status code, mensagem e payload estruturado**, alinhando os erros diretamente ao padrão HTTP.
-
-Isso significa que a camada de negócio pode dizer simplesmente:
-
-```js
-throw Boom.notFound("Recurso não existe");
+```javascript
+app.use(async (ctx) => {
+  // Informações da requisição
+  console.log(ctx.method);      // GET, POST, etc
+  console.log(ctx.url);          // URL da requisição
+  console.log(ctx.headers);      // Cabeçalhos HTTP
+  
+  // Definindo a resposta
+  ctx.status = 200;              // Status HTTP
+  ctx.body = { message: 'OK' };  // Corpo da resposta
+});
 ```
 
-e o framework sabe como traduzir isso para uma resposta HTTP com status e corpo coerentes, mantendo a API previsível e fácil de auditar.
+Além disso, o contexto oferece métodos auxiliares úteis:
 
-### hapi-swagger, @hapi/inert e @hapi/vision — *documentação e exposição da API*
-
-O **hapi-swagger** é um plugin responsável por gerar **documentação automática da API no padrão OpenAPI**, utilizando as definições explícitas de rotas e validações feitas com Joi.
-
-Para funcionar, ele depende de dois plugins oficiais do ecossistema Hapi:
-
-* **@hapi/inert** — habilita o servidor a servir **arquivos estáticos**, necessários para a interface do Swagger UI;
-* **@hapi/vision** — adiciona suporte à **renderização de templates**, usada para montar a interface visual da documentação.
-
-Essas dependências **não participam da lógica de negócio nem do fluxo principal da API**. Elas existem exclusivamente para **expor, visualizar e inspecionar a API de forma interativa**, mantendo a documentação desacoplada do core da aplicação.
-
-### joi — *validação declarativa e segura*
-
-O **Joi** é uma **biblioteca de validação de esquemas** originalmente criada pelo mesmo grupo que desenvolve o Hapi. Ela permite definir **contratos rigorosos** para `payload`, `query`, `params` e `headers`, garantindo que entradas inválidas nunca alcancem a lógica principal.
-
-A força do Joi está em:
-
-* **validação declarativa** — você descreve o formato esperado com tipos, obrigatoriedade, ranges etc.;
-* **mensagens de erro padronizadas** — integradas ao ciclo de requisição do Hapi;
-* **segurança de entrada** — reduz riscos de ataques por dados malformados.
-
-Com Joi, as rotas Hapi não dependem de middlewares externos para validação, a validação vira parte da definição da rota em si.
-
-### Sequelize — *ORM relacional sofisticado*
-
-O **Sequelize** é um **ORM** que traduz objetos JavaScript para tabelas e relações de um banco de dados relacional (como PostgreSQL). Sequelize abstrai a complexidade de se escrever SQL manual e vincula **lógica de dados fortemente ao domínio da aplicação**, melhorando a organização e a manutenção de grandes sistemas.
-
-Ele traz conceitos como:
-
-* **modelos que representam tabelas** (com tipos, restrições e relações);
-* **associações entre modelos** (um-para-muitos, muitos-para-muitos);
-* **transações e sincronização de esquema**;
-* **consultas e CRUD usando API fluente em vez de SQL puro**.
-
-### pg e pg-hstore — *driver Postgres e serialização*
-
-Estes dois pacotes são **dependências de suporte para o Sequelize trabalhar com PostgreSQL**:
-
-* **pg** — é o **driver PostgreSQL puro** em Node.js: ele implementa as conexões, queries, pooling e protocolo de comunicação com o banco.
-* **pg-hstore** — é um utilitário que lida com **serialização de tipos JSON/HSTORE** no Postgres, permitindo que objetos JavaScript sejam armazenados em campos especiais no banco sem dor.
-
-O Sequelize precisa desses dois para trabalhar com Postgres; sozinho ele não faz comunicação com o banco.
-
-### nodemon — *reload automático no desenvolvimento*
-
-**nodemon** não faz parte da lógica do servidor nem do runtime da aplicação, mas é uma **ferramenta de desenvolvimento** que observa arquivos e **reinicia o servidor automaticamente** quando algo muda.
-
-Isso acelera o feedback de desenvolvimento e evita que você tenha que matar e reiniciar o processo manualmente após cada alteração de código.
-
-## Arquitetura de diretórios:
-
-Diferentemente de outros frameworks, **o Hapi não impõe uma arquitetura rígida** ou um padrão obrigatório de organização de código. Essa característica oferece maior liberdade ao desenvolvedor para estruturar a aplicação de acordo com suas necessidades, desde que respeitados os princípios de organização e responsabilidade.
-
-Nesse contexto, a arquitetura adotada neste projeto explora uma das principais propostas do Hapi: **a organização da aplicação por meio de plugins**. Cada plugin pode encapsular funcionalidades específicas, como rotas, regras de negócio, integrações externas ou acesso a dados, promovendo baixo acoplamento e alta coesão.
-
-**Dentro de cada plugin, o Hapi também não impõe uma estrutura interna fixa**, permitindo que o desenvolvedor escolha livremente como organizar seu código. Essa flexibilidade possibilita desde implementações mais simples, concentradas em poucos arquivos, até arquiteturas internas mais elaboradas, conforme a complexidade e as necessidades de cada módulo.
-
-A seguir é apresentada uma sugestão de organização de diretórios, com o objetivo de exemplificar uma possível estrutura para a aplicação.
-
-### Estrutura de Diretórios 
-
-```
-src/
-│
-├── handlers/
-│   └── ← “Ponte HTTP” → recebe a requisição do Hapi e chama services
-│
-├── routes/
-│   └── ← onde definimos as rotas HTTP, com método, path, validação Joi e handler
-│
-├── schemas/
-│   └── ← contratos de entrada de dados (Joi) para validações explicitas
-│
-├── services/
-│   └── ← lógica de negócio isolada (sem HTTP ou DB diretamente)
-│
-├── repository/
-│   └── ← logica de acesso e manipulação dos dados
-│
-├── models/
-│   └── ← representação das tabelas e relações (Sequelize)
-│
-├── utils/
-│   └── ← código utilitário compartilhado (helpers, transformações, etc.)
-│
-└── index.js
-    └── ← bootstrap da aplicação (servidor, plugins, rotas)
+```javascript
+app.use(async (ctx) => {
+  // Lançar erro HTTP
+  if (!ctx.query.id) {
+    ctx.throw(400, 'ID é obrigatório');
+  }
+  
+  // Manipular cookies
+  const userId = ctx.cookies.get('user_id');
+  ctx.cookies.set('session', 'abc123');
+  
+  // Estado compartilhado entre middlewares
+  ctx.state.user = { id: 1, name: 'João' };
+});
 ```
 
-### Fluxo de responsabilidade:
+O campo `ctx.state` é especialmente útil para passar informações entre middlewares, como dados de autenticação processados em um middleware anterior.
 
-```txt
-HTTP Request
-   ↓
-routes/           ← Define: método + path + validações + handler
-   ↓
-schemas/          ← Valida entrada contra contrato Joi
-   ↓
-handlers/         ← Traduz a requisição para a chamada de serviço
-   ↓
-services/         ← Regras de negócio puras
-   ↓
-repository/       ← acesso aos dados
-   ↓
-models/           ← Persistência dos dados via Sequelize → banco SQL
-   ↓
-Database
+## Conceitos fundamentais
+
+### Middlewares e o modelo em cascata
+
+O conceito de middleware não é exclusivo do Koa — ele existe em praticamente todos os frameworks web. Um middleware é essencialmente uma função que fica no meio do caminho entre a requisição do cliente e a resposta do servidor. Ele pode executar código, modificar a requisição ou resposta, e decidir se a execução deve continuar ou ser interrompida.
+
+No Express, middlewares são executados em sequência linear. Cada middleware chama `next()` para passar o controle para o próximo, mas não há uma forma natural de executar código após todos os middlewares downstream terem sido processados.
+
+O Koa introduz o conceito de **middleware em cascata** (cascade middleware). Nesse modelo, quando um middleware chama `await next()`, a execução é pausada, os middlewares seguintes são executados, e então a execução retorna ao ponto onde foi pausada. Isso cria um fluxo bidirecional — **downstream** (descendo a cadeia) e **upstream** (subindo de volta).
+
+#### Visualizando o fluxo em cascata
+
+```
+Requisição chega ao servidor
+        ↓
+  Middleware 1 (antes do await next())
+        ↓
+  Middleware 2 (antes do await next())
+        ↓
+  Middleware 3 (antes do await next())
+        ↓
+  Middleware 4 (executa e define resposta)
+        ↓
+  Middleware 3 (depois do await next())
+        ↓
+  Middleware 2 (depois do await next())
+        ↓
+  Middleware 1 (depois do await next())
+        ↓
+Resposta enviada ao cliente
 ```
 
-### Como tudo se encaixa
+Esse modelo permite implementar padrões que seriam complexos ou verbosos em outros frameworks. Por exemplo, medir o tempo de execução de uma requisição:
 
-#### /src/routes — *definição explícita de interface*
+```javascript
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  
+  await next();  // Executa os próximos middlewares
+  
+  const duration = Date.now() - start;
+  console.log(`${ctx.method} ${ctx.url} - ${duration}ms`);
+});
+```
 
-Cada arquivo nesta camada agrupa definições de rotas relacionadas, descrevendo para cada rota:
+Neste exemplo, o middleware registra o momento inicial, passa o controle adiante, e quando todos os middlewares posteriores terminam, calcula e registra o tempo total de execução. Isso só é possível porque o código após `await next()` é executado quando a resposta já foi processada.
 
-* método HTTP
-* caminho (`path`)
-* validações (via Joi)
-* handler correspondente
-* tags para Swagger
+### Tratamento de erros
 
-#### /src/schemas — *contratos de dados*
+O uso de async/await torna o tratamento de erros mais natural e previsível. No Koa, erros podem ser capturados usando blocos `try/catch` padrão do JavaScript:
 
-Esta camada armazena **schemas Joi** que descrevem formalmente o formato de dados aceitos:
+```javascript
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.status = err.status || 500;
+    ctx.body = {
+      error: err.message
+    };
+    
+    // Log do erro
+    console.error('Erro capturado:', err);
+  }
+});
+```
 
-* `payload` (corpo da requisição)
-* `params` (segmentos de URL)
-* `query` (parâmetros de consulta)
+Esse middleware atua como um **error boundary** global, capturando qualquer erro lançado pelos middlewares subsequentes e tratando-o de forma centralizada.
 
-Eles são **contratos de entrada** que previnem dados inesperados de atravessarem a aplicação, reforçando a segurança.
+O Koa também oferece um mecanismo de eventos para tratamento de erros:
 
-#### /src/handlers — *gateway das requisições*
+```javascript
+app.on('error', (err, ctx) => {
+  console.error('Erro no servidor:', err);
+  // Aqui você pode enviar logs para serviços externos,
+  // notificar equipes, etc.
+});
+```
 
-Os handlers são a **camada que conecta o Hapi ao domínio da aplicação**. Eles recebem o `request` e chamam serviços, retornando respostas. Não contém lógica de negócio pesada, sua função é **orquestrar chamadas** conforme a rota. É o equivalente **ao controlador HTTP puro**.
+Além disso, o método `ctx.throw()` permite lançar erros HTTP de forma conveniente:
 
-#### /src/services — *regra de negócio isolada*
+```javascript
+app.use(async (ctx) => {
+  const { id } = ctx.query;
+  
+  if (!id) {
+    ctx.throw(400, 'O parâmetro ID é obrigatório');
+  }
+  
+  const user = await db.findUser(id);
+  
+  if (!user) {
+    ctx.throw(404, 'Usuário não encontrado');
+  }
+  
+  ctx.body = user;
+});
+```
 
-Aqui está a **lógica do domínio**, separada do HTTP e da persistência. Os services:
+## Construindo uma aplicação real
 
-* recebem dados validados
-* aplicam regras
-* interagem com modelos
-* retornam resultados ou erros (Boom)
+Para demonstrar como esses conceitos se aplicam na prática, vamos construir uma aplicação funcional com rotas, validação e tratamento de erros.
 
-Services não têm dependência de infraestrutura HTTP, isso permite testá-los isoladamente.
+### Adicionando roteamento
 
-### /src/repositories — *acesso a dados abstraído*
+O core do Koa não inclui um sistema de rotas. Isso é intencional — permite que o desenvolvedor escolha a solução que melhor se adequa ao projeto. A biblioteca oficial `@koa/router` é a opção mais comum:
 
-O **Repository** é a camada que **isola a persistência** do resto do sistema. Ele funciona como um *adaptador* entre o domínio e o banco de dados.
+```bash
+npm install @koa/router
+```
 
-Responsabilidades do repository:
+Com o router instalado, podemos definir rotas de forma clara e organizada:
 
-* encapsular queries e operações de leitura/escrita
-* traduzir intenções do domínio em operações no ORM
-* esconder detalhes do Sequelize (ou qualquer outro ORM)
-* fornecer uma API clara para os services
+```javascript
+const Koa = require('koa');
+const Router = require('@koa/router');
 
-Isso permite:
+const app = new Koa();
+const router = new Router();
 
-* trocar ORM ou banco sem quebrar o domínio
-* mockar acesso a dados em testes
-* evitar services poluídos com `findAll`, `include`, `transaction`, etc.
+// Rota GET simples
+router.get('/', async (ctx) => {
+  ctx.body = { message: 'Bem-vindo à API Koa' };
+});
 
-#### /src/models — *representação de dados persistentes*
+// Rota com parâmetros
+router.get('/users/:id', async (ctx) => {
+  const { id } = ctx.params;
+  ctx.body = { 
+    userId: id, 
+    name: 'João Silva' 
+  };
+});
 
-Nesta camada estão os **modelos Sequelize** que representam tabelas e relações no banco:
+// Rota POST
+router.post('/users', async (ctx) => {
+  const userData = ctx.request.body;
+  ctx.status = 201;
+  ctx.body = { 
+    id: Date.now(), 
+    ...userData,
+    created_at: new Date()
+  };
+});
 
-* cada arquivo define um modelo
-* descreve campos, tipos e relacionamentos
-* encapsula regras básicas de persistência
+// Registrar as rotas no app
+app.use(router.routes());
+app.use(router.allowedMethods());
 
-Modelos e services juntos formam o **núcleo de domínio** da aplicação no backend.
+app.listen(3000);
+```
 
-#### /src/utils — *funções transversais*
+O método `router.allowedMethods()` adiciona tratamento automático para métodos HTTP não permitidos, respondendo com status 405 quando apropriado.
 
-O utilitário armazena ferramentas reutilizáveis que não pertencem a um domínio específico, como helpers, formatação ou transformações comuns.
+### Parsing de requisições
 
-#### index.js — *bootstrapping*
+Para processar dados enviados no corpo de requisições POST ou PUT, precisamos de um middleware para fazer o parsing. O `koa-bodyparser` é a solução mais utilizada:
 
-O ponto de partida da aplicação, onde o servidor é **instanciado**, plugins registrados, rotas carregadas e a aplicação realmente começa a ouvir requisições.
+```bash
+npm install koa-bodyparser
+```
 
-Ele não deve conter lógica de negócio; sua função é **inicialização e composição das partes**.
+Ele deve ser registrado antes das rotas:
 
+```javascript
+const Koa = require('koa');
+const Router = require('@koa/router');
+const bodyParser = require('koa-bodyparser');
 
-### Porque essa arquitetura importa?
+const app = new Koa();
+const router = new Router();
 
-* **Clareza absoluta de responsabilidade** (cada pasta faz apenas uma coisa)
-* **Testabilidade** (services podem ser testados sem servidor)
-* **Escalabilidade** (cresce sem virar bagunça)
-* **Observabilidade** (Swagger + validação explícita com Joi)
-* **Separa HTTP ↔ Negócio ↔ Dados** (reduz acoplamento)
+// Importante: bodyParser deve vir antes das rotas
+app.use(bodyParser());
 
-## Considerações finais
+router.post('/users', async (ctx) => {
+  const { name, email } = ctx.request.body;
+  
+  // Agora os dados do body estão disponíveis
+  ctx.body = { name, email };
+});
 
-Ao longo deste material, foram apresentados os principais aspectos do Hapi, desde seu contexto histórico e consolidação no ecossistema Node.js até sua utilização prática, abordando conceitos como instalação, uso de dependências e organização arquitetural. A proposta foi oferecer uma visão clara e estruturada do framework, destacando sua flexibilidade, previsibilidade e adequação para aplicações que exigem organização, modularidade e controle. Com isso, espera-se que o leitor esteja apto a compreender o funcionamento do Hapi e utilizá-lo como base para o desenvolvimento de aplicações escaláveis e bem estruturadas.
+app.use(router.routes());
+app.listen(3000);
+```
+
+### Validação de dados
+
+Validar dados de entrada é fundamental para a segurança e consistência da aplicação. Uma abordagem comum é usar bibliotecas como **Zod** ou **Joi**. Vamos usar o Zod como exemplo:
+
+```bash
+npm install zod
+```
+
+```javascript
+const { z } = require('zod');
+
+// Definir o schema de validação
+const userSchema = z.object({
+  name: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
+  email: z.string().email('Email inválido'),
+  age: z.number().int().min(18, 'Idade mínima é 18 anos')
+});
+
+router.post('/users', async (ctx) => {
+  try {
+    // Validar os dados recebidos
+    const userData = userSchema.parse(ctx.request.body);
+    
+    // Se chegou aqui, os dados são válidos
+    ctx.status = 201;
+    ctx.body = {
+      id: Date.now(),
+      ...userData,
+      created_at: new Date()
+    };
+  } catch (err) {
+    // Dados inválidos
+    ctx.status = 400;
+    ctx.body = {
+      error: 'Dados inválidos',
+      details: err.errors
+    };
+  }
+});
+```
+
+### Exemplo completo
+
+Reunindo todos os conceitos apresentados, um servidor Koa funcional ficaria assim:
+
+```javascript
+const Koa = require('koa');
+const Router = require('@koa/router');
+const bodyParser = require('koa-bodyparser');
+const { z } = require('zod');
+
+const app = new Koa();
+const router = new Router();
+
+// Middleware de tratamento de erros
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.status = err.status || 500;
+    ctx.body = {
+      error: err.message
+    };
+    app.emit('error', err, ctx);
+  }
+});
+
+// Middleware de logging
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  const duration = Date.now() - start;
+  console.log(`${ctx.method} ${ctx.url} - ${ctx.status} - ${duration}ms`);
+});
+
+// Body parser
+app.use(bodyParser());
+
+// Schema de validação
+const userSchema = z.object({
+  name: z.string().min(3),
+  email: z.string().email()
+});
+
+// Rotas
+router.get('/', async (ctx) => {
+  ctx.body = { message: 'API Koa funcionando' };
+});
+
+router.get('/users/:id', async (ctx) => {
+  const { id } = ctx.params;
+  
+  // Simular busca no banco de dados
+  const user = { id, name: 'João Silva', email: 'joao@example.com' };
+  
+  ctx.body = user;
+});
+
+router.post('/users', async (ctx) => {
+  const userData = userSchema.parse(ctx.request.body);
+  
+  ctx.status = 201;
+  ctx.body = {
+    id: Date.now(),
+    ...userData,
+    created_at: new Date()
+  };
+});
+
+// Registrar rotas
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+// Tratamento de erros global
+app.on('error', (err, ctx) => {
+  console.error('Erro no servidor:', err);
+});
+
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
+```
+
+Este exemplo demonstra:
+- Middleware de tratamento de erros centralizado
+- Logging de requisições com medição de tempo
+- Parsing de corpo de requisições
+- Validação de dados com Zod
+- Rotas parametrizadas e manipulação de contexto
+- Tratamento de eventos de erro
+
+## Express vs Koa — uma comparação conceitual
+
+Entender as diferenças entre Express e Koa vai além de comparar linhas de código ou performance. São frameworks com filosofias distintas, cada um adequado a diferentes contextos e necessidades.
+
+### Filosofia e design
+
+O **Express** segue uma filosofia de "bateria incluída". Ele oferece funcionalidades prontas para uso imediato, como roteamento integrado, parsing de requisições e serving de arquivos estáticos. Isso torna o Express uma escolha rápida para começar projetos, especialmente para desenvolvedores iniciantes.
+
+O **Koa**, por outro lado, adota uma filosofia minimalista. O core é extremamente pequeno, e funcionalidades adicionais são adicionadas apenas quando necessárias. Isso resulta em maior controle e flexibilidade, mas exige que o desenvolvedor tome mais decisões arquiteturais.
+
+### Modelo de middlewares
+
+No **Express**, middlewares são executados em sequência linear. Uma vez que `next()` é chamado, não há retorno natural ao middleware que o invocou:
+
+```javascript
+// Express
+app.use((req, res, next) => {
+  console.log('Antes');
+  next();
+  // Este código é executado, mas a resposta pode já ter sido enviada
+  console.log('Depois');
+});
+```
+
+No **Koa**, o modelo em cascata permite controle explícito sobre quando executar código antes e depois dos middlewares subsequentes:
+
+```javascript
+// Koa
+app.use(async (ctx, next) => {
+  console.log('Antes');
+  await next();
+  // Este código é executado SEMPRE depois de todos os middlewares seguintes
+  console.log('Depois');
+});
+```
+
+Essa diferença torna padrões como logging, medição de tempo, transações de banco de dados e controle de cache mais naturais no Koa.
+
+### Async/await
+
+Embora seja possível usar async/await no Express, o framework não foi projetado com isso em mente. É comum encontrar problemas com tratamento de erros em funções assíncronas, exigindo wrappers ou bibliotecas adicionais.
+
+O Koa foi construído desde o início para async/await. Todo o ciclo de vida da requisição é assíncrono por padrão, e o tratamento de erros funciona naturalmente com `try/catch`.
+
+### Quando usar cada um
+
+**Use Express quando:**
+- Você precisa começar rapidamente com convenções estabelecidas
+- O projeto é pequeno ou médio e não requer customização profunda
+- A equipe já tem experiência consolidada com Express
+- Você valoriza o ecossistema maduro e a grande quantidade de middlewares disponíveis
+
+**Use Koa quando:**
+- Você deseja controle fino sobre o comportamento da aplicação
+- O projeto valoriza código limpo e moderno (async/await nativo)
+- Você prefere escolher explicitamente cada componente da stack
+- O modelo de middleware em cascata beneficia seus casos de uso
+
+| Aspecto | Express | Koa |
+|---------|---------|-----|
+| Filosofia | Completo, com baterias incluídas | Minimalista, núcleo enxuto |
+| Tamanho | Médio (~1MB com deps) | Pequeno (~500KB) |
+| Middlewares | Lineares, unidirecionais | Cascata, bidirecionais |
+| Async/await | Suporte posterior, não nativo | Nativo, projetado para isso |
+| Contexto | `req` e `res` separados | `ctx` unificado |
+| Curva de aprendizado | Menor, mais popular | Média, conceitos novos |
+| Ecossistema | Muito maduro e extenso | Crescente, mais moderno |
+| Uso ideal | Apps full-featured, MVCs | APIs modernas, microserviços |
+
+## Middlewares populares no ecossistema Koa
+
+Embora o core do Koa seja minimalista, existe um ecossistema crescente de middlewares que estendem suas funcionalidades.
+
+### Stack recomendada para produção
+
+```bash
+npm install @koa/router koa-bodyparser @koa/cors koa-helmet koa-compress koa-jwt
+```
+
+Cada um desses middlewares adiciona funcionalidades essenciais:
+
+- **@koa/router**: Sistema de rotas completo
+- **koa-bodyparser**: Parsing de JSON e form data
+- **@koa/cors**: Configuração de CORS
+- **koa-helmet**: Headers de segurança HTTP
+- **koa-compress**: Compressão de respostas (gzip)
+- **koa-jwt**: Autenticação via JSON Web Tokens
+
+### Exemplo de integração completa
+
+```javascript
+const Koa = require('koa');
+const Router = require('@koa/router');
+const bodyParser = require('koa-bodyparser');
+const cors = require('@koa/cors');
+const helmet = require('koa-helmet');
+const compress = require('koa-compress');
+
+const app = new Koa();
+
+// Segurança: adiciona headers HTTP seguros
+app.use(helmet());
+
+// Compressão de resposta
+app.use(compress());
+
+// CORS: permite requisições cross-origin
+app.use(cors());
+
+// Body parsing
+app.use(bodyParser());
+
+// Suas rotas
+const router = new Router();
+router.get('/api/status', (ctx) => {
+  ctx.body = { status: 'ok' };
+});
+
+app.use(router.routes());
+app.listen(3000);
+```
+
+## Casos de uso reais
+
+O Koa é especialmente adequado para certos tipos de aplicações e contextos de desenvolvimento.
+
+### APIs REST e microserviços
+
+O design minimalista e o controle fino sobre o comportamento da aplicação tornam o Koa ideal para construir APIs REST limpas e microserviços eficientes. A facilidade de adicionar apenas os componentes necessários resulta em aplicações enxutas e performáticas.
+
+### Integração com bancos de dados
+
+O Koa se integra naturalmente com ORMs modernos como **Prisma** e **TypeORM**, que também são projetados com async/await em mente:
+
+```javascript
+router.get('/users/:id', async (ctx) => {
+  const user = await prisma.user.findUnique({
+    where: { id: ctx.params.id }
+  });
+  
+  if (!user) {
+    ctx.throw(404, 'Usuário não encontrado');
+  }
+  
+  ctx.body = user;
+});
+```
+
+### Performance e benchmarks
+
+Segundo benchmarks do TechEmpower (2025), o Koa apresenta performance sólida:
+
+- **Koa**: ~20.000 requisições/segundo
+- **Express**: ~15.000 requisições/segundo  
+- **Fastify**: ~30.000+ requisições/segundo
+
+O Koa oferece excelente balanço entre performance e simplicidade de código, posicionando-se como uma escolha intermediária para quem valoriza código limpo sem sacrificar demais a velocidade.
+
+## Conclusão
+
+O Koa representa uma visão moderna de como frameworks web em Node.js devem ser construídos. Em vez de tentar ser tudo para todos, ele foca em entregar um núcleo sólido, pequeno e bem projetado, sobre o qual aplicações complexas podem ser construídas.
+
+Suas principais contribuições ao ecossistema Node.js são:
+
+- O modelo de **middleware em cascata**, que permite padrões mais expressivos e controlados
+- A adoção completa de **async/await** desde o início, resultando em código mais limpo e tratamento de erros mais natural
+- A filosofia de **configuração explícita**, que torna o comportamento da aplicação mais previsível
+- O **núcleo minimalista**, que dá ao desenvolvedor liberdade para escolher exatamente os componentes que precisa
+
+O Koa não é necessariamente melhor ou pior que Express ou Fastify — ele é diferente, com propósitos e públicos distintos. Para desenvolvedores que valorizam controle, modernidade e código limpo, e que não se importam em montar sua própria stack de componentes, o Koa é uma escolha natural e recompensadora.
 
 ## Referências
 
-HAPI. **Hapi Tutorials**. Disponível em: [https://hapi.dev/tutorials/?lang=en_US](https://hapi.dev/tutorials/?lang=en_US). Acesso em: jan. 2026.
+1. **Koa - Next Generation Web Framework for Node.js**  
+   Documentação oficial. Disponível em: https://koajs.com/
 
-THE ORG. **Eran Hammer — Sideway Inc.** Disponível em: [https://theorg.com/org/sideway-inc/org-chart/eran-hammer](https://theorg.com/org/sideway-inc/org-chart/eran-hammer). Acesso em: jan. 2026.
+2. **Holowaychuk, T. J. (2014)**  
+   Koa: Express.js next generation web framework.  
+   GitHub Repository. Disponível em: https://github.com/koajs/koa
 
-STACKABUSE. **Hapi vs Express: Comparing Node.js Web Frameworks**. Disponível em: [https://stackabuse.com/hapi-vs-express-comparing-node-js-web-frameworks/](https://stackabuse.com/hapi-vs-express-comparing-node-js-web-frameworks/). Acesso em: jan. 2026.
+3. **Node.js Foundation**  
+   Documentação oficial do Node.js. Disponível em: https://nodejs.org/docs/
 
-PHAN, Alanna. **Choosing Between Open Source Frameworks: Express.js vs Hapi.js**. Medium, 2018. Disponível em: [https://medium.com/@phan.alanna/choosing-between-open-source-frameworks-express-js-vs-hapi-js-5c9b2131ba19](https://medium.com/@phan.alanna/choosing-between-open-source-frameworks-express-js-vs-hapi-js-5c9b2131ba19). Acesso em: jan. 2026.
+4. **MDN Web Docs**  
+   Async/Await em JavaScript. Disponível em: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous
 
-SEQUELIZE. **Sequelize Documentation (v6)**. Disponível em: [https://sequelize.org/docs/v6/](https://sequelize.org/docs/v6/). Acesso em: jan. 2026.
-
-MEZ, Jason. **Introduction to Hapi.js**. Medium, 2017. Disponível em: [https://medium.com/@jsonmez/introduction-to-hapi-js-c128f40bd919](https://medium.com/@jsonmez/introduction-to-hapi-js-c128f40bd919). Acesso em: jan. 2026.
+5. **TechEmpower**  
+   Web Framework Performance Benchmarks. Disponível em: https://www.techempower.com/benchmarks/

@@ -1,0 +1,44 @@
+GET http://localhost:3000/api/users/
+
+###
+
+POST http://localhost:3000/api/users/
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "123456"
+}
+
+### Buscar todos os filmes
+GET http://localhost:3000/api/movies/
+
+### Criar novo filme (com userId válido)
+POST http://localhost:3000/api/movies/
+Content-Type: application/json
+
+{
+  "title": "Matrix",
+  "description": "Um hacker descobre a verdade sobre sua realidade",
+  "releaseDate": "1999-03-31",
+  "userId": "COLE_AQUI_O_ID_DO_USUARIO"
+}
+
+### Criar filme com userId inválido (deve retornar 404)
+POST http://localhost:3000/api/movies/
+Content-Type: application/json
+
+{
+  "title": "Matrix",
+  "description": "Um hacker descobre a verdade sobre sua realidade",
+  "releaseDate": "1999-03-31",
+  "userId": "00000000-0000-0000-0000-000000000000"
+}
+
+### Buscar filmes por usuário (com userId válido)
+GET http://localhost:3000/api/movies/user/COLE_AQUI_O_ID_DO_USUARIO
+
+### Buscar filmes por usuário inválido (deve retornar 404)
+GET http://localhost:3000/api/movies/user/00000000-0000-0000-0000-000000000000
+

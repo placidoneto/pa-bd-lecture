@@ -1,0 +1,32 @@
+{
+  "name": "koa",
+  "version": "1.0.0",
+  "description": "projeto Koa",
+  "main": "./src/server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch ./src/server.ts"
+  },
+  "devDependencies": {
+    "@types/koa": "^3.0.1",
+    "@types/node": "^25.0.3",
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.2.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@koa/bodyparser": "^6.0.0",
+    "@koa/router": "^15.1.1",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "dotenv": "^17.2.3",
+    "koa": "^3.1.1",
+    "pg": "^8.16.3",
+    "zod": "^4.2.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

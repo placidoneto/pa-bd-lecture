@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
+    volumes:
+      - ..:/workspace:cached
+
+    environment:
+      - DATABASE_URL=postgresql://docker:docker@lume-koa-db:5432/lume-koa?schema=public
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    depends_on:
+      - lume-koa-db
+
+    working_dir: /workspace
+
+  lume-koa-db:
+    image: bitnami/postgresql
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=lume-koa
