@@ -1,236 +1,257 @@
-<div  align="center">
-    <img width="400"
-        alt="BD Logo"
-        src="https://media.licdn.com/dms/image/v2/D4D12AQFor1IXlzvOpQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1721822584091?e=2147483647&v=beta&t=UNz3RLjmgLJfVIKZe4HY6ftT_0tDIVTlE0uDc1bQaYI"
-      />
-    <h1> Programação e Administração de Banco de Dados </h1>
-</div>
+# 📋 Trabalho Prático — Prova Final
 
-## Objetivo
+## Programação e Administração de Banco de Dados
 
-Este repositório é destinado ao aprendizado dos conceitos do Programação e Administração de Banco de Dados.
+**Professor:** Plácido A. Souza Neto  
+**Instituição:** IFRN — Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Norte  
+**Prazo de Entrega:** Quarta-feira, 11/02/2025, até 12h00 (meio-dia)
 
+---
 
-## Metodologia
+## 1. Objetivo
 
-O processo de aquisição dos conhecimentos deve ser realizado a partir do estudo de cada branch existente neste repositório.
+Desenvolver uma **API RESTful** utilizando **Django REST Framework** com banco de dados **PostgreSQL** que implemente uma **Agenda de Contatos** completa, com operações CRUD, organização por grupos e filtros avançados.
 
-Cada branch implementada marca um conjunto de conceitos que são aplicados em código e que vai sendo refatorado até aplicação de todo conteúdo visto na disciplina.
+Este trabalho tem como finalidade avaliar a capacidade do aluno de:
 
-## Pré-Requistos 
+- Modelar um banco de dados relacional adequado ao problema proposto.
+- Implementar uma API REST funcional seguindo boas práticas.
+- Configurar corretamente o Django REST Framework com PostgreSQL.
+- Criar endpoints com filtros e consultas elaboradas ao banco de dados.
+- Documentar e apresentar o projeto de forma clara.
 
-- Conhecimento em [Programação de Computadores]()
-- Conhecimento em [Banco de Dados]()
+---
 
-## Agenda
+## 2. Descrição do Projeto
 
-### 1o Bimestre
+A API deve funcionar como uma **agenda digital de contatos**, permitindo ao usuário gerenciar seus contatos pessoais organizados em grupos. O sistema deve oferecer recursos de busca e filtragem que facilitem a consulta das informações armazenadas.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_entendendo_e_modelando_dados"> Conteúdo 1. Modelando Dados</a>
+---
 
-- Criação de um Modelo de Dados
-- Criação das Tabelas
+## 3. Requisitos Funcionais
 
+### 3.1 CRUD de Contatos
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_manipulando_dados"> Conteúdo 2. Manipulando Dados</a>
+A API deve implementar as quatro operações básicas sobre contatos:
 
-- Inserção de Dados
-- Consultas SQL
-  
+| Operação  | Método HTTP | Descrição                              |
+|-----------|-------------|----------------------------------------|
+| Criar     | `POST`      | Cadastrar um novo contato              |
+| Listar    | `GET`       | Listar todos os contatos               |
+| Detalhar  | `GET`       | Exibir os dados de um contato específico |
+| Atualizar | `PUT/PATCH` | Atualizar dados de um contato existente |
+| Remover   | `DELETE`    | Excluir um contato                     |
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/conteudo_consultas_avancadas"> Conteúdo 3 Consultas Avançadas</a>
+### 3.2 Dados do Contato
 
-- Join
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Subconsultas
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-consultas-avancadas"> Exercício Fixação de Conteúdo</a>
+Cada contato deve conter, **no mínimo**, as seguintes informações:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-consultas-avancadas"> Trabalho Prático 1</a>
+- **Nome completo**
+- **E-mail**
+- **Data de nascimento (aniversário)**
+- **Grupo** ao qual pertence
+- **Telefone(s)** — cada contato pode possuir **mais de um número de telefone** (ex: celular pessoal, celular do trabalho, telefone fixo, etc.)
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 4. Django Rest Frameork</a>
+### 3.3 Grupos de Contatos
 
-- Introdução ao Django Rest Framework
-- Conceitos Básicos
-- Exemplo simples usando Model/ORM com Postgres
+Os contatos devem estar organizados nos seguintes grupos:
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/exercicio-django-rest-introducao"> Exercício Fixação de Conteúdo (Django Rest Franmework)</a>
+| Grupo       | Descrição                        |
+|-------------|----------------------------------|
+| `escola`    | Contatos do ambiente escolar     |
+| `familia`   | Contatos de familiares           |
+| `trabalho`  | Contatos do ambiente profissional |
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-modelagem-django"> Trabalho Prático 2</a>
+> **Observação:** O grupo pode ser implementado como um modelo separado (recomendado) ou como um campo de escolha (`choices`) no modelo de contato. A decisão de modelagem deve ser justificada no README.
 
+### 3.4 Filtros e Consultas Avançadas
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 5. Relacionamento entre Modelos ORM em Django Rest</a>
+A API **deve obrigatoriamente** disponibilizar os seguintes endpoints/filtros:
 
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
+| # | Filtro / Consulta | Descrição |
+|---|-------------------|-----------|
+| 1 | **Contatos por grupo** | Listar todos os contatos de um determinado grupo (ex: todos os contatos do grupo `familia`). |
+| 2 | **Aniversariantes do mês** | Listar todos os contatos que fazem aniversário em um determinado mês. |
+| 3 | **Aniversariantes do mês por grupo** | Listar os contatos que fazem aniversário em um determinado mês, filtrados por grupo. |
+| 4 | **Grupo com mais contatos** | Retornar qual grupo possui o maior número de contatos cadastrados. |
+| 5 | **Grupo com menos contatos** | Retornar qual grupo possui o menor número de contatos cadastrados. |
+| 6 | **Contagem de contatos por grupo** | Retornar a quantidade de contatos em cada grupo. |
 
+> **Dica:** Utilize os recursos do Django REST Framework como `filters`, `query_params`, `actions customizadas` ou endpoints dedicados para implementar essas consultas.
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/atividade_fixacao_relacionamento20252"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.2</a>
+---
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> Exercício Fixação de Relacionamento entre Modelos ORM em Django Rest 2025.1</a>
+## 4. Requisitos Técnicos
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-relacionamento-model-20251"> Trabalho Prático 3</a>
+### 4.1 Stack Tecnológica Obrigatória
 
+| Tecnologia | Utilização |
+|---|---|
+| **Python 3.10+** | Linguagem de programação |
+| **Django 4+** | Framework web |
+| **Django REST Framework** | Construção da API REST |
+| **PostgreSQL** | Banco de dados relacional |
+| **drf-yasg** ou **drf-spectacular** | Documentação automática com Swagger/OpenAPI |
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 6. Funções em Classes ViewSet do Django Rest Framework</a>
+### 4.2 Estrutura Esperada do Projeto
 
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 7. Autenticação Simples JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp4-2025_1"> Trabalho Prático 4</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp5-2025_1"> Trabalho Prático 5</a>
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/fixacao-autenticacao-2025_2"> Atividade de Fixação Autenticação 2025.2 - Criação de Usuários, Projetos e Tarefas</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/aula-revisao-2025_2"> Revisão 1o Bimestre - 2025.2</a>
-
-### 2o Bimestre
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios_2025_2">SEMINÁRIO 2o BIMESTRE - Diferentes Framework Rest</a>
-
-- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-quarkus-20252">Quarkus (Java)</a>
-- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask-20252">Flask (Python)</a>
-- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-laravel-20252">Laravel (PHP)</a>
-- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-hapi-20252"> Hapi (Node)</a>
-- FastAPI (Python)	--> TP CANCELADO <--
-- <a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-koa-20252"> Koa (Node)</a>
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 8. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/fixacao-autenticacao-perfil-usuario">Atividade de Fixação sobre Autenticação usando Perfil de Usuário</a>
-
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-jwt"> Autenticação com JWT</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp1-2obimestre-2025_2"> Trabalho Prático - Autenticação JWT e Controle de Acesso</a>
-
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 9. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminarios-2bimestre">SEMINÁRIO 2o BIMESTRE - Framework Spring Boot com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp6-2025_1"> Trabalho Prático 6</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 10. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring1">Spring Boot - Tema 1</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring2">Spring Boot - Tema 2</a>
-
-<a href="https://github.com/MaVitor/Spring-Boot-Tema3">Spring Boot - Tema 3</a> 
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring3">TP Tema 3</a> 
-
-<a href="https://github.com/MaVitor/seminario-spring4">Spring Boot - Tema 4</a> 
-
-<a href="https://github.com/MaVitor/seminario-spring5">Spring Boot - Tema 5</a> 
-
-
-<!--  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)-->
-
-
-<!--
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture00-modelando-dados"> Conteúdo 1. Modelando Dados</a>
-
-- Criação de um Modelo de Dados
-- Criação das Tabelas
-- Inserção de Dados
-- Consultas SQL
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture00-modelando-dados/tp1.md"> TP1 - Trabalho Prático 1</a>
-
-  
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture03-consultas-avancadas">Conteúdo 2. Consultas Avançadas I</a>
-
-- Filtragem
-- Ordenação
-- Valores Distintos
-- Intervalos de Busca
-- Consultas com `JOIN
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture03-consultas-avancadas/lecture01/tp2.md"> TP2 - Trabalho Prático 2</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture01-fundamentos"> Conteúdo 3. Django Rest Frameork</a>
-
-- Estrutura da Aplicação Web (API) com Django Rest para a aplicação de Venda de Veículos
-- Exemplo simples usando Model/ORM com Postgres
-
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-orm-model-relacionamento">Conteúdo 4. Relacionamento entre Modelos ORM em Django Rest</a>
-
-- Relacionamento entre Modelos
-- Relacionamento 1 para 1
-- Relacionamento 1 para N
-- Relacionamento N para N
-
--  <a href="https://github.com/placidoneto/pa-bd-lecture/tree/tp-orm-model-relacionamento"> TP3 - Trabalho Prático 3</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/lecture-view-functions">Conteúdo 5. Funções em Classes ViewSet do Django Rest Framework</a>
-
-- Funções de Listagem
-- <a href="https://github.com/placidoneto/pa-bd-lecture/blob/lecture-view-functions/atividade-fixacao.md"> TP Substitutivo - Atividade Fixação</a>
-
-### 2o Bimestre
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/seminario-2oBimestre">SEMINÁRIO 2o BIMESTRE - Frameworks Rest com Acesso a Banco</a>
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-token">Conteúdo 6. Autenticação JWT Django Rest Framework</a>
-
-  - Autenticação JWT
-  - Sistema de Login e Logout
-
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario">Conteúdo 7. Autenticação usando Perfil de Usuário</a>
-
-  - Definindo Perfil de Usuário
-  - Registro de Usuário
-  - Login e Logout
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/autenticacao-perfil-usuario-especializacao">Conteúdo 8. Autenticação usando Perfil de Usuário Especializado</a>
-
-  - Definindo Perfil de Usuário Específicos
-  - Registro de Usuário
-  - Login e Logout
-  - [Atividade sobre Autenticação](https://github.com/placidoneto/pa-bd-lecture/tree/atividade-autenticacao)
-
-<a href="https://github.com/placidoneto/pa-bd-lecture/tree/filtragem-dados-django-rest">Conteúdo 9. Filtragem de Dados em Django Rest Framework</a>
-
-  - Filtragem de Dados
-  - Filtragem de Dados com Parâmetros
-  - Filtragem de Dados com Parâmetros de URL
-  
-  ### Seminários API Rest
-
-  - [Seminário 1 - API Rest com Fastify](https://github.com/placidoneto/pa-bd-lecture/tree/seminario_festify)
-  - [Seminário 2 - API Rest com ExpressJS](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-express-js)
-  - [Seminário 3 - API Rest com FastAPI](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-fast-api)
-  - [Seminário 4 - API Rest com Spring Boot](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-spring)
-  - [Seminário 5 - API Rest com Flask](https://github.com/placidoneto/pa-bd-lecture/tree/seminario-flask)
-  -->
-
-  
+```
+agenda-contatos/
+├── manage.py
+├── requirements.txt
+├── README.md
+├── core/                    # Projeto Django principal
+│   ├── settings.py
+│   ├── urls.py
+│   └── ...
+├── contatos/                # App dos contatos
+│   ├── models.py            # Modelos: Contato, Telefone, Grupo
+│   ├── serializers.py       # Serializers da API
+│   ├── views.py             # Views/ViewSets
+│   ├── urls.py              # Rotas da API
+│   ├── admin.py             # Configuração do Django Admin
+│   ├── filters.py           # Filtros (opcional, mas recomendado)
+│   └── ...
+└── ...
+```
+
+### 4.3 Modelagem Sugerida
+
+Abaixo está uma sugestão de modelagem. O aluno tem **liberdade para adaptar** conforme julgar mais adequado, desde que os requisitos funcionais sejam atendidos.
+
+```
+┌──────────────┐       ┌──────────────┐       ┌──────────────┐
+│    Grupo     │       │   Contato    │       │   Telefone   │
+├──────────────┤       ├──────────────┤       ├──────────────┤
+│ id           │◄──┐   │ id           │◄──┐   │ id           │
+│ nome         │   └───│ grupo (FK)   │   └───│ contato (FK) │
+│ descricao    │       │ nome         │       │ numero       │
+│ created_at   │       │ email        │       │ tipo         │
+└──────────────┘       │ data_nasc    │       │ created_at   │
+                       │ created_at   │       └──────────────┘
+                       │ updated_at   │
+                       └──────────────┘
+```
+
+**Relacionamentos:**
+- **Grupo → Contato:** Um grupo possui vários contatos (1:N).
+- **Contato → Telefone:** Um contato possui vários telefones (1:N).
+
+---
+
+## 5. Entregáveis
+
+O aluno deve entregar os seguintes itens:
+
+### 5.1 Código-fonte no GitHub
+
+Aceite o assignment e faça o push do código no repositório gerado:
+
+🔗 **Link do Assignment:** [https://classroom.github.com/a/KjRFYhMc](https://classroom.github.com/a/KjRFYhMc)
+
+O repositório deve conter:
+
+- [ ] **Modelos** (`models.py`) — com todos os modelos necessários.
+- [ ] **Serializers** (`serializers.py`) — com serializers para cada modelo, incluindo serializers aninhados quando necessário (ex: telefones dentro do contato).
+- [ ] **Views** (`views.py`) — ViewSets ou APIViews com todas as operações CRUD e filtros.
+- [ ] **Rotas** (`urls.py`) — configuração das rotas da API (preferencialmente com `DefaultRouter`).
+- [ ] **Admin** (`admin.py`) — configuração do Django Admin para gerenciar os dados pelo painel administrativo.
+- [ ] **Swagger** — documentação da API acessível via navegador (ex: `/swagger/` ou `/docs/`).
+- [ ] **README.md** — documentação completa do projeto (veja seção 5.2).
+- [ ] **requirements.txt** — lista de dependências do projeto.
+
+### 5.2 Documentação (README.md)
+
+O `README.md` do repositório deve conter, **no mínimo**:
+
+1. **Título e descrição** do projeto.
+2. **Explicação dos modelos** utilizados e a justificativa das decisões de modelagem (ex: por que criou um modelo separado para Grupo, por que o Telefone é um modelo à parte, etc.).
+3. **Diagrama ou descrição dos relacionamentos** entre os modelos.
+4. **Lista dos endpoints** da API com exemplos de uso.
+5. **Instruções de como executar o projeto** localmente (instalação, configuração do banco, migrations, etc.).
+6. **Informações sobre a documentação Swagger** (como acessar).
+
+### 5.3 Vídeo Explicativo
+
+- **Duração:** entre **5 e 10 minutos**.
+- **Conteúdo:** O aluno deve apresentar e explicar o que foi desenvolvido, demonstrando a API funcionando (via Swagger, Postman, ou navegador da API do DRF).
+- **Entrega:** O vídeo deve ser enviado por meio de um **link** (YouTube, Google Drive, Loom, etc.). O link pode ser incluído no README.md ou enviado separadamente.
+
+---
+
+## 6. Critérios de Avaliação
+
+| Critério | Peso | Descrição |
+|---|---|---|
+| **Modelagem do Banco** | 10% | Modelos bem estruturados, relacionamentos corretos, uso adequado de tipos de campo. |
+| **CRUD Completo** | 20% | Todas as operações (Create, Read, Update, Delete) funcionando corretamente. |
+| **Filtros e Consultas** | 20% | Implementação correta de todos os filtros exigidos (seção 3.4). |
+| **Serializers e Views** | 15% | Uso adequado de serializers (incluindo aninhados) e organização das views. |
+| **Swagger/Documentação da API** | 10% | Documentação interativa acessível e funcional. |
+| **README e Documentação** | 10% | README completo, claro e bem organizado. |
+| **Vídeo Explicativo** | 15% | Clareza na apresentação e demonstração da API funcionando. |
+
+---
+
+## 7. Exemplos de Endpoints Esperados
+
+A tabela abaixo serve como **referência**. O aluno pode organizar as rotas conforme preferir, desde que todas as funcionalidades estejam disponíveis.
+
+```
+# CRUD de Contatos
+GET    /api/contatos/                    → Lista todos os contatos
+POST   /api/contatos/                    → Cria um novo contato
+GET    /api/contatos/{id}/               → Detalha um contato
+PUT    /api/contatos/{id}/               → Atualiza um contato (completo)
+PATCH  /api/contatos/{id}/               → Atualiza um contato (parcial)
+DELETE /api/contatos/{id}/               → Remove um contato
+
+# CRUD de Grupos
+GET    /api/grupos/                      → Lista todos os grupos
+POST   /api/grupos/                      → Cria um novo grupo
+GET    /api/grupos/{id}/                 → Detalha um grupo
+PUT    /api/grupos/{id}/                 → Atualiza um grupo
+DELETE /api/grupos/{id}/                 → Remove um grupo
+
+# Filtros e Consultas
+GET    /api/contatos/?grupo=familia      → Contatos de um grupo específico
+GET    /api/contatos/?mes_aniversario=3  → Aniversariantes de março
+GET    /api/contatos/?grupo=escola&mes_aniversario=6
+                                         → Aniversariantes de junho do grupo escola
+GET    /api/grupos/contagem/             → Contagem de contatos por grupo
+GET    /api/grupos/mais-contatos/        → Grupo com mais contatos
+GET    /api/grupos/menos-contatos/       → Grupo com menos contatos
+
+# Documentação
+GET    /swagger/                         → Documentação Swagger UI
+GET    /redoc/                           → Documentação ReDoc (opcional)
+```
+
+---
+
+## 8. Dicas e Orientações
+
+- **Comece pela modelagem:** Antes de escrever código, planeje seus modelos e relacionamentos no papel ou em uma ferramenta de diagramação.
+- **Use `django-filter`:** A biblioteca `django-filter` facilita bastante a implementação de filtros nos ViewSets.
+- **Serializers aninhados:** Para retornar os telefones dentro do contato, utilize serializers aninhados (nested serializers) com suporte a escrita (writable nested serializers).
+- **Teste seus endpoints:** Utilize o Swagger, o Postman, ou a interface navegável do DRF para testar cada endpoint antes de entregar.
+- **Popule o banco:** Crie dados de teste suficientes para demonstrar todos os filtros funcionando (contatos em diferentes grupos, com diferentes meses de aniversário, etc.).
+- **Commits frequentes:** Faça commits regulares com mensagens descritivas. Isso demonstra a evolução do trabalho.
+- **Não deixe para a última hora:** O prazo é curto. Organize-se.
+
+---
+
+## 9. Informações de Entrega
+
+| Item | Detalhes |
+|---|---|
+| **Repositório** | [https://classroom.github.com/a/KjRFYhMc](https://classroom.github.com/a/KjRFYhMc) |
+| **Prazo** | **Quarta-feira, 11/02/2025 às 12h00 (meio-dia)** |
+| **Vídeo** | Enviar via link (YouTube, Google Drive, Loom, etc.) |
+| **Formato** | Push no repositório do GitHub Classroom |
+
+> ⚠️ **Atenção:** Trabalhos entregues após o prazo **não serão aceitos**. Certifique-se de que o repositório contém todo o código e que o push foi realizado antes do horário limite.
+
+---
+
+**Bom trabalho! 🚀**
